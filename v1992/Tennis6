@@ -1,0 +1,351 @@
+RUN "Tennis"
+hg:
+IF mspieler*lop-c*7<100 AND mspieler*lop-c*7>0 THEN vol=0:d$="gekommen":PRINT " erwartungsgemäß";:IF a<>mspieler*2-2 THEN PRINT " bis ins";
+IF mspieler*lop-c*7<200 AND mspieler*lop-c*7>99 THEN vol=1:d$="gekommen":PRINT " ein wenig erfreulich";:IF a<>mspieler*2-2 THEN PRINT " bis ins";
+IF mspieler*lop-c*7<300 AND mspieler*lop-c*7>199 THEN vol=2:d$="gekommen":PRINT " erfreulich";:IF a<>mspieler*2-2 THEN PRINT " bis ins";
+IF mspieler*lop-c*7>299 THEN vol=3:d$="gekommen":PRINT " sehr erfreulich";:IF a<>mspieler*2-2 THEN PRINT " bis ins";
+IF mspieler*lop-c*7>-150 AND mspieler*lop-c*7<1 THEN vol=-1:d$="ausgeschieden":PRINT " ein wenig enttäuschend";:IF a<>mspieler*2-2 THEN PRINT " schon im";
+IF mspieler*lop-c*7>-300 AND mspieler*lop-c*7<-149 THEN vol=-2:d$="ausgeschieden":PRINT " enttäuschend";:IF a<>mspieler*2-2 THEN PRINT " schon im";
+IF mspieler*lop-c*7<-299 THEN vol=-3:d$="ausgeschieden":PRINT " sehr enttäuschend";:IF a<>mspieler*2-2 THEN PRINT " schon im";
+lop=0:RETURN
+1 IF turnier=45 THEN henne:
+LOCATE 15,15
+COLOR 5,0
+PRINT "Moment, die Weltrangliste wird gerade ausgerechnet !"
+BLein
+ak=tur(turnier)/2000
+akI=0:akII=mspieler
+IF mspieler<128 THEN
+IF mspieler=64 THEN kalt=63:warm=ak/400
+IF mspieler=32 THEN kalt=31:warm=ak/400+ak/50
+FOR a=0 TO kalt
+wrang(rang(a)-1)=wrang(rang(a)-1)+warm
+NEXT a
+END IF
+ok:
+FOR a=akI TO akI+akII-1
+IF akII=128 THEN plus=ak/400
+IF akII=64 THEN plus=ak/50
+IF akII=32 THEN plus=ak/25
+IF akII=16 THEN plus=ak/16
+IF akII=8 THEN plus=ak/8
+IF akII=4 THEN plus=ak/4
+IF akII=2 THEN plus=ak/4
+wrang(rang(a)-1)=wrang(rang(a)-1)+plus
+NEXT a
+akI=akI+akII:akII=akII/2
+IF akII>1 THEN ok:
+wrang(rang(mspieler*2-2)-1)=wrang(rang(mspieler*2-2)-1)+ak/4
+a=0
+dadadadd:
+FOR a=0 TO spieler-2
+IF wrang(a)<wrang(a+1) THEN SWAP wtur(a),wtur(a+1):SWAP wrang(a),wrang(a+1):SWAP spi$(a),spi$(a+1):SWAP spe(a,0),spe(a+1,0):SWAP spe(a,1),spe(a+1,1):SWAP spe(a,2),spe(a+1,2):a=a-2
+IF a<-1 THEN a=-1
+NEXT a
+henne: 
+CHAIN "Tennis2",4,ALL
+3 ul=0
+aw=0
+olim:
+FOR kop=0 TO 254:IF mspi$(kop)=na$(aw) THEN ul=1
+NEXT kop:IF ul=0 THEN klo:
+IF aw<>0 THEN CALL BLaus
+ul=0
+COLOR 1,0
+LINE (0,27)-(631,260),0,bf
+b$=MID$(na$(aw),1,13):IF MID$(na$(aw),2,1)="." THEN b$=MID$(b$,3,11)
+FOR a=13 TO 1 STEP -1:IF MID$(b$,a,1)=" " THEN b$=MID$(b$,1,a-1)
+NEXT a
+LOCATE 7,1
+PRINT b$" aus ";:a$=MID$(na$(aw),15,3):GOSUB rt:PRINT a$" ist";
+FOR a=mspieler*2-2 TO 0 STEP -1
+IF mspi$(a)=na$(aw) THEN
+c=0:cc=0
+FOR b=0 TO mspieler-1
+IF rang(b)>rang(a) THEN c=c+1
+NEXT b
+IF a=mspieler*2-2 THEN lop=8:GOSUB hg:PRINT " Sieger ";:lop=1:rohr=1
+IF a<mspieler*2-2 AND a>mspieler*2-5 THEN lop=7:GOSUB hg:PRINT " Finale ";:rohr=1
+IF a<mspieler*2-4 AND a>mspieler*2-9 THEN lop=6:GOSUB hg:PRINT " Halbfinale ";:rohr=1
+IF a<mspieler*2-8 AND a>mspieler*2-17 THEN lop=5:GOSUB hg:PRINT " Viertelfinale ";:rohr=1
+IF a<mspieler*2-16 AND a>mspieler*2-33 THEN lop=4:GOSUB hg:PRINT " Achtelfinale ";:rohr=1
+IF a<mspieler*2-32 AND a>mspieler*2-65 THEN lop=3:GOSUB hg:PRINT " 1/16 Finale ";:rohr=1
+IF a<mspieler*2-64 AND a>mspieler*2-129 THEN lop=2:GOSUB hg:PRINT " 1/32 Finale ";:rohr=1
+IF a<mspieler*2-128 AND a>mspieler*2-257 THEN lop=1:GOSUB hg:PRINT " 1/64 Finale ";:rohr=1
+IF rohr=1 THEN rohr=0:opium=a:a=0
+END IF
+NEXT a
+a$=tur$(turnier)
+FOR a=1 TO 20
+IF MID$(a$,a,1)="," THEN a$=MID$(a$,a+1,20)
+NEXT a
+PRINT "von "a$;
+IF lop=0 THEN PRINT " "d$;
+PRINT "!"
+lust:
+FOR mon=mspieler*2-2 TO 0 STEP -1
+IF mspi$(mon)<>na$(aw) OR mon=mspieler*2-2 THEN tuz:
+IF mon<mspieler*2-2 AND mon>mspieler*2-5 THEN PRINT "Im Finale ";
+IF mon<mspieler*2-4 AND mon>mspieler*2-9 THEN PRINT "Im Halbfinale ";
+IF mon<mspieler*2-8 AND mon>mspieler*2-17 THEN PRINT "Im Viertelfinale ";
+IF mon<mspieler*2-16 AND mon>mspieler*2-33 THEN PRINT "Im Achtelfinale ";
+IF mon<mspieler*2-32 AND mon>mspieler*2-65 THEN PRINT "Im 1/16 Finale ";
+IF mon<mspieler*2-64 AND mon>mspieler*2-129 THEN PRINT "Im 1/32 Finale ";
+IF mon<mspieler*2-128 AND mon>mspieler*2-257 THEN PRINT "Im 1/64 Finale ";
+IF mon=opium THEN PRINT "unterlag er ";:e$="dem "
+plop=INT(RND*2)
+IF mon<>opium AND plop=0 THEN PRINT "gewann er gegen ";:e$="den "
+IF mon<>opium AND plop=1 THEN PRINT "besiegte er ";:e$="den " 
+IF mon/2=INT(mon/2) THEN opi=mon+1
+IF mon/2<>INT(mon/2) THEN opi=mon-1
+c$=MID$(mspi$(opi),1,13):IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR a=13 TO 1 STEP -1:IF MID$(c$,a,1)=" " THEN c$=MID$(c$,1,a-1)
+NEXT a
+c=rang(mon)/rang(opi)
+IF e$="den " THEN c=rang(opi)/rang(mon)
+moi=-1
+utz:
+moi=CINT(moi+1)
+IF MID$(spi$(moi),1,13)=MID$(mspi$(opi),1,13) THEN cc=moi:moi=139
+IF moi<139 THEN utz:
+moi=0
+plop=INT(RND*2)
+IF spe(cc,0)>44 AND plop=0 THEN PRINT e$"Rasenplatzspezialisten ";:GOTO jacob:
+IF spe(cc,0)>44 AND plop=1 THEN PRINT e$"Filzplatzspezialisten ";:GOTO jacob:
+IF spe(cc,1)>35 THEN PRINT e$"Hartplatzspezialisten ";:GOTO jacob:
+IF spe(cc,2)>44 THEN PRINT e$"Sandplatzspezialisten ";
+jacob:
+PRINT c$" aus ";:a$=MID$(mspi$(opi),15,3):GOSUB rt:
+PRINT a$" ";:IF POS(0)>84 THEN PRINT
+IF c=>1 THEN PRINT "wie erwartet";
+IF c>.5 AND c<1 THEN PRINT "etwas überraschend";
+IF c>.1 AND c<=.5 THEN PRINT "überraschend";
+IF c<=.1 THEN PRINT "völlig überraschend";
+c=0:PRINT " ";:IF POS(0)>101 THEN PRINT 
+PRINT "mit ";
+hf(0)=INT(erg(mon)/10000)
+hf(1)=INT(erg(mon)/1000)-hf(0)*10
+hf(2)=INT(erg(mon)/100)-hf(0)*100-hf(1)*10
+hf(3)=INT(erg(mon)/10)-hf(0)*1000-hf(1)*100-hf(2)*10
+hf(4)=erg(mon)-hf(0)*10000-hf(1)*1000-hf(2)*100-hf(3)*10
+hd(0)=INT(erg(opi)/10000)
+hd(1)=INT(erg(opi)/1000)-hd(0)*10
+hd(2)=INT(erg(opi)/100)-hd(0)*100-hd(1)*10
+hd(3)=INT(erg(opi)/10)-hd(0)*1000-hd(1)*100-hd(2)*10
+hd(4)=erg(opi)-hd(0)*10000-hd(1)*1000-hd(2)*100-hd(3)*10
+FOR a=0 TO 4
+IF POS(0)>100 THEN PRINT 
+PRINT MID$(STR$(hf(a)),2,1)":"MID$(STR$(hd(a)),2,1)" ";
+IF hf(a+1)+hd(a+1)=0 THEN a=4
+NEXT a
+PRINT ".";:IF POS(0)>20 THEN PRINT
+tuz:
+NEXT mon
+PRINT:PRINT 
+PRINT no$(aw)", der Trainer ";b$;"s, meinte rückblickend auf das Turnier von ";
+a$=tur$(turnier)
+FOR a=1 TO 20
+IF MID$(a$,a,1)="," THEN a$=MID$(a$,a+1,20)
+NEXT a:PRINT a$":"
+PRINT "<< ";
+plop=INT(RND*3)-1+vol
+IF plop>1 THEN
+PRINT "Ich finde es einfach toll, was mein Schützling, "b$", hier getan hat. Er verstand es seine ";
+bf$="Stärken,"
+IF POS(0)<94 THEN PRINT bf$
+IF POS(0)>93 THEN PRINT :PRINT "   "bf$" ";
+PRINT "wie ";
+END IF
+IF plop=1 THEN PRINT "Mein Schützling, "b$", hat seine Stärken, wie ";
+IF plop=0 THEN PRINT "Ich bin mit "b$" zufrieden. Das nächste mal kommt er vielleicht durch sein Können(";
+IF plop=-1 THEN PRINT "Ehrlich gesagt habe ich gedacht, daß "b$" weiter kommt! Seine Stärken (";
+IF plop<-1 THEN PRINT "Ich bin maßlos enttäuscht von "b$".";
+cr=0:crr=0:ccrr=0
+IF plop>-2 THEN
+FOR a=0 TO 8:cr=cr+sac(aw,8):NEXT a:cr=cr/9
+FOR a=1 TO 8:IF sac(aw,a)>sac(aw,ccrr) THEN ccrr=a
+IF sac(aw,a)>sac(aw,crr) THEN ccrr=crr:crr=a
+NEXT a
+a$=sac$(crr)
+FOR wall=1 TO 2            
+FOR a=30 TO 5 STEP -1:IF MID$(a$,a,1)="-" THEN a$=MID$(a$,1,a-1)+"bälle":a=5
+IF MID$(a$,a,1)="." OR MID$(a$,a,1)=" " THEN a$=MID$(a$,1,a-1)
+NEXT a
+PRINT a$;:IF sac(aw,ccrr)>cr*1.5 AND wall=1 THEN
+IF plop=0 THEN PRINT:PRINT "  ";
+IF plop=1 THEN PRINT " oder ";
+IF plop<>1 THEN PRINT " und ";
+IF plop=-1 THEN PRINT:PRINT "   "; 
+a$=sac$(ccrr):wall=wall-1
+END IF
+wall=wall+1:NEXT wall
+IF plop=-1 THEN
+PRINT ")";:IF POS(0)>75 THEN PRINT:PRINT "  ";
+PRINT " hat er nicht vollends ausgenützt.";:IF POS(0)>50 THEN PRINT:PRINT "  ";
+END IF
+IF plop=0 THEN
+PRINT ")";:IF POS(0)>90 THEN PRINT:PRINT "  "; 
+PRINT " etwas weiter.";:IF POS(0)>50 THEN PRINT:PRINT "  ";
+END IF
+IF plop>1 THEN PRINT ", zu gebrauchen.";
+IF plop=1 THEN
+IF POS(0)>94 THEN PRINT:PRINT "   "; 
+PRINT ", richtig ";
+IF POS(0)>93 THEN PRINT:PRINT "   "; 
+PRINT "angewendet.";:IF POS(0)>50 THEN PRINT:PRINT "  ";
+END IF
+END IF
+IF plop>1 THEN PRINT "  ";
+PRINT " Er hat die Schwächen des Gegners ";
+IF POS(0)>82 THEN PRINT:PRINT "   ";
+IF plop>1 THEN PRINT "konsekuent";
+IF plop=1 THEN PRINT "fast immer";
+IF plop=0 THEN PRINT "manchmal";
+IF plop=-1 THEN PRINT "kaum";
+IF plop<-1 THEN PRINT "niemals";
+PRINT " ausgenützt.";:IF POS(0)>50 THEN PRINT:PRINT "  ";
+PRINT " Nun muß er ";
+IF plop>1 THEN PRINT "nur noch ein bißchen";
+IF plop=1 THEN PRINT "noch ein bißchen";
+IF plop=0 THEN PRINT "noch etwas";
+IF plop=-1 THEN PRINT "viel";
+IF plop<-1 THEN PRINT "von morgens bis abends";
+PRINT " an seinen Schwächen,";
+IF POS(0)>70 THEN PRINT:PRINT "  ";
+PRINT " wie z.B. ";
+crr=0
+FOR a=1 TO 8:IF sac(aw,a)<sac(aw,crr) AND a<>7 THEN crr=a
+NEXT a
+a$=sac$(crr)
+FOR a=30 TO 5 STEP -1:IF MID$(a$,a,1)="-" THEN a$=MID$(a$,1,a-1)+"bälle":a=5
+IF MID$(a$,a,1)="." OR MID$(a$,a,1)=" " THEN a$=MID$(a$,1,a-1)
+NEXT a
+PRINT a$", arbeiten.";
+IF plop=-1 THEN PRINT:PRINT "   Na,ja. Vielleicht ein ander' Mal ...";
+IF plop<-1 THEN PRINT:PRINT "   Das liegt aber auch an den Medien. Sie lassen meinen Schützling einfach nicht in Ruhe!";
+PRINT " >>"
+PRINT 
+IF plop>2 THEN PRINT b$", die ganze Nation ist stolz auf dich !"
+IF plop<-1 THEN PRINT b$", wenn du nicht der Buhmann der Nation werden willst, dann erfülle die Erwartungen!"
+BLein
+klas:
+FOR a=0 TO 100:v=MOUSE(0):NEXT a:IF v<>0 THEN klas
+ji:
+IF MOUSE(0)=0 THEN ji:
+b$=MID$(na$(aw),1,13):IF MID$(na$(aw),2,1)="." THEN b$=MID$(b$,3,11)
+klo:
+aw=aw+1:IF misp>aw-1 THEN olim
+IF aw<>0 THEN CALL BLaus
+aw=0:LINE (0,27)-(631,260),0,bf
+LOCATE 7,1
+PRINT "In dem mit"tur(turnier)"Dollar dotierten Turnier von ";
+a$=tur$(turnier)
+FOR a=1 TO 20
+IF MID$(a$,a,1)="," THEN a$=MID$(a$,a+1,20)
+NEXT a:PRINT a$" gewann";
+b=0:bb=0
+FOR a=0 TO mspieler-1
+IF rang(mspieler*2-2)>rang(a) THEN b=b+1
+NEXT a
+IF b=0 THEN PRINT " erwartungsgemäß";
+IF b=1 OR b=2 THEN PRINT " etwas überraschend";
+IF b>2 AND b<7 THEN PRINT " überraschend";
+IF b>6 AND b<15 THEN PRINT " sehr überraschend";
+IF b>14 THEN PRINT " sensationell";
+c$=MID$(mspi$(mspieler*2-2),1,13):IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR a=13 TO 1 STEP -1:IF MID$(c$,a,1)=" " THEN c$=MID$(c$,1,a-1)
+NEXT a:a$=MID$(mspi$(mspieler*2-2),15,3):GOSUB rt:PRINT " "c$" aus":PRINT a$;
+b=f(mspieler-2,0):bb=f(mspieler-2,1)
+IF bb<b THEN SWAP b,bb
+IF b=0 THEN PRINT " klar";
+IF b=1 AND gs=2 THEN PRINT " knapp";
+IF b=2 THEN PRINT " sehr knapp";
+b=0:bb=0
+PRINT " gegen";:feind=mspieler*2-3:IF mspi$(mspieler*2-2)=mspi$(mspieler*2-3) THEN feind=mspieler*2-4
+c$=MID$(mspi$(feind),1,13):IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR aa=13 TO 1 STEP -1:IF MID$(c$,aa,1)=" " THEN c$=MID$(c$,1,aa-1)
+NEXT aa:a$=MID$(mspi$(feind),15,3):GOSUB rt:PRINT " "c$" aus "a$;
+PRINT "."
+PRINT 
+PRINT "Und so spielten die gesetzten Spieler:"
+FOR a=0 TO 15
+FOR b=mspieler*2-2 TO 0 STEP -1
+IF VAL(MID$(mspi$(b),19,2))=a+1 THEN
+PRINT "Nr."MID$(mspi$(b),19,2)":";
+c$=MID$(mspi$(b),1,13):IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR aa=13 TO 1 STEP -1:IF MID$(c$,aa,1)=" " THEN c$=MID$(c$,1,aa-1)
+NEXT aa:a$=MID$(mspi$(b),15,3):GOSUB rt:PRINT c$" aus "a$" ";
+IF b=mspieler*2-2 THEN PRINT "gewann im Finale ";
+IF b<mspieler*2-2 AND b>mspieler*2-5 THEN PRINT "kam bis ins Finale ";
+IF b<mspieler*2-4 AND b>mspieler*2-9 THEN PRINT "kam bis ins Halbfinale ";
+IF b<mspieler*2-8 AND b>mspieler*2-17 THEN PRINT "kam bis ins Viertelfinale ";
+IF b<mspieler*2-16 AND b>mspieler*2-33 THEN PRINT "kam bis ins Achtelfinale ";
+IF b<mspieler*2-32 AND b>mspieler*2-65 THEN PRINT "kam bis ins 1/16 Finale ";
+IF b<mspieler*2-64 AND b>mspieler*2-129 THEN PRINT "kam bis ins 1/32 Finale ";
+IF b<mspieler*2-128 AND b>mspieler*2-257 THEN PRINT "kam bis ins 1/64 Finale ";
+IF b>mspieler*2-257 AND b<mspieler*2-2 THEN PRINT "und verlor ";
+PRINT "gegen ";:feind=b+1:IF b=mspieler*2-2 AND mspi$(mspieler*2-2)=mspi$(mspieler*2-4) THEN feind=mspieler*2-3
+IF b=mspieler*2-2 AND mspi$(mspieler*2-2)=mspi$(mspieler*2-3) THEN feind=mspieler*2-4
+feinde=INT(b/2):IF b=mspieler*2-2 THEN feinde=feinde-1
+IF INT(b/2)<>b/2 THEN feind=b-1
+c$=MID$(mspi$(feind),1,13)
+IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR aa=13 TO 1 STEP -1:IF MID$(c$,aa,1)=" " THEN c$=MID$(c$,1,aa-1)
+NEXT aa:a$=MID$(mspi$(feind),15,3):GOSUB rt:PRINT c$" aus "a$" ";
+IF POS(0)>91 THEN PRINT :PRINT "      ";
+feind=INT(b/2):IF b=mspieler*2-2 THEN b=b-1
+PRINT "in";f(feinde,0)+f(feinde,1)"Sätzen"
+b=0
+END IF
+NEXT b,a
+BLein
+CHAIN "Tennis2",5,ALL
+rt:
+IF a$="SWE" THEN a$="Schweden"
+IF a$="GER" THEN a$="Deutschland"
+IF a$="CSR" THEN a$="der CSFR"
+IF a$="FRA" THEN a$="Frankreich"
+IF a$="ITA" THEN a$="Italien"
+IF a$="SWI" THEN a$="der Schweiz"    
+IF a$="AUT" THEN a$="Österreich"
+IF a$="USA" THEN a$="den USA" 
+IF a$="URS" THEN a$="der Sowjetunion"    
+IF a$="SPA" THEN a$="Spanien" 
+IF a$="ARG" THEN a$="Argentinien" 
+IF a$="JUG" THEN a$="Jugoslawien" 
+IF a$="HAI" THEN a$="Haiti"  
+IF a$="AUS" THEN a$="Australien"
+IF a$="URU" THEN a$="Uruguay"
+IF a$="HOL" THEN a$="Holland"
+IF a$="PER" THEN a$="Peru"
+IF a$="ISR" THEN a$="Israel"
+IF a$="FIN" THEN a$="Finnland"
+IF a$="SAF" THEN a$="Südafrika"
+IF a$="CAN" THEN a$="Kanada"
+IF a$="BRA" THEN a$="Brasilien"
+IF a$="JAP" THEN a$="Japan"
+IF a$="BEL" THEN a$="Belgien"
+IF a$="IND" THEN a$="Indien"
+RETURN
+SUB BLein STATIC
+SHARED pal()
+FOR devi=0 TO 5
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB BLaus STATIC
+SHARED pal()
+FOR devi=5 TO 0 STEP -1
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB PALETTEn(nummer&,rot&,grun&,blau&) STATIC
+SHARED pal()
+pal(nummer&,0)=rot&/10
+pal(nummer&,1)=grun&/10
+pal(nummer&,2)=blau&/10
+END SUB

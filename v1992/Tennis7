@@ -1,0 +1,113 @@
+RUN "Tennis"
+1 a$=MID$(STR$(level*2),2,1)
+2 OPEN "Tennis Manager:l/"+a$ FOR INPUT AS #1
+FOR p=0 TO 9
+INPUT #1,z$(p)
+INPUT #1,mon(p)
+INPUT #1,dat$(p)
+INPUT #1,tim$(p)
+NEXT p
+INPUT #1,l$
+INPUT #1,mone&
+INPUT #1,da$
+INPUT #1,ti$
+CLOSE 1:IF ismil=1 THEN zumba:
+FOR sw=0 TO misp
+pp=10
+FOR p=0 TO 9
+IF mon(p)<=prg(sw) THEN pp=p:p=9
+NEXT p
+IF pp<10 THEN
+IF pp<9 THEN
+FOR p=8 TO pp STEP -1
+z$(p+1)=z$(p):mon(p+1)=mon(p):dat$(p+1)=dat$(p):tim(p+1)=tim(p)
+NEXT p
+END IF
+z$(pp)=no$(sw):mon(pp)=prg(sw):dat$(pp)=DATE$:tim$(p)=TIME$
+END IF
+IF mone=>prg(iw) THEN l$=no$(sw):mone=prg(sw):da$=DATE$:ti$=TIME$
+NEXT sw
+zumba:BLaus
+CLS
+COLOR 3,0
+LOCATE 2,30
+PRINT "H I G H S C O R E"
+FOR p=0 TO 9
+COLOR ,0
+FOR kaw=0 TO misp
+IF no$(kaw)=z$(p) AND ismil=0 THEN COLOR ,2
+NEXT kaw
+LOCATE 10+p,10
+COLOR 7
+PRINT RIGHT$(STR$(p+1),2)". ";:COLOR 1:PRINT z$(p):COLOR 3
+warp=0:timewarp=10000000&:min=mon(p)
+FOR po=23 TO 32
+LOCATE 10+p,po+7
+IF po=25 OR po=29 THEN
+IF warp=1 THEN PRINT ".":timewarp=timewarp*10:GOTO nex:
+PRINT " ":timewarp=timewarp*10:GOTO nex:
+END IF
+IF warp=0 AND min/timewarp<1 THEN nex:
+warp=1
+xo$=MID$(STR$(INT(min)),2,1):PRINT xo$;
+min=min-VAL(xo$)*timewarp
+nex:
+timewarp=timewarp/10
+NEXT po:PRINT " $       ";:COLOR 4:PRINT dat$(p)"     ";:COLOR 5:PRINT tim$(p)
+NEXT p
+COLOR 6,0
+LOCATE 24,7:PRINT "Loser:";
+COLOR ,0
+FOR kaw=0 TO misp
+IF no$(kaw)=z$(p) THEN COLOR ,2
+NEXT kaw
+COLOR 1:PRINT l$:COLOR 3
+warp=0:timewarp=10000000&:min=mone&
+FOR po=23 TO 32
+LOCATE 24,po+7
+IF po=25 OR po=29 THEN
+IF warp=1 THEN PRINT ".":timewarp=timewarp*10:GOTO nexr:
+PRINT " ":timewarp=timewarp*10:GOTO nexr:
+END IF
+IF warp=0 AND min/timewarp<1 THEN nexr:
+warp=1
+xo$=MID$(STR$(INT(min)),2,1):PRINT xo$;
+min=min-VAL(xo$)*timewarp
+nexr:
+timewarp=timewarp/10
+NEXT po:PRINT " $       ";:COLOR 4:PRINT da$"     ";:COLOR 5:PRINT ti$
+IF ismil=1 THEN ismil=0:CHAIN "Tennis2",10,ALL
+OPEN "Tennis Manager:l/"+a$ FOR OUTPUT AS #1
+FOR p=0 TO 9
+PRINT #1,z$(p)
+PRINT #1,mon(p)
+PRINT #1,dat$(p)
+PRINT #1,tim(p)
+NEXT p
+PRINT #1,l$
+PRINT #1,mone&
+PRINT #1,da$
+PRINT #1,ti$
+CLOSE 1
+SUB BLein STATIC
+SHARED pal()
+FOR devi=0 TO 5
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB BLaus STATIC
+SHARED pal()
+FOR devi=5 TO 0 STEP -1
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB PALETTEn(nummer&,rot&,grun&,blau&) STATIC
+SHARED pal()
+pal(nummer&,0)=rot&/10
+pal(nummer&,1)=grun&/10
+pal(nummer&,2)=blau&/10
+END SUB

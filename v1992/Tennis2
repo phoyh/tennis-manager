@@ -1,0 +1,1083 @@
+RUN "Tennis"
+1 jahr=jahr+1
+turnier=-1
+LIBRARY "graphics.library"
+LIBRARY "diskfont.library"
+LIBRARY "dos.library"
+LIBRARY "exec.library"
+DECLARE FUNCTION xOpen& LIBRARY
+DECLARE FUNCTION AllocMem&() LIBRARY
+DECLARE FUNCTION Examine&() LIBRARY
+DECLARE FUNCTION ExNext&() LIBRARY
+DECLARE FUNCTION Lock&() LIBRARY
+enable%=AskSoftStyle&(WINDOW(8))
+top:
+po=po+1
+IF po=1 THEN a$="opal.font":hoch=8
+IF po=2 THEN a$="Times.font":hoch=23
+IF po=3 THEN a$="Courier.font":hoch=15
+IF po=4 THEN a$="Courier.font":hoch=24
+IF po=5 THEN a$="Zeit.font":hoch=6
+IF po=6 THEN a$="Locate.font":hoch=1
+fontName$=a$
+height%=hoch
+style%=0
+prefs%=0
+IF pFont&<>0 THEN CALL closeFont(pFont&)
+fontName0$=fontName$+CHR$(0)
+textAttr&(0)=SADD(fontName0$)
+textAttr&(1)=height%*65536& + style%*256 + prefs%
+pFont&=OpenDiskFont&(VARPTR(textAttr&(0)))
+IF pFont& <> 0 THEN SetFont WINDOW(8),pFont&
+IF po=1 THEN Opal&=pFont&:pFont&=0:GOTO top:
+IF po=2 THEN Times&=pFont&:pFont&=0:GOTO top:
+IF po=3 THEN Courier&=pFont&:pFont&=0:GOTO top:
+IF po=4 THEN gCourier&=pFont&:pFont&=0:GOTO top:
+IF po=5 THEN Zeit&=pFont&:pFont&=0:GOTO top:
+IF po=6 THEN Ort&=pFont&:pFont&=0:po=0
+Font Opal&:nF
+IF donjon=1 THEN CALL BLaus:CLS:donjon=0:rt$="2":GOTO klaus
+2 IF vona=0 THEN CALL BLaus:CLS:LOCATE 15,35:PRINT jahr:BLein:GOSUB klick:
+IF vona=1 THEN GOSUB just:
+vona=1
+GOTO wende:
+spons:
+BLaus
+CLS
+PUT (10,50),armsyn%
+LINE (32,77)-(147,103),1,bf
+PUT (310,50),hemdsyn%
+LINE (366,58)-(498,124),1,bf:li$=""
+IF werba$(iw)="Gatorade" THEN li$="4"
+IF werba$(iw)="Lacoste" THEN li$="6"
+IF werba$(iw)="Opel" THEN li$="9"
+IF werba$(iw)="Perrier" THEN li$="10"
+IF werba$(iw)="R'activ" THEN li$="11"
+IF li$<>"" THEN
+OPEN "df0:pics/"+li$ FOR INPUT AS #1
+h=CVI(INPUT$(2,1)):DIM f%(h)
+FOR i=0 TO h
+f%(i)=CVI(INPUT$(2,1))
+NEXT i:CLOSE 1
+LINE (32,77)-(147,103),0,bf
+PUT (32,77),f%:ERASE f%
+END IF:li$=""
+IF werbh$(iw)="Adidas" THEN li$="1"
+IF werbh$(iw)="Fila" THEN li$="3"
+IF werbh$(iw)="Le Coq Sportif" THEN li$="7"
+IF werbh$(iw)="Nike" THEN li$="8"
+IF werbh$(iw)="Reebok" THEN li$="12"
+IF li$<>"" THEN
+OPEN "df0:pics/"+li$ FOR INPUT AS #1
+h=CVI(INPUT$(2,1)):DIM f%(h)
+FOR i=0 TO h
+f%(i)=CVI(INPUT$(2,1))
+NEXT i:CLOSE 1:pjh=18:IF li$="12" THEN pjh=10
+LINE (366,pjh+40)-(498,124),0,bf
+PUT (366,pjh+40),f%:ERASE f%
+END IF
+IF werba$(iw)<>"" THEN
+LOCATE 23,4:COLOR 3,0
+PRINT werba$(iw)+INT((14-LEN(werba$(iw)))/2):LOCATE 25,1:COLOR 1,0
+PRINT "bis"STR$(INT(werba(iw)))". Woche im Jahre";CINT((werba(iw)-INT(werba(iw)))*10000)
+LOCATE 27,3:COLOR 5,0
+PRINT "pro Woche"INT(werbea(iw)/(werbda(iw)*52))"$"
+LOCATE 29,2:COLOR 4,0
+PRINT "Vertragsdauer";werbda(iw)*52"Wochen";
+END IF
+IF werbh$(iw)<>"" THEN
+LOCATE 23,48+INT((14-LEN(werbh$(iw)))/2):COLOR 3,0
+PRINT werbh$(iw):LOCATE 25,45:COLOR 1,0
+PRINT "bis"STR$(INT(werbh(iw)))". Woche im Jahre";CINT((werbh(iw)-INT(werbh(iw)))*10000)
+LOCATE 27,47:COLOR 5,0
+PRINT "pro Woche"INT(werbeh(iw)/(werbdh(iw)*52))"$"
+LOCATE 29,46:COLOR 4,0
+PRINT "Vertragsdauer";werbdh(iw)*52"Wochen";
+END IF
+BLein
+GOSUB klick:
+RETURN
+sponsor:
+werben(iw)=1
+pop(iw)=(140-platz+sac(iw,8)*.3+spe(platz,0)+spe(platz,1)+spe(platz,2))/200
+kubik=INT(RND*5)+1
+FOR li=1 TO kubik
+CALL BLaus:CLS
+LOCATE 5,20
+rolan=INT(RND*2)
+IF rolan=0 AND werba$(iw)<>"" THEN lon:
+IF rolan=1 AND werbh$(iw)<>"" THEN lon:
+roland=INT(RND*5)
+dauer=(INT(RND*4)+1)*26
+prei=(RND+.5)*pop(iw)
+IF rolan=0 THEN
+prei=(.25+.75*(dauer/26))*prei*20000:IF platz<11 THEN prei=prei+(11-paltz)*20000
+PRINT fira$(roland)" bietet Ärmelvertrag für";prei;"$ an!"
+END IF
+IF rolan=1 THEN
+prei=(.25+.75*(dauer/26))*prei*44000&:IF platz<11 THEN prei=prei+(11-paltz)*20000
+PRINT firh$(roland)" bietet Hemdvertrag für";prei;"$ an!"
+END IF
+LOCATE 7,20
+PRINT "Dauer:"dauer"Wochen"
+LOCATE 15,20:BLein
+INPUT "Annehmen";wq$
+IF wq$="j" THEN
+IF rolan=0 THEN
+werbea(iw)=prei*1.5:werba(iw)=woche+dauer+jahr/10000
+rust:
+IF werba(iw)>52 THEN werba(iw)=werba(iw)-52+.0001:GOTO rust
+werbda(iw)=dauer/52:werba$(iw)=fira$(roland)
+END IF
+IF rolan=1 THEN
+werbeh(iw)=prei*1.5:werbh(iw)=woche+dauer+jahr/10000
+ruste:
+IF werbh(iw)>52 THEN werbh(iw)=werbh(iw)-52+.0001:GOTO ruste
+werbdh(iw)=dauer/52:werbh$(iw)=firh$(roland)
+END IF
+END IF
+lon:
+NEXT li
+GOTO auswou:
+money:
+CALL BLaus:CLS
+LOCATE 7,14
+PRINT "Turniere bisher:"stpo(iw) 
+LOCATE 9,11
+PRINT "Gewonnene Turniere:";ge(iw)
+LOCATE 11,10
+PRINT "Preisgeld insgesamt:";prg(iw)
+LOCATE 13,20
+COLOR 3,0
+PRINT "Einnahmen:";ein(iw)
+LOCATE 15,20
+PRINT "Geld:     ";g(iw)
+LOCATE 17,20
+PRINT "Kosten:   ";
+IF ja(iw)=1 THEN PRINT rico
+IF ja(iw)=0 THEN PRINT " 0"
+COLOR 1,0
+LOCATE 19,5
+PRINT "Turniere in diesem Jahre:"stpo(iw)
+CALL BLein
+GOSUB klick:
+GOTO auswou:
+stats:
+CALL BLaus:CLS
+LOCATE 4,1
+PRINT "1=Geld"
+PRINT "2=Weltranglistenplatz"
+PRINT "3=Spielstärke"
+CALL BLein
+pferd:
+rt$=INKEY$
+IF rt$="1" THEN mone:
+IF rt$="2" THEN placen:
+IF rt$="3" THEN strong:
+GOTO pferd:
+wende:  
+woche=woche+1
+IF woche>52 THEN turnier=-1:woche=1:jahr=jahr+1:BLaus:CLS:LOCATE 15,35:COLOR 1,0:PRINT jahr:BLein:GOSUB klick:IF jahr=2001 THEN fertig:
+CALL BLaus:CLS:LOCATE 15,34:PRINT RIGHT$(STR$(woche),2)". Woche":BLein:GOSUB klick:
+vw=turnier
+strip:
+IF woc(turnier+1)=woche THEN
+IF level=2 AND tur(turnier+1)<420000& THEN arlb:
+turnier=turnier+1:bart=70:GOSUB showm:bart=0:GOTO strip
+END IF
+arlb:
+turnier=vw
+iw=0
+arl:
+FOR sw=0 TO 139:IF nn$(iw)=spi$(sw) THEN qw=sw:sw=139
+NEXT sw
+IF stpo(iw)<14 AND woche=1 AND level<2 THEN wrang(qw)=wrang(qw)/14*stpo(iw)
+CALL BLaus:CLS:nF
+IF woche=geburt(iw) THEN GOSUB Geburtstag:
+FOR wings=0 TO 8
+IF wings=7 THEN ifmitz:
+sac(iw,wings)=CINT(sac(iw,wings)+RND*4-3+(2001-jahr)/5)
+ifmitz:
+NEXT wings
+aw=iw
+spe(qw,0)=INT(sac(aw,8)*.15+sac(aw,0)*.07+sac(aw,1)*.01+sac(aw,2)*.2+sac(aw,3)*.3+sac(aw,4)*.22+sac(aw,5)*.05+sac(aw,6)*.21)
+spe(qw,1)=INT(sac(aw,8)*.15+sac(aw,0)*.11+sac(aw,1)*.15+sac(aw,2)*.2+sac(aw,3)*.12+sac(aw,4)*.17+sac(aw,5)*.15+sac(aw,6)*.16)
+spe(qw,2)=INT(sac(aw,8)*.15+sac(aw,0)*.27+sac(aw,1)*.29+sac(aw,2)*.05+sac(aw,3)*.03+sac(aw,4)*.06+sac(aw,5)*.3+sac(aw,6)*.08)
+aw=0
+FOR wings=1 TO 19
+gg(wings-1,iw)=gg(wings,iw)
+plt(wings-1,iw)=plt(wings,iw)
+spss(wings-1,iw)=spss(wings,iw)
+spsh(wings-1,iw)=spsh(wings,iw)
+spsr(wings-1,iw)=spsr(wings,iw)
+NEXT wings
+v(iw)=v(iw)+RND:IF v(iw)>100 THEN v(iw)=100
+plt(19,iw)=plt(20,iw)
+spss(19,iw)=spss(20,iw)
+spsh(19,iw)=spsh(20,iw)
+spsr(19,iw)=spsr(20,iw)
+gg(19,iw)=g(iw)
+FOR aw=0 TO 139
+IF spi$(aw)=nn$(iw) THEN plt(20,iw)=aw+1:aw=139
+NEXT aw
+
+NEXT haw
+jar(iw)=0:IF geburt(iw)<>woche THEN auswoui:
+auswou:
+CALL BLaus:CLS:nF
+auswoui:
+LOCATE 2,20
+PRINT nn$(iw)
+LOCATE 5,1
+COLOR 3,0
+PRINT "1=Disk"
+PRINT "2=Finanzen"
+PRINT "3=Spieler"
+PRINT "4=Kalender
+PRINT "5=Statistik"
+BLein
+kjetg:
+rt$=INKEY$
+IF rt$="1" THEN
+BLaus
+LINE (0,16)-(631,260),0,bf
+LOCATE 3,1
+PRINT "1=Saven"
+PRINT "2=Laden"
+PRINT "3=File löschen"
+PRINT "4=Highscores"
+BLein
+kw:rt$=INKEY$
+IF rt$<>"" THEN IF ASC(rt$)=27 THEN auswou
+IF rt$="1" THEN REM LOST BECAUSE OF BAD SECTOR
+hfiende:
+spiel$(anz)=LEFT$(f$,LEN(f$)-1):anz=anz+1:GOTO hen
+hende:
+Unlock& b&:Freemem& a&,256
+CLS
+LOCATE 15,15:COLOR 5,0:PRINT "Tennis Manager-Disk einlegen, dann Maus drücken"
+BLein
+odla:FOR t=0 TO 20:v=MOUSE(0):NEXT t:IF v<>0 THEN odla:
+j3m:
+IF MOUSE(0)=0 THEN j3m
+BLaus
+IF rt$="1" THEN CHAIN "Tennis4",1,ALL
+IF rt$="2" THEN CHAIN "Tennis4",2,ALL
+IF rt$="3" THEN CHAIN "Tennis4",3,ALL
+END IF
+IF rt$="4" THEN
+BLaus
+LINE (0,16)-(631,260),0,bf
+PRINT "1=Anfänger"
+PRINT "2=Fortgeschrittener"
+PRINT "3=Experte"
+BLein
+rawkey:van$=INKEY$
+IF rt$<>"" THEN IF ASC(rt$)=27 THEN auswou
+IF VAL(van$)<1 OR VAL(van$)>3 THEN rawkey
+a$=van$:ismil=1
+CHAIN "Tennis7",2,ALL
+10 BLein
+h&=xOpen&(SADD("NIL:"+CHR$(0)),1005)
+a&=SADD("songplayer devs/5 -o -m"+CHR$(0)):Execute a&,0,h&
+GOSUB klick:
+GOTO auswou:
+END IF
+GOTO kw
+END IF
+IF rt$="2" THEN
+BLaus
+LINE (0,16)-(631,260),0,bf
+LOCATE 5,1
+PRINT "1=Sponsorverträge sehen"
+PRINT "2=Geld"
+PRINT "3=Sponsorverträge aushandeln"
+BLein
+nwk:rt$=INKEY$
+IF rt$<>"" THEN IF ASC(rt$)=27 THEN auswou
+IF rt$="2" THEN money
+IF rt$="3" AND werben(iw)=0 THEN sponsor:
+IF rt$="1" THEN GOSUB spons:GOTO auswou:
+GOTO nwk
+END IF
+IF rt$="3" THEN
+BLaus
+LINE (0,16)-(631,260),0,bf
+LOCATE 5,1
+PRINT "1=Nächsten 10 Turniere sehen"
+PRINT "2=Trainingslager"
+PRINT "3=Spielerstärke"
+PRINT "4=Weltrangliste sehen"
+PRINT "5=Turniere in dieser Woche"
+BLein
+jes:rt$=INKEY$
+IF rt$<>"" THEN IF ASC(rt$)=27 THEN auswou
+IF rt$="5" THEN
+vw=turnier
+menustrip:
+IF woc(turnier+1)=woche THEN turnier=ECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[BAD SECTOR]=--=[
+245  &
+GOTO auswou:
+END IF
+IF rt$="2" AND v(iw)=>0 AND g(iw)=>15000 AND jar(iw)=0 THEN GOSUB trainiern:GOTO auswou:
+IF rt$="4" THEN CALL BLaus:CLS:GOTO just
+IF rt$="3" THEN lks=1:GOTO klewsa:
+GOTO jes
+END IF
+IF rt$="5" THEN stats:
+IF rt$<>"4" THEN kjetg:
+IF CINT(iw)<misp THEN iw=iw+1:GOTO arl:
+FOR aw=0 TO misp
+ein(aw)=0:NEXT aw
+FOR aw=0 TO 139
+spil(aw)=0:NEXT aw:leck=0
+9 IF woc(turnier+1)<>woche THEN
+IF leck=0 THEN wende:
+GOTO 2
+END IF
+IF level=2 AND tur(turnier+1)<420000& THEN turnier=turnier+1:GOTO 9
+turnier=turnier+1:CALL BLaus:CLS:nF
+IF tur(turnier)>600000& THEN woche=woche+1
+LOCATE 15,1
+COLOR 5,0:leck=1
+PRINT "Moment, die Spieler entscheiden sich, ob sie beim nächsten Turnier mitspielen !"
+kan=0:b=0:a=0:BLein
+tuna=tura(turnier)
+IF tuna=4 THEN tuna=0
+FOR a=0 TO 139
+pols=0
+e(a)=0:IF spil(a)=0 AND RND/2+spe(a,tuna)/50+tur(turnier)/1000000&*((a+61)/60)>1.3 THEN
+FOR aw=0 TO misp
+IF spi$(a)=nn$(aw) AND turnier<>45 THEN aw=misp:pols=1
+NEXT aw
+spil(a)=1
+IF turnier<>45 THEN wrang(a)=wrang(a)-wrang(a)/wtur(a):wtur(a)=19
+IF pols<>1 THEN e(a)=1:kan=kan+1:IF kan=16 OR kan=8 OR kan=4 OR kan=32 OR kan=64 OR kan=128 THEN b=a-1
+END IF
+IF a=7 AND turnier=45 THEN a=139
+pec:
+NEXT a
+SUB nF STATIC
+PALETTEn 0&,0&,0&,0&
+PALETTEn 1&,8&,8&,10&
+PALETTEn 2&,0&,0&,8&
+PALETTEn 3&,10&,0&,0&
+PALETTEn 4&,0&,8&,0&
+PALETTEn 5&,10&,10&,0&
+PALETTEn 6&,10&,5&,0&
+PALETTEn 7&,5&,5&,10&
+END SUB
+SUB eF STATIC
+PALETTEn 0&,6&,6&,6&
+PALETTEn 1&,10&,10&,10&
+PALETTEn 2&,5&,3&,3&
+PALETTEn 3&,10&,0&,0&
+PALETTEn 4&,0&,8&,0&
+PALETTEn 5&,3&,3&,3&
+PALETTEn 6&,0&,0&,7&
+PALETTEn 7&,2&,2&,10&
+END SUB
+SUB stF STATIC
+PALETTEn 0&,7&,0&,0&
+PALETTEn 1&,10&,10&,10&
+PALETTEn 2&,7&,7&,7&
+PALETTEn 3&,0&,0&,0&
+PALETTEn 4&,0&,9&,0&
+PALETTEn 5&,8&,8&,0&
+PALETTEn 6&,4&,4&,4&
+PALETTEn 7&,0&,1&,10&
+END SUB
+SUB sF STATIC
+PALETTEn 0&,0&,0&,0&
+PALETTEn 1&,0&,0&,0&
+PALETTEn 2&,0&,0&,0&
+PALETTEn 3&,0&,0&,0&
+PALETTEn 4&,0&,0&,0&
+PALETTEn 5&,0&,0&,0&
+PALETTEn 6&,0&,0&,0&
+PALETTEn 7&,0&,0&,0&
+END SUB
+showm:
+CALL BLaus:sF
+COLOR 1,0
+CLS
+LINE (26,10+bart)-(604,46+bart),5,bf
+LINE (32,13+bart)-(598,43+bart),2,bf
+LINE (31,12+bart)-(26,10+bart),1
+LINE (599,44+bart)-(604,46+bart),1
+LINE (599,12+bart)-(604,10+bart),1
+LINE (31,44+bart)-(26,46+bart),1
+LINE (488,53+bart)-(604,85+bart),5,bf
+LINE (494,56+bart)-(598,82+bart),2,bf
+LINE (493,55+bart)-(488,53+bart),1
+LINE (599,83+bart)-(604,85+bart),1
+LINE (599,55+bart)-(604,53+bart),1
+LINE (493,83+bart)-(488,85+bart),1
+pols=0
+IF turnier=45 THEN pols=22
+LINE (26-pols,53+bart)-(208,85+bart),5,bf
+LINE (32-pols,56+bart)-(202,82+bart),2,bf
+LINE (31-pols,55+bart)-(26-pols,53+bart),1
+LINE (31-pols,83+bart)-(26-pols,85+bart),1
+LINE (203,55+bart)-(208,53+bart),1
+LINE (203,83+bart)-(208,85+bart),1
+LINE (228,53+bart)-(468,89+bart),5,bf
+LINE (234,56+bart)-(462,86+bart),2,bf
+LINE (233,55+bart)-(228,53+bart),1
+LINE (233,87+bart)-(228,89+bart),1
+LINE (463,55+bart)-(468,53+bart),1
+LINE (463,87+bart)-(468,89+bart),1
+Font Ort&
+ter=INT((550-LEN(tur$(turnier))*22)/2)+40
+LOCATE 36+bart,ter 
+Font Times&
+Art 2
+COLOR 6,2
+PRINT tur$(turnier)
+Font Ort&
+LOCATE 79+bart,502
+Font Times&
+Art 2
+yv$=MID$(STR$(jahr),2,4)
+PRINT yv$
+LINE (494,83+bart)-(598,83+bart),5
+Font Ort&
+ui=253:IF tura(turnier)=0 THEN ui=242
+LOCATE 79+bart,ui
+Font Times&
+Art 2
+IF tura(turnier)=0 THEN COLOR 4,2:PRINT "Rasenplatz"
+IF tura(turnier)=1 THEN COLOR 7,2:PRINT "Hartplatz"
+IF tura(turnier)=2 THEN COLOR 3,2:PRINT "Sandplatz"
+IF tura(turnier)=4 THEN COLOR 6,2:PRINT "Filzplatz"
+ui=6
+IF tur(turnier)<100000& THEN ui=5
+IF tur(turnier)<10000 THEN ui=4
+Font Ort&
+LOCATE 79+bart,40+(6-ui)*11-pols
+Font Times&
+Art 2
+COLOR 3,2
+IF turnier=45 THEN ui=7
+yv$=MID$(STR$(tur(turnier)),2,ui)+"$"
+PRINT yv$
+LINE (33-pols,83+bart)-(200,83+bart),5
+pols=0:ui=0
+gs=2:IF tur(turnier)>740000& THEN gs=3
+Font Opal&
+Art 0
+COLOR 3,0
+IF bart>0 THEN CALL eF:BLein:GOSUB klick:RETURN
+LINE (217,103)-(479,139),5,bf
+LINE (223,106)-(473,136),2,bf
+LINE (222,105)-(217,103),1
+LINE (222,137)-(217,139),1
+LINE (474,105)-(479,103),1
+LINE (474,137)-(479,139),1
+IF turnier=45 THEN hfn:
+LINE (138,213)-(254,245),5,bf
+LINE (144,216)-(248,242),2,bf
+LINE (378,213)-(493,245),5,bf
+LINE (384,216)-(487,242),2,bf
+Font Ort&
+LOCATE 239,152
+Font Times&
+Art 2
+COLOR 7,2
+PRINT " Ja";
+Font Ort&
+LOCATE 239,392
+Font Times&
+Art 2
+COLOR 6,2
+PRINT "Nein";
+LINE (138,243)-(254,243),5
+LINE (379,243)-(493,243),5
+LINE (143,215)-(138,213),1
+LINE (249,243)-(254,245),1
+LINE (249,215)-(254,213),1
+LINE (143,243)-(138,245),1
+LINE (383,215)-(378,213),1
+LINE (489,243)-(494,245),1
+LINE (489,215)-(494,213),1
+LINE (383,243)-(378,245),1
+hfn:
+Font Ort&
+LOCATE 129,231
+Font Times&
+Art 2
+COLOR 4,2
+PRINT "    Spieler"
+CALL eF:BLein
+ohj=0:ulmer=0:rico=INT(RND*3000)+1000
+FOR aw=0 TO misp
+ja(aw)=0
+IF jar(aw)=1 OR v(aw)<=0 OR g(aw)<rico OR turnier=45 THEN hdg:
+Font Ort&:LOCATE 195,244:Font Opal&:COLOR 3,0:PRINT nn$(aw)
+klas:
+FOR a=0 TO 20:v=MOUSE(0):NEXT a:IF v<>0 THEN klas
+detz:
+v=MOUSE(0):IF v=0 THEN detz:
+v=MOUSE(3):vv=MOUSE(4)
+IF v>143 AND v<249 AND vv>215 AND vv<243 THEN jar(aw)=1:g(aw)=g(aw)-rico:v(iw)=v(iw)-RND*8:ohj=1:ja(aw)=1:kan=kan+1:stpo(aw)=stpo(aw)+1:ein(aw)=tur(turnier)/128:GOTO hdg:
+IF v>383 AND v<494 AND vv>215 AND vv<243 THEN hdg:
+GOTO detz:
+hdg:
+LINE (100,185)-(600,200),0,bf
+NEXT aw
+mspieler=4:zumba=1
+IF kan>7 THEN mspieler=mspieler+4:zumba=2
+IF kan>15 THEN mspieler=mspieler+8:zumba=4
+IF kan>31 THEN mspieler=mspieler+16:zumba=16
+IF kan>63 THEN mspieler=mspieler+32
+IF kan>127 THEN mspieler=mspieler+64
+Font Ort&
+kop=0
+IF mspieler<100 THEN kop=11
+IF mspieler<10 THEN kop=22
+LOCATE 129,231+kop:kop=0:COLOR 4,2
+Font Times&
+Art 2
+PRINT MID$(STR$(mspieler),2,3)
+IF ohj=0 AND turnier<>45 THEN
+ulmer=1
+Font Ort&:LOCATE 195,248:Font Opal&:COLOR 3,0:PRINT "Turnier ansehen ?"
+FOR kop=0 TO 20:v=MOUSE(0):NEXT kop
+detzo:
+v=MOUSE(0):IF v=0 THEN detzo:
+v=MOUSE(3):vv=MOUSE(4)
+IF v>143 AND v<249 AND vv>215 AND vv<243 THEN ulmer=0:GOTO detzq:
+IF v>383 AND v<494 AND vv>215 AND vv<243 THEN detzq:
+GOTO detzo:
+END IF
+detzq:
+FOR sw=0 TO 126
+erg(sw)=0
+NEXT sw
+FOR qn=0 TO 126                                       
+FOR qm=0 TO 1
+f(qn,qm)=0
+NEXT qm,qn
+FOR qw=0 TO spieler-1
+FOR aw=0 TO misp
+IF nn$(aw)=spi$(qw) THEN
+IF ja(aw)=1 THEN e(qw)=1:wrang(qw)=wrang(qw)-wrang(qw)/wtur(qw):wtur(qw)=19
+END IF
+NEXT aw,qw
+LINE (100,185)-(600,260),0,bf
+GOSUB klick:
+Font Opal&
+COLOR 1,0:BLaus:CLS:nF
+CHAIN "Tennis3",1,ALL
+trainiern: 
+CALL BLaus:CLS
+PUT (150,50),train%
+PUT (550,210),abbruch%
+BLein
+hu:FOR v=0 TO 20:vv=MOUSE(0):NEXT v:IF vv<>0 THEN hu:
+rt$=""
+zug:v=MOUSE(0)
+IF v=0 THEN zug:
+vv=MOUSE(3)
+vvv=MOUSE(4)
+IF v>550 AND vv>210 THEN doitwe
+IF vv>150 AND vv<339 AND vvv>50 AND vvv<120 THEN rt$="1"
+IF vv>150 AND vv<339 AND vvv>120 AND vvv<190 THEN rt$="3"
+IF vv>339 AND vv<528 AND vvv>50 AND vvv<120 THEN rt$="2"
+IF vv>339 AND vv<528 AND vvv>120 AND vvv<190 THEN rt$="4"
+IF rt$="" THEN zug:
+fact=VAL(rt$)
+g(iw)=g(iw)-15000*fact:IF g(iw)<0 THEN
+FOR x=1 TO 20:FOR j=0 TO 7:LOCATE 20,30:PRINT "Zu wenig Geld":COLOR j,0:NEXT j,x
+g(iw)=g(iw)+15000*fact:GOTO zug:
+END IF
+aw=iw:qw=platz:v(iw)=v(iw)-RND*8
+spe(qw,0)=INT(sac(aw,8)*.15+sac(aw,0)*.07+sac(aw,1)*.01+sac(aw,2)*.2+sac(aw,3)*.3+sac(aw,4)*.22+sac(aw,5)*.05+sac(aw,6)*.21)
+spe(qw,1)=INT(sac(aw,8)*.15+sac(aw,0)*.11+sac(aw,1)*.15+sac(aw,2)*.2+sac(aw,3)*.12+sac(aw,4)*.17+sac(aw,5)*.15+sac(aw,6)*.16)
+spe(qw,2)=INT(sac(aw,8)*.15+sac(aw,0)*.27+sac(aw,1)*.29+sac(aw,2)*.05+sac(aw,3)*.03+sac(aw,4)*.06+sac(aw,5)*.3+sac(aw,6)*.08)
+enable%=AskSoftStyle&(WINDOW(8))
+klewsa:COLOR 1,0:BLaus:CLS
+Font Ort&
+LOCATE 23,110
+Font Courier&
+Art 2                  
+COLOR 1,2
+IF lks=1 THEN aw=iw:qw=platz
+IF lks=0 THEN
+PRINT " Trainingslager von "no$(iw)" in ";
+IF fact=1 THEN PRINT "Neustadt "
+IF fact=2 THEN PRINT "Reims "
+IF fact=3 THEN PRINT "Chicago "
+IF fact=4 THEN PRINT "Port-de-Paix "
+col=5
+FOR sk=0 TO 7
+IF sac(aw,sk)>100 THEN sac(aw,sk)=100
+NEXT sk
+END IF
+FOR sk=25 TO 217 STEP 32
+LINE (0,sk)-(631,sk+15),3,bf
+LINE (0,sk+16)-(631,sk+31),4,bf
+NEXT sk
+FOR sk=4 TO 20 STEP 2
+IF sk/4=INT(sk/4) THEN isrli=3
+IF sk/4<>INT(sk/4) THEN isrli=4
+Font Ort&
+LOCATE 38+(sk-4)*8,150
+Font Courier&
+COLOR 6,isrli
+IF sk=18 THEN sk=20:GOTO hit:
+IF sk=20 THEN sk=18
+hit:
+PRINT sac$((sk-4)/2);
+PRINT " :";:IF sk=20 THEN sk=18:GOTO hita:
+IF sk=18 THEN sk=20
+hita:
+NEXT sk
+Font Ort&
+LOCATE 182,150
+Font Courier&
+COLOR 6,4
+PRINT "Gesundheit  . . . . . . :";
+Font Ort&
+LOCATE 198,150
+Font Courier&
+COLOR 5,3
+PRINT "Rasenplatz  . . . . . . :";
+Font Ort&
+LOCATE 214,150
+Font Courier&
+COLOR 5,4
+PRINT "Hartplatz . . . . . . . :";
+Font Ort&
+LOCATE 230,150
+Font Courier&
+COLOR 5,3
+PRINT "Sandplatz . . . . . . . :";
+Font Ort&
+LOCATE 246,150
+Font Courier&
+COLOR 5,4
+PRINT "Filzplatz . . . . . . . :";
+FOR mal=1 TO 5
+FOR sk=25 TO 217 STEP 32
+LINE (400,sk)-(631,sk+15),3,bf
+LINE (400,sk+16)-(631,sk+31),4,bf
+NEXT sk
+FOR sk=4 TO 18 STEP 2
+IF sk/4=INT(sk/4) THEN isrli=3
+IF sk/4<>INT(sk/4) THEN isrli=4
+Font Ort&
+LOCATE 38+(sk-4)*8,401
+Font Courier&
+IF sk=18 THEN sk=20
+COLOR 7,isrli
+IF sac(aw,(sk-4)/2)<100 THEN PRINT " ";
+IF sac(aw,(sk-4)/2)<10 THEN PRINT " ";
+PRINT sac(aw,(sk-4)/2)"%";
+IF sk>18 THEN sk=18
+NEXT sk
+Font Ort&
+LOCATE 166,401
+Font Courier&
+COLOR 7,3
+IF sac(aw,7)<100 THEN PRINT " ";
+IF sac(aw,7)<10 THEN PRINT " ";
+PRINT INT(sac(aw,7))"%";
+Font Ort&
+LOCATE 182,401
+Font Courier&
+COLOR 7,4
+IF v(aw)<0 THEN PRINT "verletzt";
+IF v(aw)=>0 THEN
+IF v(aw)<100 THEN PRINT " ";
+IF v(aw)<10 THEN PRINT " ";
+PRINT CINT(v(aw))"%";
+END IF
+Font Ort&
+LOCATE 198,401
+Font Courier&
+COLOR 5,3
+IF spe(qw,0)<100 THEN PRINT " ";
+IF spe(qw,0)<10 THEN PRINT " ";
+PRINT spe(qw,0);"%";
+Font Ort&
+LOCATE 214,401
+Font Courier&
+COLOR 5,4
+IF spe(qw,1)<100 THEN PRINT " ";
+IF spe(qw,1)<10 THEN PRINT " ";
+PRINT spe(qw,1);"%";
+Font Ort&
+LOCATE 230,401
+Font Courier&
+COLOR 5,3
+IF spe(qw,2)<100 THEN PRINT " ";
+IF spe(qw,2)<10 THEN PRINT " ";
+PRINT spe(qw,2);"%";
+Font Ort&
+LOCATE 246,401
+Font Courier&
+COLOR 5,4
+IF spe(qw,0)<100 THEN PRINT " ";
+IF spe(qw,0)<10 THEN PRINT " ";
+PRINT spe(qw,0);"%";:IF lks=1 THEN lks=0:GOSUB klick:GOTO auswou:
+obbes:
+FOR ew=0 TO 20:v=MOUSE(0):NEXT ew:IF v<>0 THEN obbes:
+CALL eF:BLein
+devpac:
+v=MOUSE(0):IF v=0 THEN devpac:
+vv=MOUSE(4)
+IF vv<25 OR vv>153 THEN devpac:
+h=INT((vv-25)/16)
+IF h=7 THEN h=8
+sac(aw,h)=sac(aw,h)+INT(RND*fact*1.5+.1)+fact
+spe(qw,0)=INT(sac(aw,8)*.15+sac(aw,0)*.07+sac(aw,1)*.01+sac(aw,2)*.2+sac(aw,3)*.3+sac(aw,4)*.22+sac(aw,5)*.05+sac(aw,6)*.21)
+spe(qw,1)=INT(sac(aw,8)*.15+sac(aw,0)*.11+sac(aw,1)*.15+sac(aw,2)*.2+sac(aw,3)*.12+sac(aw,4)*.17+sac(aw,5)*.15+sac(aw,6)*.16)
+spe(qw,2)=INT(sac(aw,8)*.15+sac(aw,0)*.27+sac(aw,1)*.29+sac(aw,2)*.05+sac(aw,3)*.03+sac(aw,4)*.06+sac(aw,5)*.3+sac(aw,6)*.08)
+IF spe(qw,2)>100 THEN spe(qw,2)=100
+IF mal<5 THEN CALL BLaus
+NEXT mal
+jar(iw)=1:aw=0:qw=0:COLOR 1,0
+Font Opal&
+doitwe:RETURN
+SUB Art(num%) STATIC
+num%=CINT(num%)
+SHARED enable%
+SetSoftStyle WINDOW(8),num%,enable%
+END SUB
+SUB Font(bum&) STATIC
+SetFont WINDOW(8),bum&
+END SUB
+just:        
+CHAIN "Tennis8",1,ALL
+12 CLS:GOTO auswou:
+klick:FOR helks=0 TO 20:v=MOUSE(0):NEXT helks:IF v<>0 THEN klick
+IF ulmer=1 THEN turm:
+gemd:
+RANDOMIZE TIMER
+IF MOUSE(0)=0 THEN gemd:
+turm:
+RETURN
+mone:
+COLOR 1,0
+CALL BLaus:CLS
+sF
+LINE (256,15)-(362,43),2,bf
+COLOR 3,3
+AREA (256,43)
+AREA (276,53)
+AREA (382,53)
+AREA (363,43)
+AREAFILL 0
+COLOR 6,6
+AREA (382,26)
+AREA (363,15)
+AREA (363,43)
+AREA (382,53)
+AREAFILL 0
+Font Ort&
+LOCATE 39,266
+Font Times&
+Art 2
+COLOR 7,2
+PRINT "Geld"
+LINE (256,15)-(362,43),1,b
+logo=0
+FOR wing=0 TO 18
+IF gg(wing,iw)>300000& THEN logo=1
+NEXT wing
+IF g(iw)>300000& THEN logo=1
+LINE (80,80)-(560,230),4,bf
+Font Ort&
+LOCATE 245,72
+COLOR 3,0
+Font Opal&
+monach=21
+FOR wing=80 TO 560 STEP 24
+monach=monach-1
+LINE (wing,80)-(wing,235),1
+IF monach<10 THEN PRINT " ";
+IF monach=9 THEN Font Ort&:LOCATE 245,341:Font Opal&
+PRINT MID$(STR$(monach),2,2)" ";
+NEXT wing
+PRINT 
+FOR wing=230 TO 80 STEP -10
+LINE (70,wing)-(560,wing),1
+Font Ort&
+LOCATE wing+4,17-logo*8
+Font Opal&
+kol=(230-wing)*(logo*28000+2000)
+IF kol<100000& THEN PRINT " ";
+IF kol<1000000& AND logo=1 THEN PRINT " ";
+IF kol=0 THEN PRINT "    ";
+PRINT MID$(STR$(kol),2,7)
+NEXT wing
+kol=0
+Font Ort&
+LOCATE 69,25
+Font Opal&
+COLOR 5,0
+PRINT "Geld"
+Font Ort&
+LOCATE 228,581
+Font Opal&
+PRINT "Vor x"
+Font Ort&
+LOCATE 238,577
+Font Opal&
+PRINT "Wochen"
+LINE (560,230-CINT(g(iw)/(logo*28000+2000)))-(536,230-CINT(gg(19,iw)/(logo*28000+2000))),7
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,230-CINT(gg(wing,iw)/(logo*28000+2000))),7  
+NEXT wing
+CALL stF:BLein
+GOSUB klick
+logo=0
+GOTO auswou:
+strong:
+COLOR 1,0
+CALL BLaus:CLS
+sF
+LINE (168,15)-(450,43),2,bf
+COLOR 3,3
+AREA (168,43)
+AREA (188,53)
+AREA (470,53)
+AREA (451,43)
+AREAFILL 0
+COLOR 6,6
+AREA (470,26)
+AREA (451,15)
+AREA (451,43)
+AREA (470,53)
+AREAFILL 0
+Font Ort&
+LOCATE 37,178
+Font Times&
+Art 2
+COLOR 7,2
+PRINT "Spielstärken"
+LINE (168,15)-(450,43),1,b
+LINE (80,80)-(560,230),5,bf
+LINE (570,95)-(630,173),3,bf
+Font Ort&
+LOCATE 245,72
+COLOR 3,0
+Font Opal&
+monach=21
+FOR wing=80 TO 560 STEP 24
+monach=monach-1
+LINE (wing,80)-(wing,235),1
+IF monach<10 THEN PRINT " ";
+IF monach=9 THEN Font Ort&:LOCATE 245,341:Font Opal&
+PRINT MID$(STR$(monach),2,2)" ";
+NEXT wing
+PRINT 
+FOR wing=230 TO 80 STEP -15
+LINE (70,wing)-(560,wing),1
+Font Ort&
+LOCATE wing+4,33
+Font Opal&
+kol=(230-wing)/1.5
+IF kol<100 THEN PRINT " ";
+IF kol<10 THEN PRINT " ";
+PRINT MID$(STR$(kol),2,3)"%"
+NEXT wing
+kol=0
+Font Ort&
+LOCATE 69,13
+Font Opal&
+COLOR 5,0
+PRINT "Prozent"
+Font Ort&
+LOCATE 106,587
+Font Opal&
+COLOR 1,3
+PRINT "auf"
+Font Ort&
+LOCATE 119,579
+Font Opal&
+COLOR 0,3
+PRINT "Sand-"
+Font Ort&
+LOCATE 129,579
+Font Opal&
+COLOR 7,3
+PRINT "Hart-"
+Font Ort&
+LOCATE 139,579
+Font Opal&
+COLOR 4,3
+PRINT "Filz-"
+Font Ort&
+LOCATE 147,583
+Font Opal&
+COLOR 4,3
+PRINT "oder"
+Font Ort&
+LOCATE 155,576
+Font Opal&
+COLOR 4,3
+PRINT "Rasen-"
+Font Ort&
+LOCATE 170,579
+Font Opal&
+COLOR 1,3
+PRINT "platz"
+Font Ort&
+LOCATE 69,13
+Font Opal&
+COLOR 5,0
+PRINT "Prozent"
+Font Ort&
+LOCATE 228,581
+Font Opal&
+PRINT "Vor x"
+Font Ort&
+LOCATE 238,577
+Font Opal&
+PRINT "Wochen"
+LINE (560,230-CINT(spss(20,iw)*1.5))-(536,230-CINT(spss(19,iw)*1.5)),0
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,230-CINT(spss(wing,iw)*1.5)),0
+NEXT wing
+LINE (560,230-CINT(spsh(20,iw)*1.5))-(536,230-CINT(spsh(19,iw)*1.5)),7
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,230-CINT(spsh(wing,iw)*1.5)),7
+NEXT wing
+LINE (560,230-CINT(spsr(20,iw)*1.5))-(536,230-CINT(spsr(19,iw)*1.5)),4
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,230-CINT(spsr(wing,iw)*1.5)),4
+NEXT wing
+CALL stF:BLein
+GOSUB klick:
+GOTO auswou:
+placen:
+COLOR 1,0
+CALL BLaus:CLS
+sF
+LINE (91,15)-(527,43),2,bf
+COLOR 3,3
+AREA (91,43)
+AREA (111,53)
+AREA (547,53)
+AREA (528,43)
+AREAFILL 0
+COLOR 6,6
+AREA (547,26)
+AREA (528,15)
+AREA (528,43)
+AREA (547,53)
+AREAFILL 0
+Font Ort&
+LOCATE 36,101
+Font Times&
+Art 2
+COLOR 7,2
+PRINT "Weltranglistenplatz"
+LINE (91,15)-(527,43),1,b
+LINE (80,81)-(560,220),4,bf
+Font Ort&
+LOCATE 235,72
+COLOR 3,0
+Font Opal&
+monach=21
+FOR wing=80 TO 560 STEP 24
+monach=monach-1
+LINE (wing,81)-(wing,225),1
+IF monach<10 THEN PRINT " ";
+IF monach=9 THEN Font Ort&:LOCATE 235,341:Font Opal&
+PRINT MID$(STR$(monach),2,2)" ";
+NEXT wing
+PRINT 
+FOR wing=220 TO 80 STEP -10
+IF wing=80 THEN wing=81
+LINE (70,wing)-(560,wing),1
+IF wing=81 THEN wing=80
+Font Ort&
+LOCATE wing+5,41
+Font Opal&
+kol=wing-80
+IF kol<100 THEN PRINT " ";
+IF kol<10 THEN PRINT " ";
+IF kol=0 THEN kol=1
+PRINT MID$(STR$(kol),2,3)
+NEXT wing
+kol=0
+Font Ort&
+LOCATE 69,21
+Font Opal&
+COLOR 5,0
+PRINT "Platz"
+Font Ort&
+LOCATE 228,581
+Font Opal&
+PRINT "Vor x"
+Font Ort&
+LOCATE 238,577
+Font Opal&
+PRINT "Wochen"
+LINE (560,80+plt(20,iw))-(536,80+plt(19,iw)),7
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,80+plt(wing,iw)),7  
+NEXT wing
+CALL stF:BLein
+GOSUB klick
+GOTO auswou:
+3 CALL BLaus:CLS:LOCATE 15,35:COLOR 1,0:PRINT RIGHT$(STR$(woche),2)". Woche":BLein:GOSUB klick:
+vw=turnier
+strips:
+IF woc(turnier+1)=woche THEN turnier=turnier+1:bart=70:GOSUB showm:bart=0:GOTO strips
+turnier=vw
+GOTO auswou:
+4 COLOR 1,0
+BLaus
+CLS:PALETTEn 0&,10&,10&,10&:PALETTEn 1&,0&,0&,0&
+Font Ort&
+LOCATE 20,550
+Font gCourier&:PRINT "Sport"
+LOCATE 1,2:PRINT "BNN"
+Font Ort&:LOCATE 18,270
+Font Courier&:PRINT "Tennis"
+LINE (0,26)-(631,26),1
+Font Zeit&
+CHAIN "Tennis6",3,ALL
+5 Font Opal&
+CHAIN "Tennis5",2,ALL
+SUB BLein STATIC
+SHARED pal()
+FOR devi=0 TO 5
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB BLaus STATIC
+SHARED pal()
+FOR devi=5 TO 0 STEP -1
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB PALETTEn(nummer&,rot&,grun&,blau&) STATIC
+SHARED pal()
+pal(nummer&,0)=rot&/10
+pal(nummer&,1)=grun&/10
+pal(nummer&,2)=blau&/10
+END SUB
+fertig:
+BLaus
+CLS
+LOCATE 15,35
+PRINT "fertig"
+BLein
+END
+Geburtstag:
+LOCATE 15,15
+PRINT nn$(iw)" ist"jahr-1971"Jahre alt geworden."
+BLein
+h&=xOpen&(SADD("NIL:"+CHR$(0)),1005)
+a&=SADD("songplayer devs/6 -o -m"+CHR$(0)):Execute a&,0,h&
+GOSUB klick:
+RETURN

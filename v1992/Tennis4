@@ -1,0 +1,150 @@
+RUN "Tennis"
+3 CALL BLaus:CLS:LOCATE 15,30:BLein
+INPUT "Name:",nae$
+KILL "df0:Spiel/"+nae$+"p
+CHAIN "Tennis2",3,ALL
+1 CALL BLaus:CLS:LOCATE 15,30:BLein
+INPUT "Name:",nae$
+OPEN "spiel/"+nae$+"p" FOR OUTPUT AS #1
+PRINT #1,misp
+PRINT #1,turnier
+PRINT #1,spieler
+PRINT #1,iw
+PRINT #1,rico
+PRINT #1,jahr
+PRINT #1,woche
+PRINT #1,level
+FOR aw=0 TO misp
+PRINT #1,geburt(aw)
+PRINT #1,no$(aw)
+PRINT #1,v(aw)
+PRINT #1,ja(aw)
+PRINT #1,jar(aw)
+PRINT #1,werben(aw)
+PRINT #1,na$(aw)
+PRINT #1,nn$(aw)
+PRINT #1,pop(aw)
+PRINT #1,werba(aw)
+PRINT #1,werbea(aw)
+PRINT #1,werba$(aw)
+PRINT #1,werbh$(aw)
+PRINT #1,ein(aw)
+PRINT #1,g(aw)
+PRINT #1,prg(aw)
+PRINT #1,spss(20,aw)
+PRINT #1,spsh(20,aw)
+PRINT #1,spsr(20,aw)
+PRINT #1,plt(20,aw)
+PRINT #1,werbdh(aw)
+PRINT #1,werbeh(aw)
+PRINT #1,werbh(aw)
+PRINT #1,werbda(aw)
+PRINT #1,ge(aw)
+FOR kaw=0 TO 8
+PRINT #1,sac(aw,kaw)
+NEXT kaw
+FOR kaw=0 TO 19
+PRINT #1,spss(kaw,aw)
+PRINT #1,spsh(kaw,aw)
+PRINT #1,spsr(kaw,aw)
+PRINT #1,gg(kaw,aw)
+PRINT #1,plt(kaw,aw)
+NEXT kaw
+NEXT aw
+FOR aw=0 TO 139
+PRINT #1,e(aw)
+PRINT #1,wtur(aw)
+PRINT #1,spi$(aw)
+PRINT #1,wrang(aw)
+FOR kaw=0 TO 2
+PRINT #1,spe(aw,kaw)
+NEXT kaw
+NEXT aw
+CLOSE 1
+KILL "spiel/"+nae$+"p.info"
+CHAIN "Tennis2",3,ALL
+2 CALL BLaus:CLS:LOCATE 15,30
+CALL BLein:INPUT "Name:",nae$
+OPEN "spiel/"+nae$+"p" FOR INPUT AS #1
+INPUT #1,misp
+ERASE no$,v,werbh,werbda,ge,sac,pop,werba,werbea,werba$,werbh$,ein,g,gg,prg,spss,spsh,spsr,plt,werbdh,werbeh
+DIM werbh(misp),werbda(misp),ge(misp),spss(20,misp),spsr(20,misp),spsh(20,misp)
+DIM werba(misp),werbea(misp),werba$(misp),werbh$(misp),ein(misp),g(misp),prg(misp)
+DIM geburt(misp),no$(misp),v(misp),plt(20,misp),werbdh(misp),werbeh(misp),sac(misp,8),gg(19,misp)
+INPUT #1,turnier
+INPUT #1,spieler
+INPUT #1,iw
+INPUT #1,rico
+INPUT #1,jahr
+INPUT #1,woche
+INPUT #1,level
+FOR aw=0 TO misp
+PRINT #1,geburt(aw)
+INPUT #1,no$(aw)
+INPUT #1,v(aw)
+INPUT #1,ja(aw)
+INPUT #1,jar(aw)
+INPUT #1,werben(aw)
+INPUT #1,na$(aw)
+INPUT #1,nn$(aw)
+INPUT #1,pop(aw)
+INPUT #1,werba(aw)
+INPUT #1,werbea(aw)
+INPUT #1,werba$(aw)
+INPUT #1,werbh$(aw)
+INPUT #1,ein(aw)
+INPUT #1,g(aw)
+INPUT #1,prg(aw)
+INPUT #1,spss(20,aw)
+INPUT #1,spsh(20,aw)
+INPUT #1,spsr(20,aw)
+INPUT #1,plt(20,aw)
+INPUT #1,werbdh(aw)
+INPUT #1,werbeh(aw)
+INPUT #1,werbh(aw)
+INPUT #1,werbda(aw)
+INPUT #1,ge(aw)
+FOR kaw=0 TO 8
+INPUT #1,sac(aw,kaw)
+NEXT kaw
+FOR kaw=0 TO 19
+INPUT #1,spss(kaw,aw)
+INPUT #1,spsh(kaw,aw)
+INPUT #1,spsr(kaw,aw)
+INPUT #1,gg(kaw,aw)
+INPUT #1,plt(kaw,aw)
+NEXT kaw
+NEXT aw
+FOR aw=0 TO 139
+INPUT #1,e(aw)
+INPUT #1,wtur(aw)
+INPUT #1,spi$(aw)
+INPUT #1,wrang(aw)
+FOR kaw=0 TO 2
+INPUT #1,spe(aw,kaw)
+NEXT kaw
+NEXT aw
+CLOSE 1
+CHAIN "Tennis2",3,ALL
+SUB BLein STATIC
+SHARED pal()
+FOR devi=0 TO 5
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB BLaus STATIC
+SHARED pal()
+FOR devi=5 TO 0 STEP -1
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB PALETTEn(nummer&,rot&,grun&,blau&) STATIC
+SHARED pal()
+pal(nummer&,0)=rot&/10
+pal(nummer&,1)=grun&/10
+pal(nummer&,2)=blau&/10
+END SUB

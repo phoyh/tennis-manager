@@ -1,0 +1,104 @@
+RUN "Tennis"
+1 na=0
+inm:
+BLaus
+COLOR 1,0
+CLS
+LOCATE 3,22:COLOR 0,3
+IF na>49 THEN COLOR 0,4
+PRINT "-":COLOR 0,3:LOCATE 3,54
+IF na<100 THEN COLOR 0,4
+PRINT "+":COLOR 6,0
+LOCATE 31,36
+PRINT "Ende"
+LOCATE 2,32
+COLOR 6,0
+PRINT "Weltrangliste"
+ulmer=0
+COLOR 1,0
+FOR a=5 TO 29
+IF a-5+na>spieler THEN a=29:gaase=1:GOTO takehis:
+LOCATE a,1
+IF a+na-4<10 THEN PRINT " ";
+IF a+na-4<100 THEN PRINT " ";
+FOR aw=0 TO misp
+IF spi$(a+na-5)=nn$(aw) THEN COLOR 0,1:aw=misp
+NEXT aw
+PRINT a+na-4;:LOCATE a,5:PRINT ".";spi$(a+na-5)" ";
+LOCATE a,25
+tz=wtur(a+na-5)
+ak=INT(wrang(a+na-5)/tz*1000)/1000  
+IF ak<1000 THEN PRINT " ";
+IF ak<100 THEN PRINT " ";
+IF ak<10 THEN PRINT " ";
+IF ak<1 AND ak>0 THEN PRINT " ";
+PRINT ak;
+IF ak<>INT(ak) THEN
+LOCATE a,30
+PRINT ",";
+END IF
+LOCATE a,29
+IF ak<1 AND ak>0 THEN PRINT "0,";
+COLOR 1,0
+takehis:
+NEXT a
+IF gaase=1 THEN gaase=0:GOTO takeyou:
+FOR a=5 TO 29
+IF a+21+na>spieler THEN a=29:GOTO takeme:     
+LOCATE a,40
+IF a+na+21<10 THEN PRINT " ";
+IF a+na+21<100 THEN PRINT " ";
+FOR aw=0 TO misp
+IF spi$(a+20+na)=nn$(aw) THEN COLOR 0,1:aw=misp
+NEXT aw
+PRINT a+21+na;:LOCATE a,44:PRINT ".";spi$(a+20+na)" ";
+LOCATE a,64
+tz=wtur(a+na+20)
+ak=INT(wrang(a+20+na)/tz*1000)/1000
+IF ak<1000 THEN PRINT " ";
+IF ak<100 THEN PRINT " ";
+IF ak<10 THEN PRINT " ";
+IF ak<1 AND ak>0 THEN PRINT " ";
+PRINT ak;
+IF ak<>INT(ak) THEN
+LOCATE a,69
+PRINT ",";
+END IF
+LOCATE a,68
+IF ak<1 AND ak>0 THEN PRINT "0,";
+COLOR 1,0
+takeme:
+NEXT a
+takeyou:
+BLein
+takego:FOR a=0 TO 20:v=MOUSE(0):NEXT a:IF v<>0 THEN takego
+hautnah:
+IF MOUSE(0)=0 THEN hautnah
+v=MOUSE(3)
+vv=MOUSE(4)
+IF v>423 AND v<433 AND vv>13 AND vv<23 AND na<100 THEN na=na+50:GOTO inm:
+IF v>167 AND v<177 AND vv>13 AND vv<23 AND na>49 THEN na=na-50:GOTO inm:
+IF v>287 AND v<321 AND vv>237 AND vv<247 THEN na=0:CHAIN "Tennis2",12,ALL
+GOTO hautnah:
+SUB BLein STATIC
+SHARED pal()
+FOR devi=0 TO 5
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB BLaus STATIC
+SHARED pal()
+FOR devi=5 TO 0 STEP -1
+v=0:FOR v=0 TO 7
+PALETTE v,pal(v,0)/5*devi,pal(v,1)/5*devi,pal(v,2)/5*devi
+NEXT v
+NEXT devi
+END SUB
+SUB PALETTEn(nummer&,rot&,grun&,blau&) STATIC
+SHARED pal()
+pal(nummer&,0)=rot&/10
+pal(nummer&,1)=grun&/10
+pal(nummer&,2)=blau&/10
+END SUB
