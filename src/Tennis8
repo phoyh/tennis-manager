@@ -1,0 +1,71 @@
+RUN "Tennis"
+1 na=0
+CALL ForeScreen&(SP&)
+WINDOW OUTPUT 2
+inm:
+COLOR 1,0
+CLS
+IF na>49 THEN CALL PrintCBF&(WP&,166&,13&,SADD("-"+CHR$(0)),4&,2&,Courier&)
+IF na<50 THEN CALL PrintCBF&(WP&,166&,13&,SADD("-"+CHR$(0)),3&,2&,Courier&)
+IF 100<=na THEN CALL PrintCB&(WP&,422&,13&,SADD("+"+CHR$(0)),3&,2&)
+IF na<100 THEN CALL PrintCB&(WP&,422&,13&,SADD("+"+CHR$(0)),4&,2&)
+CALL PrintCB&(WP&,275&,233&,SADD("Ende"+CHR$(0)),4&,2&)
+CALL PrintCB&(WP&,233&,2&,SADD("Weltrangliste"+CHR$(0)),5&,3&)
+ulmer=0
+COLOR 1,0
+FOR a=5 TO 29
+IF a-5+na>spieler THEN a=29:gaase=1:GOTO takehis:
+p1&=1&
+FOR aw=0 TO misp
+IF spi$(a+na-5)=nn$(aw) THEN p1&=5&:aw=misp
+NEXT aw
+ar$=RIGHT$(" "+STR$(a+na-4),3)+"."+spi$(a+na-5)+" "
+o&=(a-1)*8
+CALL PrintCBF&(WP&,2&,o&,SADD(ar$+CHR$(0)),p1&,2&,Opal&)
+tz=20
+ak=INT(wrang&(a+na-5)/tz)/1000
+ak2=CINT((ak-INT(ak))*1000)
+ar$=RIGHT$("   "+STR$(INT(ak)),4)
+IF ak2=0 THEN ak2=1000
+ar$=ar$+","+RIGHT$("00"+RIGHT$(STR$(ak2),LEN(STR$(ak2))-1),3)
+IF p1&=1& THEN p1&=7&  
+CALL PrintCB&(WP&,192&,o&,SADD(ar$+CHR$(0)),p1&,2&)
+COLOR 1,0
+takehis:
+NEXT a
+IF gaase=1 THEN gaase=0:GOTO takeyou:
+FOR a=5 TO 29
+ar$=""
+IF a+21+na>spieler THEN a=29:GOTO takeme:     
+IF a+na+21<10 THEN ar$=ar$+" "
+IF a+na+21<100 THEN ar$=ar$+" "
+p1&=1&
+FOR aw=0 TO misp
+IF spi$(a+20+na)=nn$(aw) THEN p1&=5&:aw=misp
+NEXT aw
+ar$=ar$+STR$(a+na+21)+"."+spi$(a+na+20)+" "
+o&=(a-1)*8
+CALL PrintCB&(WP&,314&,o&,SADD(ar$+CHR$(0)),p1&,2&)
+tz=20
+ak=INT(wrang&(a+20+na)/tz)/1000
+ak2=CINT((ak-INT(ak))*1000)
+ar$=RIGHT$("   "+STR$(INT(ak)),4)
+IF ak2=0 THEN ak2=1000
+ar$=ar$+","+RIGHT$("00"+RIGHT$(STR$(ak2),LEN(STR$(ak2))-1),3)
+IF p1&=1& THEN p1&=7&  
+CALL PrintCB&(WP&,504&,o&,SADD(ar$+CHR$(0)),p1&,2&)
+COLOR 1,0
+takeme:
+NEXT a
+takeyou:
+CALL FadeIn&(SP&,10&,Clips&)
+takego:
+FOR a=0 TO 20:v=MOUSE(0):NEXT a:IF v<>0 THEN takego
+hautnah:
+IF MOUSE(0)=0 THEN hautnah
+v=MOUSE(3)
+vv=MOUSE(4)
+IF v>423 AND v<433 AND vv>13 AND vv<23 AND na<100 THEN CALL FadeOut&(SP&,10):na=na+50:GOTO inm:
+IF v>167 AND v<177 AND vv>13 AND vv<23 AND na>49 THEN CALL FadeOut&(SP&,10):na=na-50:GOTO inm:
+IF v>287 AND v<321 AND vv>237 AND vv<247 THEN na=0:CALL FadeOut&(SP&,10):CHAIN "Tennis2",12,ALL
+GOTO hautnah:

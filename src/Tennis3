@@ -1,0 +1,1130 @@
+RUN "Tennis"
+installno:
+CALL DrawIFF&(SP2&,Stadion&,480,0)
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+a&=16:b&=18
+GOSUB ObenTurnier
+CALL PrintCBF&(WP2&,11,122,SADD("Moment, das Turnier befindet sich"+CHR$(0)),29,28,Courier&)
+CALL FadeIn&(SP2&,10,StadionV&)
+dabboom=1
+RETURN
+1 RANDOMIZE random
+dabboom=0
+IF ulmer=1 THEN GOSUB installno
+IF kan=mspieler THEN kuryz=mspieler:GOTO bee:
+IF ulmer=0 THEN
+CALL DrawIFF&(SP2&,Pokal&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+a&=31:b&=13
+GOSUB ObenTurnier
+CALL PrintCBF&(WP2&,48,120,SADD("Moment, die Qualifikation"+CHR$(0)),11,4,Courier&)
+CALL PrintCB&(WP2&,62,145,SADD("wird gerade ausgelost!"+CHR$(0)),29,20)
+CALL FadeIn&(SP2&,10,PokalV&)
+END IF
+IF ulmer=1 THEN osmos=0:GOSUB moment
+sb=0
+aspi=0
+rotia=1
+kan=kan-mspieler
+kiss:
+FOR a=0 TO 254
+mspi$(a)="":NEXT a
+bb=b+1
+quali=INT(kan/7+1)*8
+spi=quali*2
+olde=0
+FOR sw=139 TO 0 STEP -1
+mus:
+IF e&(sw)=0 THEN schit:
+jbvr:
+p=INT(RND*quali)
+IF mspi$(p)<>"" THEN jbvr
+olde=olde+1
+mspi$(p)=spi$(sw):rang&(p)=sw+1:mspis(p)=spis(sw)*spe&(sw,tuna)/50
+FOR aw=0 TO misp
+IF mspi$(p)=nn$(aw) THEN mspis(p)=(spe&(sw,tuna)/50+(150-sw)/500)*level
+NEXT aw
+IF olde=quali THEN sw=0
+schit:
+NEXT sw
+das:
+kuryz=mspieler:jump=1:GOTO Anfang: 
+bee:
+mspieler=kuryz
+IF quali-kan>spi/2 THEN
+IF ulmer=0 THEN
+CALL FadeOut&(SP2&,10&)
+CALL DrawIFF&(SP2&,Stadion&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+a&=25:b&=24
+GOSUB ObenTurnier
+CALL PrintCBF&(WP2&,12,46,SADD("Lucky Looser:"+CHR$(0)),27,26,Times&)
+END IF
+olde=quali-kan-spi/2
+olde2=spi/2-olde
+pol1=0
+pol2=0
+col1&=28
+FOR sw=roti-spi TO roti-1
+IF e&(rang&(sw)-1)=1 THEN defs
+i=CINT(RND):IF pol1=olde THEN i=0
+IF pol2=olde2 THEN i=1
+IF i=1 AND ulmer=0 THEN
+x&=158-LEN(mspi$(sw))*4
+y&=100+pol1*15
+col2&=col1&+1
+CALL PrintCBF&(WP2&,x&,y&,SADD(mspi$(sw)+CHR$(0)),col2&,col1&,Opal&)
+col1&=col1&+2:IF col1&=32 THEN col1&=24
+END IF
+e&(rang&(sw)-1)=i
+pol1=pol1+i
+pol2=pol2+1-i
+wtur&(rang&(sw)-1)=wtur&(rang&(sw)-1)-i
+defs:
+NEXT sw
+IF ulmer=0 THEN
+CALL FadeIn&(SP2&,10,StadionV&)
+GOSUB klick
+CALL FadeOut&(SP2&,10&)
+END IF
+END IF
+IF ulmer=1 THEN
+ FOR aw=0 TO 139
+ FOR iw=0 TO misp
+ IF spi$(aw)=na$(iw) AND e&(aw)>0 THEN iw=misp:aw=139:ulmer=0 
+ NEXT iw,aw
+END IF
+IF ulmer=0 THEN
+CALL FadeOut&(SP2&,10&)
+CALL DrawIFF&(SP2&,Pokal&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+a&=31:b&=13
+GOSUB ObenTurnier
+CALL PrintCBF&(WP2&,76,120,SADD("Moment, das Turnier"+CHR$(0)),15,6,Courier&)
+CALL PrintCB&(WP2&,62,145,SADD("wird gerade ausgelost!"+CHR$(0)),29,20)
+CALL FadeIn&(SP2&,10,PokalV&)
+END IF
+FOR aw=0 TO misp
+na$(aw)=nn$(aw)
+NEXT aw
+FOR sw=0 TO 254
+mspi$(sw)=""
+NEXT sw
+FOR qn=0 TO 126                                       
+FOR qm=0 TO 1
+f&(qn,qm)=0
+NEXT qm,qn
+IF mspieler=128 THEN
+RESTORE datas2
+datas2:
+DATA 0,127,64,63,32,95,96,31,16,111,80,47,48,79,112,15
+END IF
+IF mspieler=64 THEN
+RESTORE datas1
+datas1:
+DATA 0,63,32,31,16,47,48,15,8,55,40,23,24,39,56,7
+END IF
+IF mspieler=32 THEN
+RESTORE datas
+datas:DATA 0,31,16,15,8,23,24,7,4,27,20,11,12,19,28,3
+END IF
+IF mspieler=16 THEN
+RESTORE datas3
+datas3:DATA 0,15,8,7
+END IF
+IF mspieler=8 THEN
+RESTORE datas4
+datas4:DATA 0,7
+END IF
+IF mspieler=4 THEN
+RESTORE datas5
+datas5:DATA 0
+END IF
+molk=0:sqa=0
+FOR sw=0 TO 139
+IF e&(sw)=0 THEN wasdenn:
+endlic:
+a$=MID$(STR$(molk+1),2,LEN(STR$(molk+1))-1)
+IF LEN(a$)=1 THEN a$="0"+a$
+READ a
+number=0
+FOR aw=0 TO misp
+IF spi$(sw)=nn$(aw) THEN number=aw:aw=misp:has=1
+NEXT aw
+rang&(a)=sw+1:IF turnier<>45 THEN wtur&(sw)=wtur&(sw)+1       
+mspi$(a)=MID$(spi$(sw),1,17)+"/"+a$+")":mspis(a)=spis(sw)*spe&(sw,tuna)/50
+IF has=1 THEN mspis(a)=(spe&(sw,tuna)/50+(150-sw)/500)*level/1.5:has=0:na$(number)=mspi$(a):ein&(number)=tur&(turnier)/mspieler:number=0
+molk=molk+1:IF molk=zumba THEN sqa=sw:sw=139  
+wasdenn:
+NEXT sw
+FOR sw=sqa+1 TO 139
+IF e&(sw)=0 THEN wasdenna:
+baq:
+a=INT(RND*mspieler):IF mspi$(a)<>"" THEN baq:
+mspi$(a)=spi$(sw):mspis(a)=spis(sw)*spe&(sw,tuna)/50:rang&(a)=sw+1:wtur&(sw)=wtur&(sw)+1
+aw=0:FOR aw=0 TO misp
+IF spi$(sw)=nn$(aw) THEN mspis(a)=(spe&(sw,tuna)/50+(150-sw)/500)*level:ein&(number)=tur&(turnier)/mspieler
+NEXT aw
+molk=molk+1:IF molk=mspieler THEN sw=139
+wasdenna:
+NEXT sw
+FOR sw=0 TO 127
+aw=0:FOR aw=0 TO misp
+IF mspi$(sw)=na$(aw) THEN mspis(sw)=(spe&(rang&(sw)-1,tuna)/100+(150-rang&(sw)+1)/500)*level/1.5
+NEXT aw,sw
+spi=mspieler*2
+sb=0
+aspi=0
+rotia=10
+FOR sw=0 TO 255
+erg&(sw)=0
+NEXT sw
+Anfang:
+IF ulmer=0 THEN
+CALL FadeOut&(SP2&,10)
+END IF
+roti=0
+IF mspieler=64 THEN muh=6
+IF mspieler=32 THEN muh=5
+IF mspieler=128 THEN muh=7
+IF mspieler=16 THEN muh=4
+IF mspieler=8 THEN muh=3
+IF mspieler=4 THEN muh=2
+IF jump=1 THEN muh=3:IF quali/4<=quali-kan THEN muh=2:IF quali/2<=quali-kan THEN muh=1
+FOR sa=1 TO muh
+IF ulmer=0 AND ulma=0 THEN
+olp=0
+FOR sw=0 TO misp
+olb=0
+FOR iw=roti TO sb+spi/2-1
+IF LEFT$(na$(sw),13)=LEFT$(mspi$(iw),13) THEN olp=1
+NEXT iw,sw
+IF olp=1 THEN hehi
+CALL FadeOut&(SP2&,10&)
+CALL DrawIFF&(SP2&,Pokal&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+a&=31:b&=13
+GOSUB ObenTurnier
+yv$="Qualifikation weiterhin ansehen?"
+IF jump=0 THEN yv$="Turnier weiterhin ansehen?"
+x&=158-LEN(yv$)*4.5
+CALL PrintCBF&(WP2&,x&,90,SADD(yv$+CHR$(0)),29,20,Courier&)
+CALL PrintCBF&(WP2&,58,150,SADD("Ja"+CHR$(0)),11,4,Times&)
+CALL PrintCB&(WP2&,196,150,SADD("Nein"+CHR$(0)),15,6)
+olb=1
+olb=0
+olp=0
+CALL FadeIn&(SP2&,10,PokalV&)
+WHILE MOUSE(0)<>0:WEND
+na:
+IF MOUSE(0)=0 THEN na
+v=MOUSE(3)
+vv=MOUSE(4)
+IF vv<149 THEN na
+IF v>160 THEN CALL FadeOut&(SP2&,10):GOTO leider
+IF v<160 THEN ulmer=0:CALL FadeOut&(SP2&,10):GOTO hehi
+GOTO na
+leider:
+ulmer=1:olp=1
+GOSUB installno
+END IF
+IF ulmer=1 THEN osmos=sa:IF jump=0 AND muh<7 THEN osmos=osmos+7-muh
+IF ulmer=1 AND jump=1 THEN osmos=0
+IF ulmer=1 THEN GOSUB moment
+IF olp=1 THEN olp=0
+hehi:
+spi=spi/2
+sb=sb+spi
+IF ulmer=1 THEN unwichtig
+GOTO zeigen:
+netx:
+NEXT sa
+einzel:
+toti=-1
+hasam:
+kaw=roti
+IF toti>-1 THEN kaw=toti+2:toti=-1
+FOR tot=kaw TO sb-2 STEP 2
+FOR aw=0 TO misp
+IF mspi$(tot)=na$(aw) OR mspi$(tot+1)=na$(aw) THEN toti=tot:tot=sb-2:aw=misp
+NEXT aw
+NEXT tot
+IF toti<0 THEN Menge:
+f=2.5:ff=1:aa=0:bb=0:aba=0:bab=0:gg=0:aaa=0:bbb=0
+CALL FadeOut&(SP&,10&)
+WINDOW OUTPUT 2
+CALL ForeScreen&(SP&)
+CLS
+a$=MID$(mspi$(toti),15,3)
+b$=MID$(mspi$(toti+1),15,3)
+LINE (4,39)-(166,91),1,b
+a=40
+IF a$="SWE" THEN GOSUB swe:
+IF a$="GER" THEN GOSUB ger:
+IF a$="CSR" THEN GOSUB csr:
+IF a$="FRA" THEN GOSUB fra:
+IF a$="ITA" THEN GOSUB ita:
+IF a$="SWI" THEN GOSUB swi:    
+IF a$="AUT" THEN GOSUB aut:
+IF a$="USA" THEN GOSUB usa: 
+IF a$="URS" THEN GOSUB urs:    
+IF a$="SPA" THEN GOSUB spa: 
+IF a$="ARG" THEN GOSUB arg: 
+IF a$="JUG" THEN GOSUB jug: 
+IF a$="HAI" THEN GOSUB hai:  
+IF a$="AUS" THEN GOSUB aus:
+IF a$="URU" THEN GOSUB uru:
+IF a$="HOL" THEN GOSUB hol:
+IF a$="PER" THEN GOSUB per:
+IF a$="ISR" THEN GOSUB isr:
+IF a$="FIN" THEN GOSUB fin:
+IF a$="SAF" THEN GOSUB saf:
+IF a$="CAN" THEN GOSUB can:
+IF a$="BRA" THEN GOSUB bra:
+IF a$="JAP" THEN GOSUB jap:
+IF a$="BEL" THEN GOSUB bel:
+IF a$="IND" THEN GOSUB ind:
+LINE (4,139)-(166,191),1,b
+a=140
+IF b$="SWE" THEN GOSUB swe:
+IF b$="GER" THEN GOSUB ger:
+IF b$="CSR" THEN GOSUB csr:
+IF b$="FRA" THEN GOSUB fra:
+IF b$="ITA" THEN GOSUB ita:
+IF b$="SWI" THEN GOSUB swi:
+IF b$="AUT" THEN GOSUB aut:
+IF b$="USA" THEN GOSUB usa:
+IF b$="URS" THEN GOSUB urs:
+IF b$="SPA" THEN GOSUB spa: 
+IF b$="ARG" THEN GOSUB arg: 
+IF b$="JUG" THEN GOSUB jug: 
+IF b$="HAI" THEN GOSUB hai:   
+IF b$="AUS" THEN GOSUB aus:
+IF b$="URU" THEN GOSUB uru:
+IF b$="HOL" THEN GOSUB hol:
+IF b$="PER" THEN GOSUB per:
+IF b$="ISR" THEN GOSUB isr:
+IF b$="FIN" THEN GOSUB fin:
+IF b$="SAF" THEN GOSUB saf:
+IF b$="CAN" THEN GOSUB can:
+IF b$="BRA" THEN GOSUB bra:
+IF b$="JAP" THEN GOSUB jap:
+IF b$="BEL" THEN GOSUB bel:
+IF b$="IND" THEN GOSUB ind:
+LOCATE 1,18
+COLOR 3,0
+PRINT SPC(INT((26-LEN(tur$(turnier)))/2));
+IF jump=0 THEN
+IF spi=2 THEN PRINT "        Finale ";:COLOR 5,0:PRINT tur$(turnier)         
+IF spi=4 THEN PRINT "      Halbfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=8 THEN PRINT "    Viertelfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=16 THEN PRINT "     Achtelfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=32 THEN PRINT "   1/16 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=64 THEN PRINT "    1/32 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=128 THEN PRINT "    1/64 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+END IF
+IF jump=1 THEN PRINT RIGHT$(STR$(sa),1)".Qualifikationsrunde ";:COLOR 5,0:PRINT tur$(turnier)
+COLOR 1,0:akw=0:akr=0
+FOR aw=0 TO misp
+IF mspi$(toti)=na$(aw) THEN akw=aw+1:COLOR 0,1
+NEXT aw
+LOCATE 14,1
+PRINT mspi$(toti)  
+COLOR 1,0
+FOR aw=0 TO misp
+IF mspi$(toti+1)=na$(aw) THEN akr=aw+1:COLOR 0,1
+NEXT aw
+LOCATE 16,1
+PRINT mspi$(1+toti)
+COLOR 1,0
+CALL FadeIn&(SP&,10&,Clips&)
+sw$=""
+n:
+IF aa=6 AND bb=6 AND aaa+bbb<gs*2-2 THEN
+IF akw<>0 THEN sac&(akw-1,7)=sac&(akw-1,7)+1
+IF akr<>0 THEN sac&(akr-1,7)=sac&(akr-1,7)+1
+bae1=ff:bae2=f:r=0:aff=ff:af=f:aba=0:bab=0:GOTO opp:
+END IF
+sw$=RIGHT$(sw$+INKEY$,6)
+IF sw$="rundmc" THEN mspis(toti)=mspis(toti)/2:sw$=""
+IF sw$="herbie" THEN mspis(toti+1)=mspis(toti+1)/2:sw$=""
+a=RND*f*SQR(mspis(toti))
+IF f=3 THEN a=a*1.5
+b=RND*ff*SQR(mspis(toti+1))
+IF ff=3 THEN b=b*1.5
+IF akw<>0 AND aaa+bbb=gs*2-1 THEN a=a*(sac&(akw-1,7)/200+.75)
+IF akr<>0 AND aaa+bbb=gs*2-1 THEN b=b*(sac&(akr-1,7)/200+.75)
+IF a>b THEN aa=aa+1
+IF b>a THEN bb=bb+1
+IF b=a THEN n:
+fff=f:f=ff:ff=fff
+op:
+LOCATE 14,26+gg
+PRINT aa     
+LOCATE 16,26+gg
+PRINT bb
+IF ta=1 THEN opp:
+LOCATE 13+ff,24
+PRINT "A"
+ml:
+IF aa-bb>1 AND aa>5 THEN aaa=aaa+1:GOSUB speichern:gg=gg+6:aa=0:bb=0:IF aaa<gs THEN op:
+IF bb-aa>1 AND bb>5 THEN bbb=bbb+1:GOSUB speichern:gg=gg+6:aa=0:bb=0:IF bbb<gs THEN op:
+IF aa+bb=13 AND aa>bb AND aaa+bbb<gs*2-2 THEN aaa=aaa+1:GOSUB speichern:gg=gg+6:aa=0:bb=0:IF aaa<gs THEN op:
+IF aa+bb=13 AND aa<bb AND aaa+bbb<gs*2-2 THEN bbb=bbb+1:GOSUB speichern:gg=gg+6:aa=0:bb=0:IF bbb<gs THEN op:
+FOR j=0 TO 350+(aaa+bbb)*150+(aa+bb)*10:NEXT j
+COLOR 0
+LOCATE 13+ff,24
+PRINT "A"
+COLOR 1
+IF aaa=gs THEN
+f&(toti/2,0)=gs:f&(toti/2,1)=1
+FOR aw=0 TO misp
+IF mspi$(toti)=na$(aw) AND jump=0 THEN ein&(aw)=ein&(aw)+tur&(turnier)/2^(muh+1-sa)
+NEXT aw
+GOTO weiter:
+END IF
+IF bbb=gs THEN
+f&(toti/2,1)=gs:f&(toti/2,0)=1
+FOR aw=0 TO misp
+IF mspi$(toti+1)=na$(aw) AND jump=0 THEN ein&(aw)=ein&(aw)+tur&(turnier)/2^(muh+1-sa)
+NEXT aw
+GOTO weiter:
+END IF
+GOTO n:
+tiebreak:
+a=RND*af*mspis(toti)
+b=RND*aff*mspis(toti+1)
+IF akw<>0 THEN a=a*(sac&(akw-1,7)/500+.9)
+IF akr<>0 THEN b=b*(sac&(akr-1,7)/500+.9)
+IF a>b THEN aba=aba+1
+IF b>a THEN bab=bab+1
+IF b=a THEN tiebreak:
+r=r+1:IF r=2 THEN r=0
+IF r=1 THEN afff=af:af=aff:aff=afff
+opp:
+qnm=INT(aba/10):IF qnm>1 THEN qnm=1
+LOCATE 14,23+gg+6-qnm
+PRINT aba     
+qnm=INT(bab/10):IF qnm>1 THEN qnm=1
+LOCATE 16,23+gg+6-qnm
+PRINT bab
+LOCATE 14,23+gg+5
+PRINT "("     
+LOCATE 16,23+gg+5
+PRINT "("
+LOCATE 14,26+gg+5
+PRINT ")"     
+LOCATE 16,26+gg+5
+PRINT ")"
+IF ta=1 THEN ta=0:f=bae1:ff=bae2:COLOR 0:LOCATE 14+((f-1)),24:PRINT "A":COLOR 1:GOTO ml:
+LOCATE 13+aff,24   
+PRINT "A"
+IF aba-bab>1 AND aba>6 THEN aa=aa+1:ff=aff:f=af:ta=1:GOTO op:      
+IF bab-aba>1 AND bab>6 THEN bb=bb+1:ff=aff:f=af:ta=1:GOTO op:
+FOR j=0 TO 400+(aba+bab)*70:NEXT j
+COLOR 0
+LOCATE 13+aff,24
+PRINT "A"
+COLOR 1
+GOTO tiebreak:
+speichern:
+IF aaa=gs-1 AND bbb=gs-1 THEN
+IF akw<>0 THEN sac&(akw-1,7)=sac&(akw-1,7)+2
+IF akr<>0 THEN sac&(akr-1,7)=sac&(akr-1,7)+2
+END IF
+IF aa>9 AND aa>bb THEN aa=9:bb=7
+IF bb>9 AND aa<bb THEN bb=9:aa=7
+g=10^(4-(aaa+bbb-1))
+IF g=0 THEN g=1
+erg&(toti)=erg&(toti)+g*aa   
+erg&(toti+1)=erg&(toti+1)+g*bb
+RETURN
+weiter:
+GOSUB klick
+CALL FadeOut&(SP&,10)
+IF toti<sb-2 THEN hasam:
+GOTO Menge
+klick:FOR us2w=0 TO 20:v=MOUSE(0):NEXT us2w:IF v<>0 THEN klick:
+IF olb=1 THEN turm:
+reds:
+RANDOMIZE TIMER
+IF MOUSE(0)=0 THEN reds
+turm:
+RETURN
+Menge:
+anz=0:deja=0:ggg=0
+ko:
+re=0:CALL FadeOut&(SP&,10&)
+WINDOW OUTPUT 2
+CALL ForeScreen&(SP&)
+CLS
+LOCATE 1,18 
+COLOR 3,0
+PRINT SPC(INT((26-LEN(tur$(turnier)))/2));
+IF jump=0 THEN
+IF spi=2 THEN PRINT "        Finale ";:COLOR 5,0:PRINT tur$(turnier)         
+IF spi=4 THEN PRINT "      Halbfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=8 THEN PRINT "    Viertelfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=16 THEN PRINT "     Achtelfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=32 THEN PRINT "   1/16 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=64 THEN PRINT "    1/32 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=128 THEN PRINT "    1/64 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+END IF
+IF jump=1 THEN PRINT RIGHT$(STR$(sa),1)".Qualifikationsrunde ";:COLOR 5,0:PRINT tur$(turnier)
+COLOR 1,0
+FOR qz=3 TO 30 STEP 3      
+IF re+anz=>spi THEN qz=30:GOTO cubicula:
+FOR aw=0 TO misp
+IF mspi$(sb-spi+re+anz)=na$(aw) THEN COLOR 0,1    
+NEXT aw
+LOCATE qz,1:PRINT mspi$(sb-spi+re+anz):COLOR 1,0
+FOR aw=0 TO misp
+IF mspi$(sb-spi+re+1+anz)=na$(aw) THEN COLOR 0,1   
+NEXT aw       
+LOCATE qz+1,1:PRINT mspi$(sb-spi+re+1+anz):COLOR 1,0
+re=re+2
+cubicula:
+NEXT qz
+re=0
+FOR qz=3 TO 30 STEP 3
+IF re+20+anz=>spi THEN qz=30:GOTO cubiculum:
+FOR aw=0 TO misp
+IF mspi$(sb-spi+re+20+anz)=na$(aw) THEN COLOR 0,1   
+NEXT aw
+LOCATE qz,47:PRINT mspi$(sb-spi+re+20+anz):COLOR 1,0
+FOR aw=0 TO misp
+IF mspi$(sb-spi+re+21+anz)=na$(aw) THEN COLOR 0,1   
+NEXT aw
+LOCATE qz+1,47:PRINT mspi$(sb-spi+re+21+anz):COLOR 1,0
+re=re+2
+cubiculum:
+NEXT qz
+gg=18
+CALL FadeIn&(SP&,10&,Clips&)
+FOR qy=1 TO gs*2-1
+ggg=0
+gg=gg+2
+FOR qz=3 TO 30 STEP 3
+IF anz+ggg*2=>spi THEN qz=30:rns=1:ende=1:GOTO qp:
+FOR aw=0 TO misp
+IF mspi$(ggg*2+anz+roti)=na$(aw) OR mspi$(ggg*2+anz+roti+1)=na$(aw) THEN GOSUB schon:haec=1:aw=misp
+NEXT aw
+IF haec=1 THEN haec=0:GOTO qp:
+IF f&(roti/2+ggg+anz/2,0)=gs THEN ggg=ggg+1:GOTO qp:
+IF f&(roti/2+ggg+anz/2,1)=gs THEN ggg=ggg+1:GOTO qp:
+a=INT((RND*9)^2*(-1)^CINT(RND))-INT(mspis(ggg*2+anz+roti)*40)+INT(mspis(ggg*2+anz+roti+1)*40)
+IF a<1 THEN f&(roti/2+ggg+anz/2,0)=f&(roti/2+ggg+anz/2,0)+1 
+IF a>0 THEN f&(roti/2+ggg+anz/2,1)=f&(roti/2+ggg+anz/2,1)+1
+IF a<-107 THEN qa=6:qb=0:GOTO qwer:      
+IF a<-65 THEN qa=6:qb=1:GOTO qwer:
+IF a<-38 THEN qa=6:qb=2:GOTO qwer:
+IF a<-22 THEN qa=6:qb=3:GOTO qwer:
+IF a<-15 THEN qa=6:qb=4:GOTO qwer:
+IF a<-10 THEN qa=7:qb=5:GOTO qwer:
+IF a<1 AND qy<gs*2-1 THEN qa=7:qb=6:GOTO qwer:   
+IF a<1 THEN a=INT(RND*2):qa=8+a:qb=6+a:GOTO qwer:
+IF a>106 THEN qb=6:qa=0:GOTO qwer:      
+IF a>65 THEN qb=6:qa=1:GOTO qwer:
+IF a>38 THEN qb=6:qa=2:GOTO qwer:
+IF a>22 THEN qb=6:qa=3:GOTO qwer:
+IF a>15 THEN qb=6:qa=4:GOTO qwer:
+IF a>10 THEN qb=7:qa=5:GOTO qwer:
+IF qy<gs*2-1 THEN qb=7:qa=6:GOTO qwer:
+aub=INT(RND*2):qb=8+aub:qa=6+aub
+qwer:
+fes=3:IF qb>qa THEN fes=4
+COLOR fes,0
+LOCATE qz,gg+3
+PRINT qa
+COLOR 7-fes,0
+LOCATE qz+1,gg+3
+PRINT qb
+COLOR 1,0
+mih:
+ggg=ggg+1
+qp:
+NEXT qz
+IF rns=1 THEN rns=0:GOTO qsa:
+FOR qz=3 TO 30 STEP 3
+IF ggg*2+anz=>spi THEN qz=30:ende=1:GOTO qo:
+FOR aw=0 TO misp
+IF mspi$(ggg*2+anz+roti)=na$(aw) OR mspi$(ggg*2+anz+roti+1)=na$(aw) THEN GOSUB schon:haec=1:aw=misp
+NEXT aw
+IF haec=1 THEN haec=0:GOTO qo:
+IF f&(roti/2+ggg+anz/2,0)=gs THEN ggg=ggg+1:GOTO qo:
+IF f&(roti/2+ggg+anz/2,1)=gs THEN ggg=ggg+1:GOTO qo:
+a=INT((RND*9)^2*(-1)^CINT(RND))-INT(mspis(ggg*2+anz+roti)*40)+INT(mspis(ggg*2+anz+roti+1)*40)
+IF a<1 THEN f&(roti/2+ggg+anz/2,0)=f&(roti/2+ggg+anz/2,0)+1 
+IF a>0 THEN f&(roti/2+ggg+anz/2,1)=f&(roti/2+ggg+anz/2,1)+1
+IF a<-107 THEN qa=6:qb=0:GOTO qwert:      
+IF a<-65 THEN qa=6:qb=1:GOTO qwert:
+IF a<-38 THEN qa=6:qb=2:GOTO qwert:
+IF a<-22 THEN qa=6:qb=3:GOTO qwert:
+IF a<-15 THEN qa=6:qb=4:GOTO qwert:
+IF a<-10 THEN qa=7:qb=5:GOTO qwert:
+IF a<1 AND qy<gs*2-1 THEN qa=7:qb=6:GOTO qwert:   
+IF a<1 THEN a=INT(RND*2):qa=8+a:qb=6+a:GOTO qwert:
+IF a>106 THEN qb=6:qa=0:GOTO qwert:      
+IF a>65 THEN qb=6:qa=1:GOTO qwert:
+IF a>38 THEN qb=6:qa=2:GOTO qwert:
+IF a>22 THEN qb=6:qa=3:GOTO qwert:
+IF a>15 THEN qb=6:qa=4:GOTO qwert:
+IF a>10 THEN qb=7:qa=5:GOTO qwert:
+IF qy<gs*2-1 THEN qb=7:qa=6:GOTO qwert:
+a=INT(RND*2):qb=8+a:qa=6+a
+qwert:
+fes=3:IF qb>qa THEN fes=4
+COLOR fes,0
+LOCATE qz,gg+50
+PRINT qa
+COLOR 7-fes,0
+LOCATE qz+1,gg+50
+PRINT qb
+COLOR 1,0
+armer:
+ggg=ggg+1
+qo:
+NEXT qz
+qsa:
+NEXT qy
+IF ggg*2+anz=spi THEN ende=1
+GOSUB klick
+CALL FadeOut&(SP&,10&)
+deja=deja+40
+IF deja<spi THEN anz=anz+40:GOTO ko:
+loti=roti
+FOR qz=sb TO sb+spi/2-1
+IF f&((loti-roti)/2+roti/2,0)>f&((loti-roti)/2+roti/2,1) THEN mspi$(qz)=mspi$(loti):mspis(qz)=mspis(loti):rang&(qz)=rang&(loti):lala=rang&(loti):lalala=rang&(loti+1)
+IF f&((loti-roti)/2+roti/2,0)<f&((loti-roti)/2+roti/2,1) THEN mspi$(qz)=mspi$(loti+1):mspis(qz)=mspis(loti+1):rang&(qz)=rang&(loti+1):lala=rang&(loti+1):lalala=rang&(loti)
+IF turnier<>45 THEN
+wrang&(lala-1)=wrang&(lala-1)+1000
+IF lalala<101 THEN wrang&(lala-1)=wrang&(lala-1)+1000
+IF lalala<76 THEN wrang&(lala-1)=wrang&(lala-1)+1000
+IF lalala<51 THEN wrang&(lala-1)=wrang&(lala-1)+3000
+IF lalala<31 THEN wrang&(lala-1)=wrang&(lala-1)+6000   
+IF lalala<21 THEN wrang&(lala-1)=wrang&(lala-1)+4000
+IF lalala<16 THEN wrang&(lala-1)=wrang&(lala-1)+4000
+IF lalala<11 THEN wrang&(lala-1)=wrang&(lala-1)+4000
+IF lalala<6 THEN wrang&(lala-1)=wrang&(lala-1)+6000
+END IF
+loti=loti+2:NEXT qz
+IF jump=1 THEN
+FOR sw=roti TO roti+spi-2 STEP 2
+IF f&(sw/2,0)<gs THEN e&(rang&(sw)-1)=0:wtur&(rang&(sw)-1)=wtur&(rang&(sw)-1)+1
+IF f&(sw/2,1)<gs THEN e&(rang&(sw+1)-1)=0:wtur&(rang&(sw+1)-1)=wtur&(rang&(sw+1)-1)+1
+NEXT sw
+END IF
+roti=sb:rotia=sb
+IF ende=0 THEN Menge:
+ende=0:IF sa<>muh THEN GOTO netx
+IF jump=1 THEN jump=0:GOTO bee
+Flag=5
+FOR aw=0 TO misp
+IF mspi$(mspieler*2-2)=na$(aw) THEN Flag=aw:aw=misp
+NEXT aw
+IF Flag<5 THEN won
+GOTO Weltrang:
+schon:
+a$=STR$(erg&(ggg*2+anz+roti))                            
+g1$=RIGHT$("0000"+RIGHT$(a$,LEN(a$)-1),5)
+a$=STR$(erg&(ggg*2+anz+roti+1))                            
+g2$=RIGHT$("0000"+RIGHT$(a$,LEN(a$)-1),5)
+g1=VAL(MID$(g1$,qy,1))
+g2=VAL(MID$(g2$,qy,1))
+IF g1+g2=0 THEN jqm:
+fes=3:IF g2>g1 THEN fes=4
+COLOR fes,0
+LOCATE qz,gg+50
+IF ggg<10 THEN LOCATE qz,gg+3
+PRINT g1
+COLOR 7-fes,0
+LOCATE qz+1,gg+50
+IF ggg<10 THEN LOCATE qz+1,gg+3
+PRINT g2
+COLOR 1,0
+jqm:
+ggg=ggg+1
+RETURN
+zeigen:
+anz=sb-spi:blatt=1
+IF spi>32 THEN blatt=blatt+1 
+IF spi>64 THEN blatt=blatt+1
+IF spi>96 THEN blatt=blatt+1        
+FOR sdr=1 TO blatt
+CALL FadeOut&(SP&,10&)
+CALL ForeScreen&(SP&)
+WINDOW OUTPUT 2
+CLS
+LOCATE 1,18
+COLOR 3,0
+PRINT SPC(INT((26-LEN(tur$(turnier)))/2));
+IF jump=0 THEN
+IF spi=2 THEN PRINT "        Finale ";:COLOR 5,0:PRINT tur$(turnier)         
+IF spi=4 THEN PRINT "      Halbfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=8 THEN PRINT "    Viertelfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=16 THEN PRINT "     Achtelfinale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=32 THEN PRINT "   1/16 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=64 THEN PRINT "    1/32 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+IF spi=128 THEN PRINT "    1/64 Finale ";:COLOR 5,0:PRINT tur$(turnier)
+END IF
+IF jump=1 THEN PRINT RIGHT$(STR$(sa),1)".Qualifikationsrunde ";:COLOR 5,0:PRINT tur$(turnier)
+COLOR 1,0
+didine=2
+FOR swf=anz TO anz+30 STEP 2
+didine=didine+1
+IF mspi$(swf)="" THEN swf=anz+30:GOTO nxt:
+LOCATE didine+5,9:COLOR 4,0                     
+PRINT "Nr.";
+IF rang&(swf)<100 THEN PRINT " ";
+IF rang&(swf)<10 THEN PRINT " ";
+PRINT MID$(STR$(rang&(swf)),2,LEN(STR$(rang&(swf)))-1)
+COLOR 1,0
+LOCATE didine+5,17
+FOR aw=0 TO misp
+IF mspi$(swf)=na$(aw) THEN COLOR 0,1     
+NEXT aw
+PRINT mspi$(swf)
+COLOR 1,0
+LOCATE didine+5,39
+PRINT "-"
+IF mspi$(swf+1)="" THEN swf=anz+30:GOTO nxt:
+LOCATE didine+5,64:COLOR 4,0
+PRINT "Nr.";
+IF rang&(swf+1)<100 THEN PRINT " ";
+IF rang&(swf+1)<10 THEN PRINT " ";
+PRINT MID$(STR$(rang&(swf+1)),2,LEN(STR$(rang&(swf+1)))-1)
+COLOR 1,0
+LOCATE didine+5,41
+FOR aw=0 TO misp
+IF mspi$(swf+1)=na$(aw) THEN COLOR 0,1     
+NEXT aw
+PRINT mspi$(swf+1)
+COLOR 1,0
+nxt:
+NEXT swf
+CALL FadeIn&(SP&,10&,Clips&)
+GOSUB klick
+CALL FadeOut&(SP&,10&)
+anz=anz+32
+NEXT sdr
+GOTO einzel:
+swe:
+LINE (5,a)-(165,a+50),7,bf
+LINE (58,a)-(75,a+50),5,bf
+LINE (5,20+a)-(165,30+a),5,bf
+RETURN
+ger:
+LINE (5,17+a)-(165,34+a),3,bf
+LINE (5,34+a)-(165,50+a),5,bf
+RETURN
+csr:
+LINE (5,0+a)-(165,a+25),1,bf
+LINE (5,a+25)-(165,a+50),3,bf
+COLOR 2,0
+AREA (5,a+0)
+AREA (75,24+a)
+AREA (75,25+a)
+AREA (5,a+50)
+AREAFILL 0
+COLOR 1,0
+RETURN
+fra:
+LINE (5,0+a)-(55,50+a),2,bf
+LINE (115,0+a)-(165,50+a),3,bf
+LINE (55,0+a)-(115,50+a),1,bf
+RETURN
+ita:
+LINE (5,0+a)-(55,50+a),4,bf
+LINE (115,0+a)-(165,50+a),3,bf
+LINE (55,0+a)-(115,50+a),1,bf
+RETURN
+swi:
+LINE (5,0+a)-(165,50+a),3,bf
+LINE (70,8+a)-(100,42+a),1,bf
+LINE (43,18+a)-(127,32+a),1,bf
+RETURN
+aut:
+LINE (5,0+a)-(165,50+a),3,bf
+LINE (5,17+a)-(165,34+a),1,bf
+RETURN
+usa:
+LINE (4,a-1)-(166,a+52),1,b
+LINE (5,a+0)-(165,a+51),3,bf
+FOR pa=a+4 TO a+44 STEP 8
+LINE (5,pa)-(165,pa+3),1,bf
+NEXT pa
+LINE (5,0+a)-(75,27+a),2,bf
+FOR pb=2+a TO 26+a STEP 6
+FOR pa=9 TO 69 STEP 12
+LINE (pa-1,pb)-(pa+2,pb-1),1,bf
+NEXT pa,pb
+FOR pb=5+a TO 23+a STEP 6
+FOR pa=15 TO 67 STEP 12
+LINE (pa-1,pb)-(pa+2,pb-1),1,bf
+NEXT pa,pb
+RETURN
+urs:
+LINE (5,a+0)-(165,a+50),3,bf
+LINE (20,2+a)-(18,4+a),5
+LINE -(14,4+a),5
+LINE -(7+10,4+1+a),5
+LINE -(16,7+a),5
+LINE -(20,6+a),5   
+LINE -(24,7+a),5
+LINE -(23,5+a),5
+LINE -(26,4+a),5
+LINE -(22,4+a),5
+LINE -(20,2+a),5
+COLOR 5,0
+AREA (16,16+a)
+AREA (20,17+a)
+AREA (24,17+a)
+AREA (30,16+a)
+AREA (31,17+a)
+AREA (34,16+a)
+AREA (31,14+a)
+AREA (33,12+a)
+AREA (33,10+a)
+AREA (30,7+a)
+AREA (26,7+a)
+AREA (28,8+a)
+AREA (30,10+a)
+AREA (30,12+a)
+AREA (28,13+a)
+AREA (28,14+a)
+AREAFILL 0
+AREA (10,19+a)
+AREA (12,20+a)
+AREA (16,16+a)
+AREA (28,14+a)
+AREA (20,15+a)
+AREA (15,14+a)
+AREAFILL 0
+AREA (28,13+a)
+AREA (19,10+a)
+AREA (21,9+a)
+AREA (19,8+a)
+AREA (15,11+a)
+AREA (15,13+a)
+AREA (18,11+a)
+AREA (28,14+a)
+AREAFILL 0
+COLOR 1,0
+RETURN
+spa:
+LINE (5,12+a)-(165,38+a),5,bf
+LINE (5,0+a)-(165,12+a),3,bf
+LINE (5,38+a)-(165,50+a),3,bf
+RETURN
+arg:
+LINE (5,0+a)-(165,50+a),7,bf
+LINE (5,17+a)-(165,34+a),1,bf
+RETURN
+hai:
+LINE (5,0+a)-(165,a+25),2,bf
+LINE (5,a+25)-(165,a+50),3,bf
+LINE (55,14+a)-(115,30+a),1,bf
+LINE (55,31+a)-(115,36+a),4,bf
+LINE (71,22+a)-(99,30+a),0,bf
+LINE (80,17+a)-(90,21+a),4,bf
+RETURN
+jug:
+LINE (5,0+a)-(165,17+a),2,bf
+LINE (5,17+a)-(165,34+a),1,bf
+LINE (5,34+a)-(165,50+a),3,bf
+COLOR 3,0
+AREA (60,20+a)      
+AREA (78,20+a)
+AREA (85,12+a)
+AREA (92,20+a)
+AREA (110,20+a)
+AREA (95,27+a)
+AREA (103,38+a)
+AREA (85,32+a)
+AREA (67,38+a)
+AREA (75,27+a)
+AREAFILL 0
+COLOR 1,0
+LINE (60,20+a)-(78,20+a),0       
+LINE -(85,12+a),0
+LINE -(92,20+a),0
+LINE -(110,20+a),0
+LINE -(95,27+a),0
+LINE -(103,38+a),0
+LINE -(85,32+a),0
+LINE -(67,38+a),0
+LINE -(75,27+a),0
+LINE -(60,20+a),0
+RETURN
+aus:
+LINE (5,0+a)-(165,50+a),2,bf
+COLOR 1,0
+AREA (72,0+a)
+AREA (85,0+a)
+AREA (18,25+a)
+AREA (5,25+a)
+AREAFILL 0
+AREA (72,25+a)
+AREA (85,25+a)
+AREA (18,0+a)
+AREA (5,0+a)
+AREAFILL 0
+COLOR 3,0
+AREA (74,24+a)
+AREA (79,24+a)
+AREA (16,1+a)
+AREA (11,1+a)
+AREAFILL 0
+AREA (74,1+a)
+AREA (79,1+a)
+AREA (16,24+a)
+AREA (11,24+a)
+AREAFILL 0
+LINE (5,10+a)-(85,15+a),1,bf
+LINE (40,0+a)-(50,25+a),1,bf
+LINE (5,11+a)-(85,14+a),3,bf
+LINE (42,0+a)-(48,25+a),3,bf
+COLOR 1,0
+AREA (45,31+a)
+AREA (42,34+a)
+AREA (35,32+a)
+AREA (40,36+a)
+AREA (33,39+a)
+AREA (40,39+a)
+AREA (39,43+a)
+AREA (45,39+a)
+AREA (51,43+a)
+AREA (50,39+a)
+AREA (57,39+a)
+AREA (50,36+a)
+AREA (55,32+a)
+AREA (48,34+a)
+AREAFILL 0
+LINE (134,25+a)-(135,26+a),1,b
+FOR rex=1 TO 4
+IF rex=1 THEN xx=125:yy=7+a
+IF rex=2 THEN xx=105:yy=18+a
+IF rex=3 THEN xx=142:yy=17+a
+IF rex=4 THEN xx=122:yy=39+a
+AREA (xx,yy)
+AREA (xx-2,2+yy)
+AREA (xx-5,1+yy)
+AREA (xx-3,3+yy)
+AREA (xx-6,4+yy)
+AREA (xx-3,4+yy)
+AREA (xx-3,6+yy)
+AREA (xx,4+yy)
+AREA (3+xx,6+yy)
+AREA (3+xx,4+yy) 
+AREA (6+xx,4+yy)
+AREA (3+xx,3+yy)
+AREA (5+xx,1+yy)
+AREA (2+xx,2+yy)     
+AREAFILL 0
+NEXT rex
+RETURN
+uru:
+LINE (4,a-1)-(166,a+55),1,bf:ad=0
+FOR ad=6 TO 42 STEP 12
+LINE (5,ad+a)-(165,ad+a+5),7,bf
+NEXT ad
+LINE (69,23+a)-(5,0+a),1,bf
+CIRCLE (37,13+a),23,5
+PAINT (37,13+a),5
+RETURN
+hol:
+LINE (5,0+a)-(165,16+a),3,bf
+LINE (5,17+a)-(165,34+a),1,bf
+LINE (5,34+a)-(165,50+a),2,bf
+RETURN
+per:
+LINE (5,0+a)-(165,50+a),3,bf
+LINE (55,0+a)-(115,50+a),1,bf
+RETURN
+isr:
+LINE (5,0+a)-(165,50+a),1,bf
+LINE (5,4+a)-(165,10+a),2,bf
+LINE (5,46+a)-(165,40+a),2,bf
+COLOR 2,0
+AREA (85,13+a)
+AREA (61,31+a)
+AREA (109,31+a)
+AREAFILL 0
+COLOR 1,0
+AREA (85,17+a)
+AREA (69,29+a)
+AREA (101,29+a)
+AREAFILL 0
+COLOR 2,0
+AREA (85,37+a)
+AREA (61,20+a)
+AREA (67,21+a)
+AREA (85,35+a)
+AREAFILL 0
+AREA (85,37+a)
+AREA (109,20+a)
+AREA (103,21+a)
+AREA (85,35+a)
+AREAFILL 0
+AREA (109,20+a)
+AREA (61,20+a)
+AREA (67,21+a)
+AREA (103,21+a)
+AREAFILL 0
+PSET (99,23+a),1
+COLOR 1,0
+RETURN
+fin:
+LINE (5,a)-(165,a+50),1,bf
+LINE (58,a)-(75,a+50),2,bf
+LINE (5,20+a)-(165,30+a),2,bf
+RETURN
+saf:
+LINE (5,0+a)-(165,16+a),6,bf
+LINE (5,17+a)-(165,34+a),1,bf
+LINE (5,34+a)-(165,50+a),2,bf
+RETURN
+can:
+LINE (5,0+a)-(165,50+a),3,bf
+LINE (40,0+a)-(130,50+a),1,bf
+LINE (84,46+a)-(86,37+a),3,bf
+COLOR 3,0
+AREA (85,36+a)
+AREA (65,37+a)
+AREA (68,33+a)
+AREA (48,24+a)
+AREA (50,23+a)
+AREA (48,17+a)
+AREA (57,19+a)
+AREA (61,18+a)
+AREA (72,22+a)
+AREA (71,11+a)
+AREA (80,12+a)
+AREA (85,4+a)
+AREAFILL 0
+AREA (85,36+a)
+AREA (105,37+a)
+AREA (102,33+a)
+AREA (122,24+a)
+AREA (120,23+a)
+AREA (122,17+a)
+AREA (113,19+a)
+AREA (109,18+a)
+AREA (100,22+a)
+AREA (99,11+a)
+AREA (90,12+a)
+AREA (85,4+a)
+AREAFILL 0
+COLOR 1,0
+RETURN
+bra:
+LINE (5,0+a)-(165,50+a),4,bf
+COLOR 5,0
+AREA (21,25+a)
+AREA (85,8+a)
+AREA (149,25+a)
+AREA (85,42+a)
+AREAFILL 0
+COLOR 1,0
+CIRCLE (85,25+a),23,7
+PAINT (85,25+a),7
+AREA (61,21+a)
+AREA (109,25+a)
+AREA (109,29+a)
+AREA (61,25+a)
+AREAFILL 0
+RETURN
+jap:
+LINE (5,0+a)-(165,50+a),1,bf
+CIRCLE (85,25+a),35,3
+PAINT (85,25+a),3
+RETURN
+bel:
+LINE (115,0+a)-(165,50+a),3,bf
+LINE (55,0+a)-(115,50+a),5,bf
+RETURN
+ind:
+LINE (5,0+a)-(165,17+a),3,bf
+LINE (5,17+a)-(165,34+a),1,bf
+LINE (5,34+a)-(165,50+a),4,bf
+RETURN
+Weltrang:
+CHAIN "Tennis6",1,ALL
+SUB Art(num%) STATIC
+num%=CINT(num%)
+SHARED enable%
+SetSoftStyle WINDOW(8),num%,enable%
+END SUB
+SUB Font(bum&) STATIC
+SetFont WINDOW(8),bum&
+END SUB
+moment:
+rt$="i"
+IF osmos=0 AND dabboom=1 THEN rt$=rt$+"n der Qualifikation"
+IF osmos=1 THEN rt$=rt$+"m 1/64 Finale !"
+IF osmos=2 THEN rt$=rt$+"m 1/32 Finale !"
+IF osmos=3 THEN rt$=rt$+"m 1/16 Finale !"
+IF osmos=4 THEN rt$=rt$+"m Achtelfinale !"
+IF osmos=5 THEN rt$=rt$+"m Viertelfinale !"
+IF osmos=6 THEN rt$=rt$+"m Halbfinale !"
+IF osmos=7 THEN rt$=rt$+"m Finale !"
+IF dabboom=1 OR osmos>0 THEN
+dabboom=0
+CALL DrawIFF&(SP2&,StadionPart&,5640,0)
+x&=156-LEN(rt$)*7.5
+CALL PrintCBF&(WP2&,x&,140,SADD(rt$+CHR$(0)),31,30,gCourier&)
+END IF
+RETURN
+unwichtig:
+loti=roti
+FOR qz=sb TO sb+spi/2-1
+a=INT(RND*40)-INT(mspis(loti)*40)+INT(mspis(loti+1)*40)
+IF a<20 THEN mspi$(qz)=mspi$(loti):mspis(qz)=mspis(loti):rang&(qz)=rang&(loti):lala=rang&(loti):lalala=rang&(loti+1)
+IF a>19 THEN mspi$(qz)=mspi$(loti+1):mspis(qz)=mspis(loti+1):rang&(qz)=rang&(loti+1):lala=rang&(loti+1):lalala=rang&(loti)
+IF turnier<>45 THEN
+wrang&(lala-1)=wrang&(lala-1)+1000
+IF lalala<101 THEN wrang&(lala-1)=wrang&(lala-1)+1000
+IF lalala<76 THEN wrang&(lala-1)=wrang&(lala-1)+1000
+IF lalala<51 THEN wrang&(lala-1)=wrang&(lala-1)+3000
+IF lalala<31 THEN wrang&(lala-1)=wrang&(lala-1)+6000   
+IF lalala<21 THEN wrang&(lala-1)=wrang&(lala-1)+4000
+IF lalala<16 THEN wrang&(lala-1)=wrang&(lala-1)+4000
+IF lalala<11 THEN wrang&(lala-1)=wrang&(lala-1)+4000
+IF lalala<6 THEN wrang&(lala-1)=wrang&(lala-1)+6000
+END IF
+IF jump=1 THEN
+IF a>19 THEN e&(rang&(loti)-1)=0:wtur&(rang&(loti)-1)=wtur&(rang&(loti)-1)+1
+IF a<20 THEN e&(rang&(loti+1)-1)=0:wtur&(rang&(loti+1)-1)=wtur&(rang&(loti+1)-1)+1
+END IF
+loti=loti+2:NEXT qz
+roti=sb:rotia=sb
+IF sa<>muh THEN netx
+IF jump=1 THEN jump=0:GOTO bee
+FOR aw=0 TO misp
+IF mspi$(mspieler*2-2)=na$(aw) THEN GOTO won
+NEXT aw
+GOTO Weltrang:
+ObenTurnier:
+x&=160-LEN(tur$(turnier))*4.5
+CALL PrintCBF&(WP2&,x&,15,SADD(tur$(turnier)+CHR$(0)),a&,b&,Courier&)
+RETURN
+won:
+CALL FadeOut&(SP2&,10)
+CALL DrawIFF&(SP2&,Turniersieg&,480,0)
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+yv$=LEFT$(na$(Flag),13):IF MID$(yv$,2,1)="." THEN yv$=RIGHT$(yv$,11)
+WHILE RIGHT$(yv$,1)=" ":yv$=LEFT$(yv$,LEN(yv$)-1):WEND
+a&=16:b&=18
+GOSUB ObenTurnier
+x&=160-LEN(yv$)*11
+CALL PrintCBF&(WP2&,x&,118,SADD(yv$+CHR$(0)),28,7,Times&)
+CALL PrintCBF&(WP2&,52,144,SADD("feiert den Turniersieg!"+CHR$(0)),13,5,Courier&)
+CHAIN "Tennis2",17,ALL
+17 ge&(Flag)=ge&(Flag)+1
+GOTO Weltrang

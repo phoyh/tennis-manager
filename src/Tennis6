@@ -1,0 +1,377 @@
+RUN "Tennis"
+hg:
+IF mspieler*lop-c*7<100 AND mspieler*lop-c*7>0 THEN vol=0:d$="gekommen":a$=a$+" erwartungsgemaess":IF a<>mspieler*2-2 THEN a$=a$+" bis ins"
+IF mspieler*lop-c*7<200 AND mspieler*lop-c*7>99 THEN vol=1:d$="gekommen":a$=a$+" ein wenig erfreulich":IF a<>mspieler*2-2 THEN a$=a$+" bis ins"
+IF mspieler*lop-c*7<300 AND mspieler*lop-c*7>199 THEN vol=2:d$="gekommen":a$=a$+" erfreulich":IF a<>mspieler*2-2 THEN a$=a$+" bis ins"
+IF mspieler*lop-c*7>299 THEN vol=3:d$="gekommen":a$=a$+" sehr erfreulich":IF a<>mspieler*2-2 THEN a$=a$+" bis ins"
+IF mspieler*lop-c*7>-150 AND mspieler*lop-c*7<1 THEN vol=-1:d$="ausgeschieden":a$=a$+" ein wenig enttaeuschend":IF a<>mspieler*2-2 THEN a$=a$+" schon im"
+IF mspieler*lop-c*7>-300 AND mspieler*lop-c*7<-149 THEN vol=-2:d$="ausgeschieden":a$=a$+" enttaeuschend":IF a<>mspieler*2-2 THEN a$=a$+" schon im"
+IF mspieler*lop-c*7<-299 THEN vol=-3:d$="ausgeschieden":a$=a$+" sehr enttaeuschend":IF a<>mspieler*2-2 THEN a$=a$+" schon im"
+lop=0:RETURN
+1 IF turnier=45 THEN henne
+CALL FadeOut&(SP2&,10)
+CALL DrawIFF&(SP2&,MenuStats&,480,0)
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+CALL PrintCBF&(WP2&,48,123,SADD("Moment, die Weltrangliste"+CHR$(0)),16,18,Courier&)
+CALL PrintCB&(WP2&,48,142,SADD("wird gerade ausgerechnet!"+CHR$(0)),26,5)
+CALL FadeIn&(SP2&,10,MenuStatsV&)
+ak=tur&(turnier)/2000
+akI=0:akII=mspieler
+IF mspieler<128 THEN
+IF mspieler=64 THEN kalt=63:warm=ak/400
+IF mspieler=32 THEN kalt=31:warm=ak/400+ak/50
+FOR a=0 TO kalt
+wrang&(rang&(a)-1)=wrang&(rang&(a)-1)+warm*1000
+NEXT a
+END IF
+ok:
+FOR a=akI TO akI+akII-1
+IF akII=128 THEN plus=ak/400
+IF akII=64 THEN plus=ak/50
+IF akII=32 THEN plus=ak/25
+IF akII=16 THEN plus=ak/16
+IF akII=8 THEN plus=ak/8
+IF akII=4 THEN plus=ak/4
+IF akII=2 THEN plus=ak/4
+wrang&(rang&(a)-1)=wrang&(rang&(a)-1)+plus*1000
+NEXT a
+akI=akI+akII:akII=akII/2
+IF akII>1 THEN ok:
+wrang&(rang&(mspieler*2-2)-1)=wrang&(rang&(mspieler*2-2)-1)+ak*250
+op&=SADD(spi$(1))-SADD(spi$(0))
+CALL Ranking&(VARPTR(wrang&(0)),VARPTR(wtur&(0)),SADD(spi$(0)),VARPTR(spe&(0,0)),140&,op&)
+henne: 
+CALL FadeOut&(SP2&,10&)
+WINDOW OUTPUT 2
+CALL ForeScreen&(SP&)
+COLOR 0,5
+CLS
+CALL DrawIFF&(SP&,ZeitungsKopf&,880&,0&)
+aa$=tur$(turnier)
+FOR a=1 TO 20
+IF MID$(aa$,a,1)="," THEN aa$=MID$(aa$,a+1,20)
+NEXT a
+aa$="Tennis - "+aa$
+x&=320&-INT(LEN(aa$)*4.5)
+CALL PrintCBF&(WP&,x&,32&,SADD(aa$+CHR$(0)),0,1,Courier&)
+3 ul=0
+aw=0
+a$=""
+olim:
+FOR kop=0 TO 254:IF mspi$(kop)=na$(aw) THEN ul=1
+NEXT kop:IF ul=0 THEN klo:
+ypos&=60
+ul=0
+CALL DrawIFF&(SP&,ZeitungsBody&,5680&,0&)
+b$=MID$(na$(aw),1,13):IF MID$(na$(aw),2,1)="." THEN b$=MID$(b$,3,11)
+FOR a=1 TO 13:IF MID$(b$,a,1)=" " THEN IF MID$(b$,a+1,1)=" " OR MID$(b$,a+1,1)="" THEN b$=MID$(b$,1,a-1):a=13
+NEXT a
+a$=a$+b$+" aus ":aa$=MID$(na$(aw),15,3):GOSUB rt:a$=a$+aa$+" ist"
+FOR a=mspieler*2-2 TO 0 STEP -1
+IF mspi$(a)=na$(aw) THEN
+c=0:cc=0
+FOR b=0 TO mspieler-1
+IF rang&(b)>rang&(a) THEN c=c+1
+NEXT b
+IF a=mspieler*2-2 THEN lop=8:GOSUB hg:a$=a$+" Sieger ":lop=1:rohr=1
+IF a<mspieler*2-2 AND a>mspieler*2-5 THEN lop=7:GOSUB hg:a$=a$+" Finale ":rohr=1
+IF a<mspieler*2-4 AND a>mspieler*2-9 THEN lop=6:GOSUB hg:a$=a$+" Halbfinale ":rohr=1
+IF a<mspieler*2-8 AND a>mspieler*2-17 THEN lop=5:GOSUB hg:a$=a$+" Viertelfinale ":rohr=1
+IF a<mspieler*2-16 AND a>mspieler*2-33 THEN lop=4:GOSUB hg:a$=a$+" Achtelfinale ":rohr=1
+IF a<mspieler*2-32 AND a>mspieler*2-65 THEN lop=3:GOSUB hg:a$=a$+" 1/16 Finale ":rohr=1
+IF a<mspieler*2-64 AND a>mspieler*2-129 THEN lop=2:GOSUB hg:a$=a$+" 1/32 Finale ":rohr=1
+IF a<mspieler*2-128 AND a>mspieler*2-257 THEN lop=1:GOSUB hg:a$=a$+" 1/64 Finale ":rohr=1
+IF rohr=1 THEN rohr=0:opium=a:a=0
+END IF
+NEXT a
+aa$=tur$(turnier)
+FOR a=1 TO 20
+IF MID$(aa$,a,1)="," THEN aa$=MID$(aa$,a+1,20)
+NEXT a
+a$=a$+"von "+aa$
+IF lop=0 THEN a$=a$+" "+d$
+a$=a$+"! "
+lust:
+FOR mon=mspieler*2-2 TO 0 STEP -1
+IF mspi$(mon)<>na$(aw) OR mon=mspieler*2-2 THEN tuz:
+IF mon<mspieler*2-2 AND mon>mspieler*2-5 THEN a$=a$+"Im Finale "
+IF mon<mspieler*2-4 AND mon>mspieler*2-9 THEN a$=a$+"Im Halbfinale "
+IF mon<mspieler*2-8 AND mon>mspieler*2-17 THEN a$=a$+"Im Viertelfinale "
+IF mon<mspieler*2-16 AND mon>mspieler*2-33 THEN a$=a$+"Im Achtelfinale "
+IF mon<mspieler*2-32 AND mon>mspieler*2-65 THEN a$=a$+"Im 1/16 Finale "
+IF mon<mspieler*2-64 AND mon>mspieler*2-129 THEN a$=a$+"Im 1/32 Finale "
+IF mon<mspieler*2-128 AND mon>mspieler*2-257 THEN a$=a$+"Im 1/64 Finale "
+IF mon=opium THEN a$=a$+"unterlag er ":e$="dem "
+plop=INT(RND*2)
+IF mon<>opium AND plop=0 THEN a$=a$+"gewann er gegen ":e$="den "
+IF mon<>opium AND plop=1 THEN a$=a$+"besiegte er ":e$="den " 
+IF mon/2=INT(mon/2) THEN opi=mon+1
+IF mon/2<>INT(mon/2) THEN opi=mon-1
+c$=MID$(mspi$(opi),1,13):IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR a=1 TO 13:IF MID$(c$,a,1)=" " THEN IF MID$(c$,a+1,1)=" " OR MID$(c$,a+1,1)="" THEN c$=MID$(c$,1,a-1):a=13
+NEXT a
+c=rang&(mon)/rang&(opi)
+IF e$="den " THEN c=rang&(opi)/rang&(mon)
+moi=-1
+utz:
+moi=CINT(moi+1)
+IF MID$(spi$(moi),1,13)=MID$(mspi$(opi),1,13) THEN cc=moi:moi=139
+IF moi<139 THEN utz:
+moi=0
+plop=INT(RND*2)
+IF spe&(cc,0)>44 AND plop=0 THEN a$=a$+e$+"Rasenplatzspezialisten ":GOTO jacob:
+IF spe&(cc,0)>44 AND plop=1 THEN a$=a$+e$+"Filzplatzspezialisten ":GOTO jacob:
+IF spe&(cc,1)>35 THEN a$=a$+e$+"Hartplatzspezialisten ":GOTO jacob:
+IF spe&(cc,2)>44 THEN a$=a$+e$+"Sandplatzspezialisten "
+jacob:
+a$=a$+c$+" aus ":aa$=MID$(mspi$(opi),15,3):GOSUB rt:
+a$=a$+aa$+" "
+IF c=>1 THEN a$=a$+"wie erwartet"
+IF c>.5 AND c<1 THEN a$=a$+"etwas ueberraschend"
+IF c>.1 AND c<=.5 THEN a$=a$+"ueberraschend"
+IF c<=.1 THEN a$=a$+"voellig ueberraschend"
+c=0:a$=a$+" " 
+a$=a$+"mit "
+hf(0)=INT(erg&(mon)/10000)
+hf(1)=INT(erg&(mon)/1000)-hf(0)*10
+hf(2)=INT(erg&(mon)/100)-hf(0)*100-hf(1)*10
+hf(3)=INT(erg&(mon)/10)-hf(0)*1000-hf(1)*100-hf(2)*10
+hf(4)=erg&(mon)-hf(0)*10000-hf(1)*1000-hf(2)*100-hf(3)*10
+hd(0)=INT(erg&(opi)/10000)
+hd(1)=INT(erg&(opi)/1000)-hd(0)*10
+hd(2)=INT(erg&(opi)/100)-hd(0)*100-hd(1)*10
+hd(3)=INT(erg&(opi)/10)-hd(0)*1000-hd(1)*100-hd(2)*10
+hd(4)=erg&(opi)-hd(0)*10000-hd(1)*1000-hd(2)*100-hd(3)*10
+FOR a=0 TO 4 
+a$=a$+MID$(STR$(hf(a)),2,1)+":"+MID$(STR$(hd(a)),2,1)+" "
+IF hf(a+1)+hd(a+1)=0 THEN a=4
+NEXT a
+a$=a$+"."
+tuz:
+NEXT mon
+runs:
+iop=0
+FOR iop=122 TO 50 STEP -1
+IF LEN(a$)<iop THEN iop=LEN(a$):GOTO prinit
+IF MID$(a$,iop,1)<>" " THEN nexen
+prinit:
+CALL PrintCBF&(WP&,9&,ypos&,SADD(LEFT$(a$,iop)+CHR$(0)),0&,1&,Zeit2&)
+ypos&=ypos&+10
+IF iop=LEN(a$) THEN a$="":iop=50:GOTO nexen
+a$=RIGHT$(a$,LEN(a$)-iop)
+GOTO runs
+nexen:
+NEXT iop
+ypos&=ypos&+4
+a$=a$+no$(aw)+", der Trainer "+b$+"s, meinte rueckblickend auf das Turnier von "
+aa$=tur$(turnier)
+FOR a=1 TO 20
+IF MID$(aa$,a,1)="," THEN aa$=MID$(aa$,a+1,20)
+NEXT a:a$=a$+aa$+":"
+CALL PrintCB&(WP&,9&,ypos&,SADD(a$+CHR$(0)),0&,1&):a$="":ypos&=ypos&+10
+a$=a$+"<< "
+plop=INT(RND*3)-1+vol
+IF plop>1 THEN
+a$=a$+"Ich finde es einfach toll, was mein Schuetzling, "+b$+", hier getan hat. Er verstand es, seine "
+bf$="Staerken,"
+a$=a$+bf$
+a$=a$+" wie "
+END IF
+IF plop=1 THEN a$=a$+"Mein Schuetzling, "+b$+", hat seine Staerken, wie "
+IF plop=0 THEN a$=a$+"Ich bin mit "+b$+" zufrieden. Das naechste mal kommt er vielleicht durch sein Koennen("
+IF plop=-1 THEN a$=a$+"Ehrlich gesagt habe ich gedacht, dass "+b$+" weiter kommt! Seine Staerken ("
+IF plop<-1 THEN a$=a$+"Ich bin masslos enttaeuscht von "+b$+"."
+cr=0:crr=0:ccrr=0
+IF plop>-2 THEN
+FOR a=0 TO 8:cr=cr+sac&(aw,8):NEXT a:cr=cr/9
+FOR a=1 TO 8:IF sac&(aw,a)>sac&(aw,ccrr) THEN ccrr=a
+IF sac&(aw,a)>sac&(aw,crr) THEN ccrr=crr:crr=a
+NEXT a
+aa$=sac$(crr)
+FOR wall=1 TO 2            
+FOR a=30 TO 5 STEP -1:IF MID$(aa$,a,1)="-" THEN aa$=MID$(aa$,1,a-1)+"baelle":a=5
+IF MID$(aa$,a,1)="." OR MID$(aa$,a,1)=" " THEN aa$=MID$(aa$,1,a-1)
+NEXT a
+a$=a$+aa$:IF sac&(aw,ccrr)>cr*1.5 AND wall=1 THEN
+IF plop=1 THEN a$=a$+" oder "
+IF plop<>1 THEN a$=a$+" und "
+aa$=sac$(ccrr):wall=wall-1
+END IF
+wall=wall+1:NEXT wall
+IF plop=-1 THEN
+a$=a$+") hat er nicht vollends ausgenuetzt. "
+END IF
+IF plop=0 THEN
+a$=a$+") etwas weiter. "
+END IF
+IF plop>1 THEN a$=a$+", zu gebrauchen. "
+IF plop=1 THEN 
+a$=a$+", richtig angewendet. " 
+END IF
+END IF
+a$=a$+" Er hat die Schwaechen des Gegners "
+IF plop>1 THEN a$=a$+"konsequent"
+IF plop=1 THEN a$=a$+"fast immer"
+IF plop=0 THEN a$=a$+"manchmal"
+IF plop=-1 THEN a$=a$+"kaum"
+IF plop<-1 THEN a$=a$+"niemals"
+a$=a$+" ausgenuetzt. Nun muss er "
+IF plop>1 THEN a$=a$+"nur noch ein bisschen"
+IF plop=1 THEN a$=a$+"noch ein bisschen"
+IF plop=0 THEN a$=a$+"noch etwas"
+IF plop=-1 THEN a$=a$+"viel"
+IF plop<-1 THEN a$=a$+"von morgens bis abends"
+a$=a$+" an seinen Schwaechen, wie z.B. "
+crr=0
+FOR a=1 TO 8:IF sac&(aw,a)<sac&(aw,crr) AND a<>7 THEN crr=a
+NEXT a
+aa$=sac$(crr)
+FOR a=30 TO 5 STEP -1:IF MID$(aa$,a,1)="-" THEN aa$=MID$(aa$,1,a-1)+"baelle":a=5
+IF MID$(aa$,a,1)="." OR MID$(aa$,a,1)=" " THEN aa$=MID$(aa$,1,a-1)
+NEXT a
+a$=a$+aa$+", arbeiten."
+IF plop=-1 THEN a$=a$+" Naja, vielleicht ein ander' Mal ..."
+IF plop<-1 THEN a$=a$+" Das liegt aber auch an den Medien. Sie lassen meinen Schuetzling einfach nicht in Ruhe!"
+a$=a$+" >>"
+run1s:
+iop=0
+FOR iop=122 TO 50 STEP -1
+IF LEN(a$)<iop THEN iop=LEN(a$):GOTO pri1nit
+IF MID$(a$,iop,1)<>" " THEN nex1en
+pri1nit:
+CALL PrintCB&(WP&,9&,ypos&,SADD(LEFT$(a$,iop)+CHR$(0)),0&,1&)
+ypos&=ypos&+10
+IF iop=LEN(a$) THEN a$="":iop=50:GOTO nex1en
+a$=RIGHT$(a$,LEN(a$)-iop)
+GOTO run1s
+nex1en:
+NEXT iop
+ypos&=ypos&+4 
+IF plop>2 THEN a$=a$+b$+", die ganze Nation ist stolz auf dich !":CALL PrintCB&(WP&,9&,ypos&,SADD(a$+CHR$(0)),0&,1&):a$="":ypos&=ypos&+10
+IF plop<-1 THEN a$=a$+b$+", wenn du nicht der Buhmann der Nation werden willst, dann erfuelle die Erwartungen!":CALL PrintCB&(WP&,9&,ypos&,SADD(a$+CHR$(0)),0&,1&):a$="":ypos&=ypos&+10
+CALL FadeIn&(SP&,10&,ZeitungV&)
+klas:
+FOR a=0 TO 100:v=MOUSE(0):NEXT a:IF v<>0 THEN klas
+ji:
+IF MOUSE(0)=0 THEN ji:
+b$=MID$(na$(aw),1,13):IF MID$(na$(aw),2,1)="." THEN b$=MID$(b$,3,11)
+CALL FadeOut&(SP&,10&)
+klo:
+aw=aw+1:IF misp>aw-1 THEN olim
+aw=0
+CALL DrawIFF&(SP&,ZeitungsBody&,5680&,0&)
+ypos&=60
+a$="In dem mit"+STR$(tur&(turnier))+" Dollar dotierten Turnier von "
+aa$=tur$(turnier)
+FOR a=1 TO 20
+IF MID$(aa$,a,1)="," THEN aa$=MID$(aa$,a+1,20)
+NEXT a:a$=a$+aa$+" gewann"
+b=0:bb=0
+FOR a=0 TO mspieler-1
+IF rang&(mspieler*2-2)>rang&(a) THEN b=b+1
+NEXT a
+IF b=0 THEN a$=a$+" erwartungsgemaess"
+IF b=1 OR b=2 THEN a$=a$+" etwas ueberraschend"
+IF b>2 AND b<7 THEN a$=a$+" ueberraschend"
+IF b>6 AND b<15 THEN a$=a$+" sehr ueberraschend"
+IF b>14 THEN a$=a$+" sensationell"
+c$=MID$(mspi$(mspieler*2-2),1,13):IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR a=1 TO 13:IF MID$(c$,a,1)=" " THEN IF MID$(c$,a+1,1)=" " OR MID$(c$,a+1,1)="" THEN c$=MID$(c$,1,a-1):a=13
+NEXT a:aa$=MID$(mspi$(mspieler*2-2),15,3):GOSUB rt:a$=a$+" "+c$+" aus "+aa$
+b=f&(mspieler-2,0):bb=f&(mspieler-2,1)
+IF bb<b THEN SWAP b,bb
+IF b=0 THEN b=INT(RND*gs)
+olb=gs+b
+IF b=0 THEN a$=a$+" klar"
+IF b=1 AND gs=2 THEN a$=a$+" knapp"
+IF b=2 THEN a$=a$+" sehr knapp"
+b=0:bb=0
+a$=a$+" gegen":feind=mspieler*2-3:IF mspi$(mspieler*2-2)=mspi$(mspieler*2-3) THEN feind=mspieler*2-4
+c$=MID$(mspi$(feind),1,13):IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR aa=1 TO 13:IF MID$(c$,aa,1)=" " THEN IF MID$(c$,aa+1,1)=" " OR MID$(c$,aa+1,1)="" THEN c$=MID$(c$,1,aa-1):aa=13
+NEXT aa:aa$=MID$(mspi$(feind),15,3):GOSUB rt:a$=a$+" "+c$+" aus "+aa$
+a$=a$+". "
+run2s:
+iop=0
+FOR iop=122 TO 50 STEP -1
+IF LEN(a$)<iop THEN iop=LEN(a$):GOTO pri2nit
+IF MID$(a$,iop,1)<>" " THEN nex2en
+pri2nit:
+CALL PrintCBF&(WP&,9&,ypos&,SADD(LEFT$(a$,iop)+CHR$(0)),0&,1&,Zeit2&)
+ypos&=ypos&+10
+IF iop=LEN(a$) THEN a$="":iop=50:GOTO nex2en
+a$=RIGHT$(a$,LEN(a$)-iop)
+GOTO run2s
+nex2en:
+NEXT iop
+ypos&=ypos&+4 
+a$="Und so spielten die gesetzten Spieler:"
+CALL PrintCB&(WP&,39&,ypos&,SADD(a$+CHR$(0)),0&,1&):a$="":ypos&=ypos&+10
+FOR a=0 TO 15
+FOR b=mspieler*2-2 TO 0 STEP -1
+IF VAL(MID$(mspi$(b),19,2))=a+1 THEN
+a$=a$+"Nr."+MID$(mspi$(b),19,2)+": "
+c$=MID$(mspi$(b),1,13)
+IF c$=LEFT$(mspi$(mspieler*2-3),13) THEN olp=100
+IF c$=LEFT$(mspi$(mspieler*2-4),13) THEN olp=100
+IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR aa=1 TO 13:IF MID$(c$,aa,1)=" " THEN IF MID$(c$,aa+1,1)=" " OR MID$(c$,aa+1,1)="" THEN c$=MID$(c$,1,aa-1):aa=13
+NEXT aa
+aa$=MID$(mspi$(b),15,3):GOSUB rt:a$=a$+c$+" aus "+aa$+" "
+IF b=mspieler*2-2 THEN a$=a$+"gewann im Finale "
+IF b<mspieler*2-2 AND b>mspieler*2-5 THEN a$=a$+"kam bis ins Finale "
+IF b<mspieler*2-4 AND b>mspieler*2-9 THEN a$=a$+"kam bis ins Halbfinale "
+IF b<mspieler*2-8 AND b>mspieler*2-17 THEN a$=a$+"kam bis ins Viertelfinale "
+IF b<mspieler*2-16 AND b>mspieler*2-33 THEN a$=a$+"kam bis ins Achtelfinale "
+IF b<mspieler*2-32 AND b>mspieler*2-65 THEN a$=a$+"kam bis ins 1/16 Finale "
+IF b<mspieler*2-64 AND b>mspieler*2-129 THEN a$=a$+"kam bis ins 1/32 Finale "
+IF b<mspieler*2-128 AND b>mspieler*2-257 THEN a$=a$+"kam bis ins 1/64 Finale "
+IF b>mspieler*2-257 AND b<mspieler*2-2 THEN a$=a$+"und verlor "
+a$=a$+"gegen ":feind=b+1:IF b=mspieler*2-2 AND mspi$(mspieler*2-2)=mspi$(mspieler*2-4) THEN feind=mspieler*2-3
+IF b=mspieler*2-2 AND mspi$(mspieler*2-2)=mspi$(mspieler*2-3) THEN feind=mspieler*2-4
+feinde=INT(b/2):IF b=mspieler*2-2 THEN feinde=feinde-1
+IF INT(b/2)<>b/2 THEN feind=b-1
+c$=MID$(mspi$(feind),1,13)
+IF MID$(c$,2,1)="." THEN c$=MID$(c$,3,11)
+FOR aa=1 TO 13:IF MID$(c$,aa,1)=" " THEN IF MID$(c$,aa+1,1)=" " OR MID$(c$,aa+1,1)="" THEN c$=MID$(c$,1,aa-1):aa=13
+NEXT aa
+aa$=MID$(mspi$(feind),15,3):GOSUB rt:a$=a$+c$+" aus "+aa$+" "
+feind=INT(b/2):IF b=mspieler*2-2 THEN b=b-1
+a$=a$+"in"
+IF olp<>100 THEN olp=f&(feinde,0)+f&(feinde,1):IF olp=0 THEN olp=INT(RND*gs)+gs
+IF olp=100 THEN olp=olb
+a$=a$+STR$(olp)+" Saetzen."
+CALL PrintCB&(WP&,9&,ypos&,SADD(a$+CHR$(0)),0&,1&):a$="":ypos&=ypos&+10
+b=0
+END IF
+NEXT b,a
+CALL FadeIn&(SP&,10&,ZeitungV&)
+CHAIN "Tennis5",2,ALL
+rt:
+IF aa$="SWE" THEN aa$="Schweden"
+IF aa$="GER" THEN aa$="Deutschland"
+IF aa$="CSR" THEN aa$="der CSFR"
+IF aa$="FRA" THEN aa$="Frankreich"
+IF aa$="ITA" THEN aa$="Italien"
+IF aa$="SWI" THEN aa$="der Schweiz"    
+IF aa$="AUT" THEN aa$="Oesterreich"
+IF aa$="USA" THEN aa$="den USA" 
+IF aa$="URS" THEN aa$="der Sowjetunion"    
+IF aa$="SPA" THEN aa$="Spanien" 
+IF aa$="ARG" THEN aa$="Argentinien" 
+IF aa$="JUG" THEN aa$="Jugoslawien" 
+IF aa$="HAI" THEN aa$="Haiti"  
+IF aa$="AUS" THEN aa$="Australien"
+IF aa$="URU" THEN aa$="Uruguay"
+IF aa$="HOL" THEN aa$="Holland"
+IF aa$="PER" THEN aa$="Peru"
+IF aa$="ISR" THEN aa$="Israel"
+IF aa$="FIN" THEN aa$="Finnland"
+IF aa$="SAF" THEN aa$="Suedafrika"
+IF aa$="CAN" THEN aa$="Kanada"
+IF aa$="BRA" THEN aa$="Brasilien"
+IF aa$="JAP" THEN aa$="Japan"
+IF aa$="BEL" THEN aa$="Belgien"
+IF aa$="IND" THEN aa$="Indien"
+RETURN

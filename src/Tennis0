@@ -1,0 +1,790 @@
+RUN "Tennis"
+1 DATA "Fila"
+DATA "Reebok"
+DATA "Adidas"
+DATA "Nike"
+DATA "Le Coq Sportif"
+DATA "Gatorade"
+DATA "Opel"
+DATA "Perrier"
+DATA "Lacoste"
+DATA "R'activ"
+DATA "Kondition . . . . . . ."
+DATA "Grundlinienschlaege . ."
+DATA "Angriffsschlaege  . . ."
+DATA "Volleys . . . . . . . ."
+DATA "Passier- und Lobbaelle "
+DATA "Stops . . . . . . . . ."
+DATA "Schmetterbaelle . . . ."
+DATA "Erfahrung . . . . . . ."
+DATA "Aufschlag . . . . . . ."
+DATA "Australien Open,Melbourne",760000,1,3
+DATA "Philadelphia",300000,1,6
+DATA "Memphis",200000,1,7
+DATA "Indian Wells",400000,1,8
+DATA "Key Biscayne",600000,1,9
+DATA "Orlando",180000,1,12
+DATA "Rotterdam",200000,4,12
+DATA "Bruessel",300000,4,13
+DATA "Chicago",200000,1,14
+DATA "Mailand",300000,2,14
+DATA "Tokyo",560000,4,16
+DATA "Monte Carlo",400000,2,17
+DATA "German Open,Hamburg",440000,2,18
+DATA "Muenchen",200000,2,19
+DATA "TOC,New York",300000,1,19
+DATA "Rom",500000,2,20
+DATA "French Open,Paris",780000,2,22 
+DATA "Queens",300000,0,24
+DATA "British Open,Wimbeldon",800000,0,26
+DATA "Boston",150000,1,28
+DATA "Gstaad",230000,1,28
+DATA "Indianapolis",200000,1,29
+DATA "Stuttgart",300000,4,29
+DATA "Bastad",150000,1,30
+DATA "Hilversum",150000,1,31
+DATA "Washington",250000,1,31
+DATA "Stratton Mountain",150000,1,32
+DATA "Kitzbuehl",150000,1,33
+DATA "Montreal",300000,1,33
+DATA "Cincinnati",300000,1,34
+DATA "US Open,New York",780000,1,36
+DATA "Genf",120000,4,38
+DATA "Barcelona",80000,2,39
+DATA "Los Angeles",380000,1,39
+DATA "San Francisco",180000,1,40
+DATA "Scottsdale",150000,1,41
+DATA "Sidney",200000,4,42
+DATA "Wien",200000,2,43
+DATA "Tokyo",400000,4,43
+DATA "Hongkong",160000,1,44
+DATA "Stockholm",340000,1,44
+DATA "Paris-Bercy",520000,4,45
+DATA "London",120000,1,46
+DATA "Johannesburg",150000,1,47
+DATA "Houston",150000,1,48
+DATA "Masters,Frankfurt",1300000,1,49
+DATA "P.Sampras    (USA)",50,33,10
+DATA "J.Courier    (USA)",15,33,45
+DATA "S.Edberg     (SWE)",50,30,20
+DATA "B.Becker     (GER)",55,25,20
+DATA "G.Ivanisevic (JUG)",50,30,20
+DATA "P.Korda      (CSR)",30,20,50
+DATA "I.Lendl      (CSR)",30,30,40
+DATA "A.Agassi     (USA)",10,35,45
+DATA "M.Chang      (USA)",10,33,50
+DATA "M.Stich      (GER)",45,35,20
+DATA "S.Brugera    (SPA)",5,33,55
+DATA "A.Medwedew   (URS)",5,33,55
+DATA "R.Krajicek   (HOL)",20,30,50
+DATA "K.Novacek    (CSR)",20,40,33
+DATA "W.Ferreira   (SAF)",20,30,50
+DATA "T.Muster     (AUT)",10,33,50
+DATA "G.Forget     (FRA)",50,33,10
+DATA "M.Washington (USA)",35,30,35
+DATA "H.Holm       (SWE)",30,33,30
+DATA "A.Wolkow     (URS)",20,30,50
+DATA "C.Pioline    (FRA)",20,33,40
+DATA "M.Woodforde  (AUS)",40,33,20
+DATA "E.Sanchez    (SPA)",10,33,50
+DATA "W.Masur      (AUS)",40,30,30
+DATA "M.Rosset     (SWI)",20,33,40
+DATA "F.Santoro    (FRA)",20,30,50
+DATA "M.Ondruska   (SAF)",30,20,37
+DATA "A.Boetsch    (FRA)",20,30,50
+DATA "B.Gilbert    (USA)",15,37,35
+DATA "A.Mansdorf   (ISR)",30,20,50
+DATA "A.Tschesnokow(URS)",30,20,50
+DATA "D.Wheaton    (USA)",30,37,20
+DATA "A.Tscherkasow(URS)",15,32,50
+DATA "M.Gustafsson (SWE)",15,32,50
+DATA "N.Kulti      (SWE)",30,30,40
+DATA "Perez-Roldan (ARG)",15,32,50
+DATA "J.Svensson   (SWE)",20,30,50
+DATA "B.Karbacher  (GER)",10,33,50
+DATA "J.Siemerink  (HOL)",20,30,50
+DATA "G.Prpic      (JUG)",20,30,50
+DATA "J.Hlasek     (SWI)",40,30,30
+DATA "D.Rostagno   (USA)",25,37,25
+DATA "A.Mancini    (ARG)",10,33,50
+DATA "J.McEnroe    (USA)",50,33,10
+DATA "H.Skoff      (AUT)",20,30,50
+DATA "M.Goellner   (GER)",30,40,35
+DATA "R.Reneberg   (USA)",30,33,30
+DATA "A.Jarryd     (SWE)",40,33,20
+DATA "J.Sanchez    (SPA)",20,30,50
+DATA "P.Haarhuis   (HOL)",15,32,50
+DATA "O.Camporese  (ITA)",10,33,50
+DATA "P.McEnroe    (USA)",50,33,10
+DATA "C.Caratti    (ITA)",20,20,60
+DATA "C.Steeb      (GER)",30,40,40
+DATA "F.Clavet     (SPA)",20,30,50
+DATA "M.Jaite      (ARG)",20,30,50
+DATA "R.Agenor     (HAI)",20,30,50
+DATA "D.Cahill     (AUS)",50,33,10
+DATA "J.Arrese     (SPA)",15,32,50
+DATA "M.Filippini  (URU)",20,30,50
+DATA "T.Woodbridge (AUS)",30,33,30
+DATA "M.Koevermans (HOL)",20,33,40
+DATA "F.Davin      (ARG)",20,30,50
+DATA "R.Fromberg   (AUS)",50,33,10
+DATA "R.Furlan     (ITA)",10,33,50
+DATA "H.de la Pena (ARG)",30,20,50
+DATA "J.Yzaga      (PER)",20,30,50  
+DATA "D.Prinosil   (GER)",20,33,40
+DATA "J.Arias      (USA)",20,30,50
+DATA "A.Krickstein (USA)",10,33,50
+DATA "C.Bergstroem (SWE)",50,20,30
+DATA "V.Paloheimo  (FIN)",20,33,40
+DATA "T.Witsken    (USA)",25,30,45
+DATA "M.Vajda      (CSR)",20,33,40
+DATA "M.Larsson    (SWE)",20,30,50
+DATA "P.Lundgren   (SWE)",30,20,50
+DATA "G.Muller     (SAF)",40,30,30
+DATA "E.Masso      (ARG)",10,33,50
+DATA "P.Cash       (AUS)",50,33,10
+DATA "G.Conell     (CAN)",25,37,25
+DATA "P.Kuehnen    (GER)",30,30,40
+DATA "S.Davis      (USA)",30,30,40
+DATA "J.Berger     (USA)",10,37,40
+DATA "J.Fleurian   (FRA)",30,30,40
+DATA "J.Grabb      (USA)",10,33,50
+DATA "L.Mattar     (BRA)",10,33,50
+DATA "T.Carbonell  (SPA)",10,33,50
+DATA "P.Baur       (GER)",20,30,50
+DATA "G.Bloom      (ISR)",40,33,20
+DATA "J.Oncins     (BRA)",10,33,50
+DATA "L.Jonsson    (SWE)",20,30,50
+DATA "G.Raoux      (FRA)",30,20,50
+DATA "S.Matsuoka   (JAP)",20,37,30
+DATA "T.Champion   (FRA)",30,20,50
+DATA "Pescolsolido (ITA)",15,32,50
+DATA "T.Mayotte    (USA)",50,33,10
+DATA "H.Leconte    (FRA)",50,20,30
+DATA "D.Poliakow   (USR)",30,20,50
+DATA "B.Wuyts      (BEL)",20,33,40
+DATA "R.Krishan    (IND)",10,33,50
+DATA "J.Gunnarsson (SWE)",20,30,50
+DATA "T.Martin     (USA)",50,33,10
+DATA "J.Tarango    (USA)",20,37,30
+DATA "R.Gilbert    (FRA)",30,33,30
+DATA "G.Markus     (ARG)",15,32,50
+DATA "J.Aguilera   (SPA)",10,33,50
+DATA "A.Rahunen    (FIN)",40,37,10
+DATA "A.Antonitsch (AUT)",20,33,40
+DATA "M.Kratzmann  (AUS)",40,33,20
+DATA "B.Pearce     (USA)",30,37,20
+DATA "D.Pate       (USA)",50,33,10
+DATA "T.Hogstedt   (SWE)",30,10,60
+DATA "R.Weiss      (USA)",40,33,20
+DATA "D.Goldie     (USA)",20,37,30
+DATA "K.Evernden   (USA)",20,37,30
+DATA "J.Stoltenberg(AUS)",40,30,30
+DATA "A.Sznajder   (CAN)",40,37,10
+DATA "M.Srejber    (CSR)",40,20,40
+DATA "B.Garrow     (USA)",30,37,20
+DATA "M.Zoecke     (GER)",30,20,50
+DATA "M.Naewie     (GER)",40,30,30
+DATA "R.Azar       (ARG)",10,37,50
+DATA "J.Eltingh    (HOL)",40,20,40
+DATA "D.Nargiso    (ITA)",20,30,50
+DATA "F.Luna       (SPA)",10,37,50
+DATA "J.Altur      (SPA)",30,20,50
+DATA "D.Engel      (SWE)",40,20,40
+DATA "N.Kroon      (SWE)",30,37,20
+DATA "B.Shelton    (USA)",25,37,25
+DATA "C.Pistolesi  (ITA)",15,32,50
+DATA "M.Kafelnikow (URS)",10,33,50
+DATA "D.Perez      (URU)",30,33,30
+DATA "M.Strelba    (CSR)",30,37,20
+DATA "P.Baur       (GER)",40,20,40
+DATA "C.Dosedel    (CSR)",50,20,30
+DATA "G.Layendecker(USA)",30,37,20
+DATA "J.Woehrmann  (GER)",20,20,60
+DATA "M.Wostenholme(CAN)",20,37,30
+DATA "D.Marcelino  (BRA)",15,32,50
+DATA "P.Cane       (ITA)",20,30,50
+REM tm&=SADD("TennisManager"+CHR$(0))
+REM tmd&=SADD("TennisManagerData"+CHR$(0))
+REM tms&=SADD("TennisManagerSave"+CHR$(0))
+LIBRARY "/bmaps/intuition.library"
+SCREEN 3,320,272,5,1
+WINDOW 5,,,0,3
+POKEW WINDOW(7)+98,0
+SP2&=PEEKL(WINDOW(7)+46)
+WP2&=WINDOW(7)
+SCREEN 2,640,272,3,2
+WINDOW 3,,(0,0)-(631,10),0,2
+POKEW WINDOW(7)+98,0
+CALL RefreshWindowFrame&(WINDOW(7))
+CALL RefreshWindowFrame&(WP2&)
+WINDOW 2,,(0,10)-(631,258),0,2
+WP&=WINDOW(7)
+SP&=PEEKL(WINDOW(7)+46)
+POKEW WINDOW(7)+98,0
+CALL RefreshWindowFrame&(WINDOW(7))
+LIBRARY CLOSE
+LIBRARY "/bmaps/graphics.library"
+LIBRARY "diskfont.library"
+LIBRARY "/bmaps/dos.library"
+DECLARE FUNCTION AskSoftStyle& LIBRARY
+DECLARE FUNCTION OpenDiskFont& LIBRARY
+DECLARE FUNCTION LoadSeg& LIBRARY
+DECLARE FUNCTION UnLoadSeg& LIBRARY
+LoadAssem&=(LoadSeg&(SADD("/asm-libs/LoadAssem"+CHR$(0)))+1)*4
+FadeOut&=0
+FadeIn&=0
+FillScreen&=0
+ReserveMem&=0
+DropMem&=0
+DrawIFF&=0
+CloseAssem&=0
+Lesen&=0
+Schreiben&=0
+PrintCB&=0
+PrintI&=0
+Ranking&=0
+ForeScreen&=0
+PrintCBF&=0
+PrintIF&=0
+WaitDisk&=0
+IFFColor&=0
+CALL LoadAssem&(VARPTR(PrintCBF&),8)
+CALL LoadAssem&(VARPTR(PrintIF&),10)
+CALL LoadAssem&(VARPTR(ForeScreen&),19)
+CALL LoadAssem&(VARPTR(DrawIFF&),17)
+CALL LoadAssem&(VARPTR(FillScreen&),18)
+CALL LoadAssem&(VARPTR(CloseAssem&),6)
+CALL LoadAssem&(VARPTR(FadeOut&),16)
+CALL LoadAssem&(VARPTR(FadeIn&),15)
+CALL LoadAssem&(VARPTR(Lesen&),13)
+CALL LoadAssem&(VARPTR(Schreiben&),14)
+CALL LoadAssem&(VARPTR(ReserveMem&),11)
+CALL LoadAssem&(VARPTR(DropMem&),12)
+CALL LoadAssem&(VARPTR(PrintCB&),7)
+CALL LoadAssem&(VARPTR(PrintI&),9)
+CALL LoadAssem&(VARPTR(Ranking&),20)
+CALL LoadAssem&(VARPTR(WaitDisk&),0)
+CALL LoadAssem&(VARPTR(IFFColor&),23)
+CALL CloseAssem&(LoadAssem&)
+CALL FadeOut&(SP&,0)
+CALL FadeOut&(SP2&,0)
+Clips&=0
+CALL ReserveMem&(VARPTR(Clips&),1&,64&)
+CALL Lesen&(SADD("/images/Clip"+CHR$(0)),Clips&,64&)
+enable%=AskSoftStyle&(WINDOW(8))
+fontName$="opal.font"
+height%=8
+style%=0
+prefs%=0
+IF pFont&<>0 THEN CALL CloseFont(pFont&)
+fontName0$=fontName$+CHR$(0)
+textAttr&(0)=SADD(fontName0$)
+textAttr&(1)=height%*65536& + style%*256 + prefs%
+pFont&=OpenDiskFont&(VARPTR(textAttr&(0)))
+SetFont WINDOW(8),pFont&
+CloseFont (pFont&)
+fontName$="Helvetica.font"
+height%=24
+fontName0$=fontName$+CHR$(0)
+textAttr&(0)=SADD(fontName0$)
+textAttr&(1)=height%*65536& + style%*256 + prefs%
+pFont&=OpenDiskFont&(VARPTR(textAttr&(0)))
+OPEN "/images/Diskette" FOR INPUT AS 1
+lang&=LOF(1)
+CLOSE 1
+lango&=0
+CALL ReserveMem&(VARPTR(lango&),1&,lang&)
+CALL Lesen&(SADD("/images/Diskette"+CHR$(0)),lango&,lang&)
+fish&=0
+CALL IFFColor&(lango&,VARPTR(fish&))
+Diskette&=lango&:DisketteV&=fish&
+CALL DrawIFF&(SP2&,Diskette&,480,0)
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+CALL PrintCBF&(WP2&,54,128,SADD("Data-Disk einlegen!"+CHR$(0)),30,9,pFont&)
+CloseFont (pFont&)
+CALL FadeIn&(SP2&,10,DisketteV&)
+REM CALL WaitDisk&(tmd&)
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+CALL FadeOut&(SP2&,10&)
+REM dw$=""
+REM TennisDat&=0
+REM FOR k=3 TO 8
+REM IF k=7 THEN k=8
+REM yv$="Tennis"+RIGHT$(STR$(k),1)
+REM OPEN dw$+yv$ FOR INPUT AS 1
+REM yoyo&=LOF(1)
+REM CLOSE 1
+REM CALL ReserveMem&(VARPTR(TennisDat&),1,yoyo&)
+REM CALL Lesen&(SADD(dw$+yv$+CHR$(0)),TennisDat&,yoyo&)
+REM CALL Schreiben&(SADD("ram:"+yv$+CHR$(0)),TennisDat&,yoyo&)
+REM CALL DropMem&(TennisDat&,yoyo&)
+REM NEXT k
+REM dw$="/music/"
+REM FOR k=1 TO 12
+REM IF k=1 THEN yv$="PhoyhTracker"
+REM IF k=2 THEN yv$="inClGuitar2(3)"
+REM IF k=3 THEN yv$="inBongo3"
+REM IF k=4 THEN yv$="inBongo4"
+REM IF k=5 THEN yv$="inTamburin2"
+REM IF k=6 THEN yv$="inTamburin4"
+REM IF k=7 THEN yv$="inMetPercGlock11"
+REM IF k=8 THEN yv$="inBongo11"
+REM IF k=9 THEN yv$="Winner"
+REM IF k=10 THEN yv$="inMetalPerc06"
+REM IF k=11 THEN yv$="Geburtstag"
+REM IF k=12 THEN yv$="inTamburinRattle1"
+REM OPEN dw$+yv$ FOR INPUT AS 1
+REM yoyo&=LOF(1)
+REM CLOSE 1
+REM CALL ReserveMem&(VARPTR(TennisDat&),1,yoyo&)
+REM CALL Lesen&(SADD(dw$+yv$+CHR$(0)),TennisDat&,yoyo&)
+REM CALL Schreiben&(SADD("ram:"+yv$+CHR$(0)),TennisDat&,yoyo&)
+REM CALL DropMem&(TennisDat&,yoyo&)
+REM NEXT k
+FOR k=0 TO 16
+IF k=0 THEN dw$="Trainingslager"
+IF k=1 THEN dw$="ZeitungsKopf"
+IF k=2 THEN dw$="Zeitungsbody"
+IF k=3 THEN dw$="Happy"
+IF k=4 THEN dw$="Kalender"
+IF k=5 THEN dw$="Geld"
+IF k=6 THEN dw$="Menu1"
+IF k=7 THEN dw$="MenuGeld"
+IF k=8 THEN dw$="MenuSpieler"
+IF k=9 THEN dw$="MenuStats"
+IF k=10 THEN dw$="MenuDisk"
+IF k=11 THEN dw$="Pokal"
+IF k=12 THEN dw$="Stadion"
+IF k=13 THEN dw$="WerbungSehen"
+IF k=14 THEN dw$="WerbungAushandeln"
+IF k=15 THEN dw$="Turniersieg"
+IF k=16 THEN dw$="StadionPart"
+dw$="/images/"+dw$
+OPEN dw$ FOR INPUT AS 1
+lang&=LOF(1)
+CLOSE 1
+CALL ReserveMem&(VARPTR(lango&),1&,lang&)
+CALL Lesen&(SADD(dw$+CHR$(0)),lango&,lang&)
+CALL IFFColor&(lango&,VARPTR(fish&))
+IF k=0 THEN Lager&=lango&:LagerV&=fish&
+IF k=1 THEN ZeitungsKopf&=lango&:ZeitungV&=fish&
+IF k=2 THEN ZeitungsBody&=lango&
+IF k=3 THEN Happy&=lango&:HappyV&=fish&
+IF k=4 THEN Kalender&=lango&:KalenderV&=fish&
+IF k=5 THEN Geld&=lango&:GeldV&=fish&
+IF k=6 THEN Menu1&=lango&:Menu1V&=fish&
+IF k=7 THEN MenuGeld&=lango&:MenuGeldV&=fish&
+IF k=8 THEN MenuSpieler&=lango&:MenuSpielerV&=fish&
+IF k=9 THEN MenuStats&=lango&:MenuStatsV&=fish&
+IF k=10 THEN MenuDisk&=lango&:MenuDiskV&=fish&
+IF k=11 THEN Pokal&=lango&:PokalV&=fish&
+IF k=12 THEN Stadion&=lango&:StadionV&=fish&
+IF k=13 THEN WerbungSehen&=lango&:WerbungSehenV&=fish&
+IF k=14 THEN WerbungAushandeln&=lango&:WerbungAushandelnV&=fish&
+IF k=15 THEN Turniersieg&=lango&:TurniersiegV&=fish&
+IF k=16 THEN StadionPart&=lango&
+NEXT k
+CALL DrawIFF&(SP2&,Diskette&,480,0)
+CALL PrintCB&(WP2&,52,128,SADD("Main-Disk einlegen!"+CHR$(0)),30,9)
+CALL FadeIn&(SP2&,10,DisketteV&)
+REM CALL WaitDisk&(tm&)
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+CALL FadeOut&(SP2&,10&)
+CALL DrawIFF&(SP2&,Diskette&,480,0)
+CALL PrintCB&(WP2&,-2,90,SADD("Begonnenes Spiel fortsetzen?"+CHR$(0)),16,18)
+CALL PrintCB&(WP2&,68,140,SADD("Ja"+CHR$(0)),30,9)
+CALL PrintCB&(WP2&,220,140,SADD("Nein"+CHR$(0)),9,30)
+CALL FadeIn&(SP2&,10,DisketteV&)
+hreh:FOR bg=0 TO 20:v=MOUSE(0):NEXT bg:IF v<>0 THEN hreh
+hgf:
+RANDOMIZE TIMER
+IF MOUSE(0)=0 THEN hgf
+v=MOUSE(3)
+vv=MOUSE(4)
+IF vv<139 THEN hgf
+CALL FadeOut&(SP2&,10)
+IF v<160 THEN rt$="j"
+IF v>160 THEN rt$="n"
+IF rt$<>"j" THEN uln:
+RANDOMIZE TIMER
+DIM pop&(misp),werba(misp),werbea&(misp),werba$(misp),werbh$(misp),ein&(misp),g&(misp),firh$(4),fira$(4),e&(139),wtur&(139),sac$(8),sac&(misp,8),spe&(139,2),f&(127,1),spi$(139),mspi$(254),erg&(255),mspis(254),spis(139),rang&(255),wrang&(139)
+DIM tura&(45),stpo&(misp),geburt&(misp),spil&(139),woc&(46),no$(misp),v&(misp),ge&(misp),spss&(20,misp),spsh&(20,misp),spsr&(20,misp),prg&(misp),gg&(19,misp),plt&(20,misp),werbdh(misp),werbeh&(misp),werbh(misp),werbda(misp),tur&(45),tur$(45)
+RANDOMIZE TIMER
+spieler=140
+FOR sw=0 TO 4
+READ firh$(sw)
+NEXT sw
+FOR sw=0 TO 4
+READ fira$(sw)
+NEXT sw
+FOR sw=0 TO 8
+READ sac$(sw)
+NEXT sw
+FOR sw=0 TO 45
+READ tur$(sw),tur&(sw),tura&(sw),woc&(sw)
+NEXT sw
+spis(139)=1:wtur&(139)=20
+FOR sw=138 TO 16 STEP -1
+spis(sw)=spis(sw+1)*1.003:wtur&(sw)=20
+NEXT sw
+FOR sw=15 TO 0 STEP -1
+spis(sw)=spis(sw+1)*1.03:wtur&(sw)=20
+NEXT sw
+LIBRARY CLOSE
+donjon=1:vona=1
+CHAIN "Tennis4",5,ALL
+uln:
+CALL DrawIFF&(SP2&,Pokal&,480,0)
+CALL PrintCB&(WP2&,58,80,SADD("Wie viele Spieler?"+CHR$(0)),16,18)
+CALL PrintCB&(WP2&,76,120,SADD("1"+CHR$(0)),31,13)
+CALL PrintCB&(WP2&,235,120,SADD("2"+CHR$(0)),11,4)
+CALL PrintCB&(WP2&,75,180,SADD("3"+CHR$(0)),29,20)
+CALL PrintCB&(WP2&,235,180,SADD("4"+CHR$(0)),15,6)
+fe:FOR de=0 TO 20:v=MOUSE(0):NEXT de:IF v<>0 THEN fe
+CALL FadeIn&(SP2&,10,PokalV&)
+twq:
+RANDOMIZE TIMER
+IF MOUSE(0)=0 THEN twq
+v=MOUSE(3)
+vv=MOUSE(4)
+IF vv<119 THEN twq
+CALL FadeOut&(SP2&,10)
+misp=0
+IF vv>153 THEN misp=2
+IF v>175 THEN misp=misp+1
+DIM pop&(misp),werba(misp),werbea&(misp),werba$(misp),werbh$(misp),ein&(misp),firh$(4),fira$(4),e&(139),wtur&(139),sac$(8),sac&(misp,8),spe&(139,2),f&(127,1),spi$(139),mspi$(254),erg&(255),mspis(254),spis(139),rang&(255),wrang&(139),tur$(45)
+DIM stpo&(misp),geburt&(misp),spil&(139),woc&(46),no$(misp),v&(misp),ge&(misp),g&(misp),spss&(20,misp),spsh&(20,misp),spsr&(20,misp),prg&(misp),gg&(19,misp),plt&(20,misp),werbdh(misp),werbeh&(misp),werbh(misp),werbda(misp),tura&(45),tur&(45)
+leck=1
+CALL ForeScreen&(SP&)
+WINDOW OUTPUT 2
+FOR kop=0 TO misp
+day=1:month=1
+CLS
+LINE (111,20)-(114,258),3,bf
+LINE (0,19)-(631,20),3,bf
+LINE (7,47)-(104,56),7,b
+LINE (0,69)-(110,70),3,b
+LOCATE 5,6:COLOR 6,0
+PRINT "Name"
+LOCATE 14,3:COLOR 3,0:PRINT "An Alle:"
+LOCATE 21,3:COLOR 4,0:IF level=2 OR level=0 THEN COLOR ,7
+PRINT "Anfaenger"
+LOCATE 24,1:COLOR 6,0:IF level=1.5 THEN COLOR ,7
+PRINT "Fortgeschrit-"
+LOCATE 25,1:COLOR 6,0:IF level=1.5 THEN COLOR ,7
+PRINT "    tener    "
+LOCATE 28,4:COLOR 5,0:IF level=1 THEN COLOR ,7
+PRINT "Experte"
+LOCATE 2,35:COLOR 5,0
+PRINT "Spieler"kop+1"
+LOCATE 5,37:COLOR 3,0:PRINT "Geburtstag"
+LOCATE 10,30:COLOR 7,0:PRINT "Tag:"
+COLOR 1,0
+FOR lse=1 TO 16:IF day=lse THEN COLOR 1,6
+LOCATE 12,25+(lse-1)*3:PRINT RIGHT$(STR$(lse),2)
+COLOR 1,0:NEXT lse
+FOR lse=17 TO 31:IF day=lse THEN COLOR 1,6
+LOCATE 13,25+(lse-17)*3:PRINT RIGHT$(STR$(lse),2)
+COLOR 1,0:NEXT lse
+LOCATE 19,30:COLOR 7,0:PRINT "Monat:"
+FOR lse=1 TO 12:IF month=lse THEN COLOR 1,6
+LOCATE 21,25+(lse-1)*3:PRINT RIGHT$(STR$(lse),2)
+COLOR 1,0:NEXT lse
+CALL FadeIn&(SP&,10&,Clips&)
+REM never found out what leck does, but level must be inverted apparently
+REM leck=0
+leck=1
+wle:
+ljn:FOR vvv=0 TO 20:v=MOUSE(0):NEXT vvv:IF v<>0 THEN ljn:
+v=0:an$=""
+wile:
+v=MOUSE(0):IF v=0 THEN wile:
+v=MOUSE(3):vv=MOUSE(4)
+IF vv>88 AND vv<106 AND v>192 AND v<584 THEN
+day=1:IF vv>97 THEN day=17
+day=day+INT((v-192)/24)
+FOR lse=1 TO 16:IF day=lse THEN COLOR 1,6
+LOCATE 12,25+(lse-1)*3:PRINT RIGHT$(STR$(lse),2)
+COLOR 1,0:NEXT lse
+FOR lse=17 TO 31:IF day=lse THEN COLOR 1,6
+LOCATE 13,25+(lse-17)*3:PRINT RIGHT$(STR$(lse),2)
+COLOR 1,0:NEXT lse
+END IF
+IF vv>160 AND vv<170 AND v>192 AND v<464 THEN
+month=INT((v-192)/24)+1
+FOR lse=1 TO 12:IF month=lse THEN COLOR 1,6
+LOCATE 21,25+(lse-1)*3:PRINT RIGHT$(STR$(lse),2)
+COLOR 1,0:NEXT lse
+END IF
+IF vv>159 AND vv<168 AND v>15 AND v<81 THEN
+leck=1
+LOCATE 21,3:COLOR 4,7:PRINT "Anfaenger"
+LOCATE 24,1:COLOR 6,0:PRINT "Fortgeschrit-"
+LOCATE 25,1:COLOR 6,0:PRINT "    tener    "
+LOCATE 28,4:COLOR 5,0:PRINT "Experte"
+level=0:GOTO wle:
+END IF
+IF vv>183 AND vv<201 AND v=>0 AND v<105 THEN
+leck=1
+LOCATE 21,3:COLOR 4,0:PRINT "Anfaenger"
+LOCATE 24,1:COLOR 6,7:PRINT "Fortgeschrit-"
+LOCATE 25,1:COLOR 6,7:PRINT "    tener    "
+LOCATE 28,4:COLOR 5,0:PRINT "Experte"
+level=1:GOTO wle:
+END IF
+IF vv>215 AND vv<224 AND v>23 AND v<81 THEN
+leck=1
+LOCATE 21,3:COLOR 4,0
+PRINT "Anfaenger"
+LOCATE 24,1:COLOR 6,0
+PRINT "Fortgeschrit-"
+LOCATE 25,1:COLOR 6,0
+PRINT "    tener    "
+LOCATE 28,4:COLOR 5,7
+PRINT "Experte"
+level=2:GOTO wle:
+END IF
+IF v>272 AND v<336 AND vv>7 AND vv<15 THEN goma:
+IF v>7 AND v<104 AND vv>47 AND vv<56 THEN
+a$=""
+LINE (8,48)-(103,55),0,bf
+LINE (56,48)-(63,55),2,bf
+gfwe:
+rt$=INKEY$:IF rt$="" THEN gfwe:
+IF ASC(rt$)<>13 AND ASC(rt$)<>8 THEN a$=a$+LEFT$(rt$,1)
+IF ASC(rt$)=8 AND LEN(a$)>0 THEN LINE (8,48)-(103,55),0,bf:a$=LEFT$(a$,LEN(a$)-1)
+IF ASC(rt$)=13 THEN
+LINE (8,48)-(103,55),0,bf:no$(kop)=a$
+LOCATE 7,8-INT((LEN(a$)+1)/2)
+COLOR 1,0:PRINT a$
+GOTO wle
+END IF
+a$=LEFT$(a$,12)
+LOCATE 7,8-INT((LEN(a$)+1)/2)
+COLOR 1,0:PRINT a$;:IF LEN(a$)<12 THEN COLOR 0,2:PRINT " ":COLOR 1,0
+GOTO gfwe
+END IF
+GOTO wile:
+goma:
+CALL FadeOut&(SP&,10&)
+REM IF leck=1 THEN level=(3-level)/2+.5
+geburt&(kop)=1+CINT(day/7+(month-1)*4.285)
+NEXT kop
+spieler=140
+FOR sw=0 TO 4
+READ firh$(sw)
+NEXT sw
+FOR sw=0 TO 4
+READ fira$(sw)
+NEXT sw
+FOR sw=0 TO 8
+READ sac$(sw)
+NEXT sw
+FOR sw=0 TO 45
+READ tur$(sw),tur&(sw),tura&(sw),woc&(sw)
+NEXT sw
+FOR sw=0 TO 139
+READ spi$(sw),spe&(sw,0),spe&(sw,1),spe&(sw,2)
+NEXT sw                                    
+spis(139)=1:wtur&(139)=20
+FOR sw=138 TO 16 STEP -1
+spis(sw)=spis(sw+1)*1.003:wtur&(sw)=20
+NEXT sw
+FOR sw=15 TO 0 STEP -1
+spis(sw)=spis(sw+1)*1.03:wtur&(sw)=20
+NEXT sw
+FOR aw=0 TO misp
+if level=0 then g&(aw)=1000000
+if level=1 then g&(aw)=100000
+if level=2 then g&(aw)=10000
+v&(aw)=100
+NEXT aw
+jahr=jahr+1
+RANDOMIZE TIMER
+COLOR 1,0
+CLS 
+LINE (0,0)-(484,229),2,bf
+FOR mihai=0 TO 140 STEP 35
+LINE (540,60+mihai)-(580,80+mihai),6,bf
+LINE (529,54+mihai)-(591,86+mihai),1,b
+COLOR 2,0
+AREA (539,59+mihai)
+AREA (530,55+mihai)
+AREA (530,85+mihai)
+AREA (539,81+mihai)
+AREAFILL 0
+COLOR 3,0
+AREA (581,59+mihai)
+AREA (590,55+mihai)
+AREA (590,85+mihai)
+AREA (581,81+mihai)
+AREAFILL 0
+NEXT mihai
+LOCATE 18,70
+COLOR 5,6
+PRINT "OK"
+COLOR 5,0
+AREA (550,67)
+AREA (560,62)
+AREA (570,67)
+AREA (565,67)
+AREA (570,70)
+AREA (565,70)
+AREA (565,78)
+AREA (555,78)
+AREA (555,70)
+AREA (550,70)
+AREA (555,67)
+AREAFILL 0
+AREA (570,103)
+AREA (565,103)
+AREA (565,111)
+AREA (555,111)
+AREA (555,103)
+AREA (550,103)
+AREA (560,98)
+AREAFILL 0
+AREA (570,178)
+AREA (565,178)
+AREA (565,170)
+AREA (555,170)
+AREA (555,178)
+AREA (550,178)
+AREA (560,183)
+AREAFILL 0
+AREA (550,213)
+AREA (560,218)
+AREA (570,213)
+AREA (565,213)
+AREA (570,210)
+AREA (565,210)
+AREA (565,202)
+AREA (555,202)
+AREA (555,210)
+AREA (550,210)
+AREA (555,213)
+AREAFILL 0
+LINE (553,212)-(560,216),0
+LINE -(567,212),0
+LINE (553,68)-(560,64),0
+LINE -(567,68),0
+enable%=AskSoftStyle&(WINDOW(8))
+fontName$="times.font"
+height%=23
+style%=0
+prefs%=0
+IF pFont&<>0 THEN CALL CloseFont(pFont&)
+fontName0$=fontName$+CHR$(0)
+textAttr&(0)=SADD(fontName0$)
+textAttr&(1)=height%*65536& + style%*256 + prefs%
+pFont&=OpenDiskFont&(VARPTR(textAttr&(0)))
+IF pFont& <> 0 THEN SetFont WINDOW(8),pFont&
+CloseFont (pFont&)
+SetSoftStyle WINDOW(8),CINT(2),enable%
+LIBRARY CLOSE
+FOR hqw=0 TO misp
+LINE (0,230)-(600,254),0,bf
+CALL FadeIn&(SP&,10&,Clips&+16&)
+LOCATE 11,9-CINT((LEN(no$(hqw))-9)/2)
+COLOR 5,0
+PRINT no$(hqw);
+rt=4
+ert=4
+jatoll:
+IF rt<4 THEN rt=4:IF uzaga=1 THEN sponsa:
+IF 134<rt THEN rt=134:IF uzaga=1 THEN sponsa: 
+LINE (0,0)-(484,229),2,bf
+FOR a=1 TO 10
+uzh=0
+FOR aw=0 TO hqw
+IF na$(aw)=spi$(rt+a-5) THEN uzh=1:aw=hqw
+NEXT aw
+IF ert+1=a THEN LINE (0,(a-1)*23)-(484,a*23-1),4,bf
+rt$=RIGHT$("  "+STR$(rt+a-4),3)
+u$=rt$+"."+spi$(rt+a-5)+CHR$(0)
+y&=(a-1)*23
+IF uzh=1 THEN CALL PrintCB&(WP&,0&,y&,SADD(u$),4&,1&):GOTO aua
+CALL PrintI&(WP&,0&,y&,SADD(u$),7&)
+aua:
+NEXT a
+FOR vvv=0 TO 20:v=MOUSE(0):NEXT vvv:v=0:vv=0:an$=""
+sponsa:
+uzaga=0:v=0:vv=0
+RANDOMIZE TIMER
+IF MOUSE(0)<>0 THEN v=MOUSE(3):vv=MOUSE(4)
+IF v>539 AND v<581 AND vv<81 AND vv>59 THEN w=rt:rt=4:IF rt<>w THEN w=0:GOTO jatoll:
+IF v>539 AND v<581 AND vv<221 AND vv>199 THEN w=rt:rt=134:IF rt<>w THEN w=0:GOTO jatoll:
+IF v>539 AND v<581 AND vv<116 AND vv>94 THEN rt=rt-10:uzaga=1:GOTO jatoll:
+IF v>539 AND v<581 AND vv<186 AND vv>164 THEN rt=rt+10:uzaga=1:GOTO jatoll:
+IF v<485 AND vv<230 AND v>0 AND vv>0 THEN an$=RIGHT$(STR$(INT((vv+1)/23)),1)
+IF v>539 AND v<581 AND vv<151 AND vv>129 THEN
+FOR aw=0 TO hqw
+IF spi$(ert+rt-4)=na$(aw) THEN aw=hqw:kop=1
+NEXT aw
+IF kop<>1 THEN na$(hqw)=spi$(ert+rt-4):GOTO nommen:
+kop=0
+END IF
+IF an$<>"" THEN
+IF VAL(an$)=ert THEN sponsa:
+lop=0
+FOR aw=0 TO hqw
+IF spi$(VAL(an$)+rt-4)=na$(aw) THEN lop=1:aw=hqw
+NEXT aw
+IF lop=1 THEN sponsa
+a=ert+1
+LOCATE a,1
+COLOR 7,2
+FOR aw=0 TO hqw
+IF spi$(rt+a-5)=na$(aw) THEN COLOR 4,2:aw=hqw
+NEXT aw
+PRINT RIGHT$("  "+STR$(rt+a-4),3)"."+spi$(rt+a-5)
+a=0
+ert=VAL(an$)
+a=ert+1
+LOCATE a,1
+COLOR 7,4
+IF rt+a-4<100 THEN PRINT " ";
+IF rt+a-4<10 THEN PRINT " ";
+rt$=MID$(STR$(rt+a-4),2,3)
+PRINT rt$"."spi$(rt+a-5);
+a=0
+END IF
+FOR vvv=0 TO 20:v=MOUSE(0):NEXT vvv:v=0:an$=""
+GOTO sponsa:
+nommen:
+CALL FadeOut&(SP&,10&)
+LINE (0,0)-(484,229),2,bf
+na$(hqw)=spi$(rt-4+ert):nn$(hqw)=na$(hqw)
+kanne(0)=spe&(rt-4+ert,0)
+kanne(1)=spe&(rt-4+ert,1)
+kanne(2)=spe&(rt-4+ert,2)
+IF rt<spieler-1 THEN
+FOR tat=rt-4+ert TO spieler-2
+spi$(tat)=spi$(tat+1)
+FOR gtat=0 TO 2:spe&(tat,gtat)=spe&(tat+1,gtat):NEXT gtat
+NEXT tat
+END IF
+spi$(spieler-1)=na$(hqw):FOR gtat=0 TO 2:spe&(spieler-1,gtat)=kanne(gtat):NEXT gtat
+sac&(hqw,0)=CINT((INT(RND*20)+kanne(0)*.07+kanne(1)*.11+kanne(2)*.27-4)/1.75)  
+sac&(hqw,1)=CINT((INT(RND*20)+kanne(0)*.01+kanne(1)*.15+kanne(2)*.29-4)/1.75)
+sac&(hqw,2)=CINT((INT(RND*20)+kanne(0)*.2+kanne(1)*.2+kanne(2)*.05-4)/1.75)
+sac&(hqw,3)=CINT((INT(RND*20)+kanne(0)*.3+kanne(1)*.12+kanne(2)*.03-4)/1.75)
+sac&(hqw,4)=CINT((INT(RND*20)+kanne(0)*.22+kanne(1)*.17+kanne(2)*.06-4)/1.75)
+sac&(hqw,5)=CINT((INT(RND*20)+kanne(0)*.05+kanne(1)*.15+kanne(2)*.3-4)/1.75)
+sac&(hqw,6)=CINT((INT(RND*20)+kanne(0)*.21+kanne(1)*.16+kanne(2)*.08-4)/1.75)
+sac&(hqw,8)=CINT((INT(RND*20)+kanne(0)*.15+kanne(1)*.15+kanne(2)*.15-4)/1.75)
+sac&(hqw,7)=0:aw=hqw:qw=139
+spe&(qw,0)=INT(sac&(aw,8)*.15+sac&(aw,0)*.07+sac&(aw,1)*.01+sac&(aw,2)*.2+sac&(aw,3)*.3+sac&(aw,4)*.22+sac&(aw,5)*.05+sac&(aw,6)*.21)
+spe&(qw,1)=INT(sac&(aw,8)*.15+sac&(aw,0)*.11+sac&(aw,1)*.15+sac&(aw,2)*.2+sac&(aw,3)*.12+sac&(aw,4)*.17+sac&(aw,5)*.15+sac&(aw,6)*.16)
+spe&(qw,2)=INT(sac&(aw,8)*.15+sac&(aw,0)*.27+sac&(aw,1)*.29+sac&(aw,2)*.05+sac&(aw,3)*.03+sac&(aw,4)*.06+sac&(aw,5)*.3+sac&(aw,6)*.08)
+qw=0:aw=0
+FOR aw=0 TO 20:plt&(aw,hqw)=140:NEXT aw
+ert=0:rt=0
+NEXT hqw
+jahr=1993
+COLOR 1,0:CLS
+CHAIN "Tennis4",5,ALL

@@ -1,0 +1,1101 @@
+RUN "Tennis"
+1 jahr=jahr+1
+turnier=-1
+LIBRARY "/bmaps/graphics.library"
+LIBRARY "diskfont.library"
+LIBRARY "/bmaps/dos.library"
+LIBRARY "/bmaps/exec.library"
+DECLARE FUNCTION xOpen& LIBRARY
+DECLARE FUNCTION AllocMem&() LIBRARY
+DECLARE FUNCTION Examine&() LIBRARY
+DECLARE FUNCTION ExNext&() LIBRARY
+DECLARE FUNCTION Lock&() LIBRARY
+enable%=AskSoftStyle&(WINDOW(8))
+top:
+po=po+1
+IF po=1 THEN a$="Opal.font":hoch=8
+IF po=2 THEN a$="Times.font":hoch=23
+IF po=3 THEN a$="Courier.font":hoch=15
+IF po=4 THEN a$="Courier.font":hoch=24
+IF po=5 THEN a$="Zeit2.font":hoch=8
+IF po=6 THEN a$="Locate.font":hoch=1
+fontName$=a$
+height%=hoch
+style%=0
+prefs%=0
+IF pFont&<>0 THEN CALL closeFont(pFont&)
+fontName0$=fontName$+CHR$(0)
+textAttr&(0)=SADD(fontName0$)
+textAttr&(1)=height%*65536& + style%*256 + prefs%
+pFont&=OpenDiskFont&(VARPTR(textAttr&(0)))
+IF pFont& <> 0 THEN SetFont WINDOW(8),pFont&
+IF po=1 THEN Opal&=pFont&:pFont&=0:GOTO top:
+IF po=2 THEN Times&=pFont&:pFont&=0:GOTO top:
+IF po=3 THEN Courier&=pFont&:pFont&=0:GOTO top:
+IF po=4 THEN gCourier&=pFont&:pFont&=0:GOTO top:
+IF po=5 THEN Zeit2&=pFont&:pFont&=0:GOTO top:
+IF po=6 THEN Ort&=pFont&
+Font Opal&
+IF donjon=1 THEN oldmenu=1:CALL FadeOut&(SP&,10&):CLS:donjon=0:rt$="2":GOTO klaus
+2 IF vona=0 THEN GOSUB neuesjahr
+GOTO sprungmao
+neuesjahr:
+CALL DrawIFF&(SP2&,Kalender&,480,0)
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+CALL PrintCBF&(WP2&,125,128,SADD(RIGHT$(STR$(jahr),4)+CHR$(0)),26,20,gCourier&)
+CALL FadeIn&(SP2&,10,KalenderV&)
+GOSUB klick
+CALL FadeOut&(SP2&,10&)
+sprungmao:
+IF vona=1 THEN GOSUB just:
+vona=1
+CALL FadeOut&(SP&,10&)
+GOTO wende:
+spons:
+CALL DrawIFF&(SP2&,WerbungSehen&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+a&=21:b&=2
+GOSUB ObenName
+CALL PrintCBF&(WP2&,78,60,SADD("Sponsor fuer"+CHR$(0)),19,8,gCourier&)
+CALL PrintCBF&(WP2&,30,93,SADD("Hemdwerbung"+CHR$(0)),13,8,Courier&)
+CALL PrintCB&(WP2&,186,93,SADD("Aermelwerbung"+CHR$(0)),25,3)
+IF werbh$(iw)="" THEN CALL PrintCBF&(WP2&,14,150,SADD("keiner"+CHR$(0)),21,2,Times&)
+IF werba$(iw)="" THEN CALL PrintCBF&(WP2&,174,150,SADD("keiner"+CHR$(0)),19,8,Times&)
+IF werba$(iw)<>"" THEN
+x&=240-LEN(werba$(iw))*4.5
+CALL PrintCBF&(WP2&,x&,125,SADD(werba$(iw)+CHR$(0)),21,2,Courier&)
+yw=CINT((werba(iw)-INT(werba(iw)))*10000)
+yw=yw-INT(yw/100)*100
+yw$="bis"+STR$(INT(werba(iw)))+".Woche"+STR$(yw)
+x&=240-LEN(yw$)*4.5
+CALL PrintCB&(WP2&,x&,155,SADD(yw$+CHR$(0)),25,3)
+yw$="pro Woche"+STR$(INT(werbea&(iw)/(werbda(iw)*52)))+"$"
+x&=240-LEN(yw$)*4.5
+CALL PrintCB&(WP2&,x&,185,SADD(yw$+CHR$(0)),21,2)
+yw$="Dauer"+STR$(werbda(iw)*52)+" Wochen"
+x&=240-LEN(yw$)*4.5
+CALL PrintCB&(WP2&,x&,215,SADD(yw$+CHR$(0)),25,3)
+END IF
+IF werbh$(iw)<>"" THEN
+x&=80-LEN(werbh$(iw))*4.5
+CALL PrintCBF&(WP2&,x&,125,SADD(werbh$(iw)+CHR$(0)),19,8,Courier&)
+yw=CINT((werbh(iw)-INT(werbh(iw)))*10000)
+yw=yw-INT(yw/100)*100
+yw$="bis"+STR$(INT(werbh(iw)))+".Woche"+STR$(yw)
+x&=80-LEN(yw$)*4.5
+CALL PrintCB&(WP2&,x&,155,SADD(yw$+CHR$(0)),13,8)
+yw$="pro Woche"+STR$(INT(werbeh&(iw)/(werbdh(iw)*52)))+"$"
+x&=80-LEN(yw$)*4.5
+CALL PrintCB&(WP2&,x&,185,SADD(yw$+CHR$(0)),19,8)
+yw$="Dauer"+STR$(werbdh(iw)*52)+" Wochen"
+x&=80-LEN(yw$)*4.5
+CALL PrintCB&(WP2&,x&,215,SADD(yw$+CHR$(0)),13,8)
+END IF
+CALL FadeIn&(SP2&,10,WerbungSehenV&)
+GOSUB klick
+CALL FadeOut&(SP2&,10)
+RETURN
+sponsor:
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+werben(iw)=1
+pop&(iw)=140-platz+sac&(iw,8)*.3+spe&(platz,0)+spe&(platz,1)+spe&(platz,2)
+kubik=INT(RND*5)+1
+FOR li=1 TO kubik
+rolan=INT(RND*2)
+IF rolan=0 AND werba$(iw)<>"" THEN lon
+IF rolan=1 AND werbh$(iw)<>"" THEN lon
+CALL DrawIFF&(SP2&,WerbungAushandeln&,480,0)
+a&=31:b&=9
+GOSUB ObenName
+roland=INT(RND*5)
+dauer=(INT(RND*4)+1)*26
+prei&=(RND+.5)*pop&(iw)
+IF rolan=0 THEN
+prei&=(.25+.75*(dauer/26))*prei&*250:IF platz<11 THEN prei&=prei&+(11-paltz)*1000
+x&=160-LEN(fira$(roland))*11
+CALL PrintCBF&(WP2&,x&,60,SADD(fira$(roland)+CHR$(0)),15,8,Times&)
+CALL PrintCBF&(WP2&,20,87,SADD("bietet Vertrag fuer Aermelwerbung"+CHR$(0)),26,12,Courier&)
+END IF
+IF rolan=1 THEN
+prei&=(.25+.75*(dauer/26))*prei&*550:IF platz<11 THEN prei&=prei&+(11-paltz)*2000
+x&=160-LEN(firh$(roland))*11
+CALL PrintCBF&(WP2&,x&,60,SADD(firh$(roland)+CHR$(0)),15,8,Times&)
+CALL PrintCBF&(WP2&,25,87,SADD("bietet Vertrag fuer Hemdwerbung"+CHR$(0)),26,12,Courier&)
+END IF
+CALL PrintCBF&(WP2&,45,105,SADD("ueber"+STR$(prei&)+"$ an!"+CHR$(0)),24,9,gCourier&)
+yw$="Dauer"+STR$(dauer)+" Wochen"
+x&=160-LEN(yw$)*7.5
+CALL PrintCB&(WP2&,x&,132,SADD(yw$+CHR$(0)),31,9)
+CALL PrintCBF&(WP2&,61,173,SADD("Annehmen?"+CHR$(0)),15,8,Times&)
+CALL PrintCB&(WP2&,58,212,SADD("Ja"+CHR$(0)),26,1)
+CALL PrintCB&(WP2&,196,212,SADD("Nein"+CHR$(0)),24,9)
+CALL FadeIn&(SP2&,10,WerbungAushandelnV&)
+WHILE MOUSE(0)<>0:WEND
+ohjes:
+IF MOUSE(0)=0 THEN ohjes
+v=MOUSE(3)
+vv=MOUSE(4)
+IF vv<210 THEN ohjes
+CALL FadeOut&(SP2&,10)
+wq$="j":IF v>160 THEN wq$="n"
+IF wq$="j" THEN
+IF rolan=0 THEN
+werbea&(iw)=prei&:werba(iw)=woche+dauer+jahr/10000
+rust:
+IF werba(iw)>52 THEN werba(iw)=werba(iw)-52+.0001:GOTO rust
+werbda(iw)=dauer/52:werba$(iw)=fira$(roland)
+END IF
+IF rolan=1 THEN
+werbeh&(iw)=prei&:werbh(iw)=woche+dauer+jahr/10000
+ruste:
+IF werbh(iw)>52 THEN werbh(iw)=werbh(iw)-52+.0001:GOTO ruste
+werbdh(iw)=dauer/52:werbh$(iw)=firh$(roland)
+END IF
+END IF
+lon:
+NEXT li
+GOTO auswou:
+money:
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+CALL DrawIFF&(SP2&,Geld&,480,0)
+a&=20:b&=4
+GOSUB ObenName
+CALL PrintCBF&(WP2&,2,50,SADD("Bisher gespielte Turniere:"+CHR$(0)),23,8,Courier&)
+CALL PrintCB&(WP2&,240,50,SADD(RIGHT$("       "+STR$(stpo&(iw)),8)+CHR$(0)),20,4) 
+CALL PrintCB&(WP2&,2,80,SADD("Gewonnene Turniere. . . .:"+CHR$(0)),28,7)
+CALL PrintCB&(WP2&,240,80,SADD(RIGHT$("       "+STR$(ge&(iw)),8)+CHR$(0)),6,2)
+CALL PrintCB&(WP2&,2,110,SADD("Preisgeld insgesamt . . .:"+CHR$(0)),23,8)
+CALL PrintCB&(WP2&,240,110,SADD(RIGHT$("       "+STR$(prg&(iw))+"$",8)+CHR$(0)),20,4)
+CALL PrintCB&(WP2&,2,145,SADD("Momentaner Kontostand . .:"+CHR$(0)),28,7)
+CALL PrintCB&(WP2&,240,145,SADD(RIGHT$("       "+STR$(g&(iw))+"$",8)+CHR$(0)),6,2)
+CALL PrintCB&(WP2&,2,205,SADD("Einnahmen . . . . . . . .:"+CHR$(0)),23,8)
+CALL PrintCB&(WP2&,240,205,SADD(RIGHT$("       "+STR$(ein&(iw))+"$",8)+CHR$(0)),20,4)
+CALL PrintCB&(WP2&,2,235,SADD("Kosten. . . . . . . . . .:"+CHR$(0)),28,7)
+CALL PrintCB&(WP2&,240,235,SADD(RIGHT$("       "+STR$(rico&(iw))+"$",8)+CHR$(0)),6,2)
+CALL PrintCBF&(WP2&,73,185,SADD("Beim letzten Turnier"+CHR$(0)),16,18,Opal&)
+CALL FadeIn&(SP2&,10,GeldV&)
+GOSUB klick
+CALL FadeOut&(SP2&,10&)
+GOTO auswou:
+stats:
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+CALL DrawIFF&(SP2&,MenuStats&,480,0)
+a&=16:b&=18
+GOSUB ObenName
+CALL FadeIn&(SP2&,10,MenuStatsV&)
+WHILE MOUSE(0)<>0:WEND
+oldmenu=-1
+pferd:
+WHILE MOUSE(0)=0
+v=MOUSE(0)
+v=MOUSE(1)/2
+vv=MOUSE(2)
+newmenu=0
+IF v<112 AND vv>67 THEN newmenu=2
+IF v>51 AND v<81 AND vv<57 THEN newmenu=4
+IF v>122 AND vv>87 THEN newmenu=3
+IF v>121 AND v<281 AND vv<70 THEN newmenu=1
+IF newmenu<>oldmenu THEN
+ oldmenu=newmenu
+ LINE (0,247)-(640,272),0,bf
+ IF newmenu=1 THEN yv$="Geldentwicklung"
+ IF newmenu=2 THEN yv$="Weltranglistenplaetze"
+ IF newmenu=3 THEN yv$="Spielerstaerken"
+ IF newmenu=4 THEN yv$="Zurueck zum Hauptmenue"
+ x&=156-LEN(yv$)*4.5
+ IF newmenu>0 THEN CALL PrintCBF&(WP2&,x&,250,SADD(yv$+CHR$(0)),26,5,Courier&)
+END IF
+WEND
+IF oldmenu=4 THEN CALL FadeOut&(SP2&,10):GOTO auswou
+IF oldmenu=1 THEN CALL FadeOut&(SP2&,10):GOTO mone
+IF oldmenu=2 THEN CALL FadeOut&(SP2&,10):GOTO placen
+IF oldmenu=3 THEN CALL FadeOut&(SP2&,10):GOTO strong
+GOTO pferd
+wende:
+woche=woche+1:mde=0
+IF woche>52 THEN
+turnier=-1
+woche=1
+jahr=jahr+1
+GOSUB neuesjahr
+IF jahr=2005 THEN fertig
+END IF
+GOSUB newweek:GOTO sprungdeng
+newweek:
+CALL DrawIFF&(SP2&,Kalender&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+yv$=STR$(woche)
+yv$=RIGHT$(yv$,LEN(yv$)-1)
+x&=83-LEN(yv$)
+CALL PrintCBF&(WP2&,x&,128,SADD(yv$+".Woche"+CHR$(0)),26,20,Times&)
+CALL FadeIn&(SP2&,10,KalenderV&)
+GOSUB klick
+CALL FadeOut&(SP2&,10)
+RETURN
+sprungdeng:
+vw=turnier
+strip:
+IF woc&(turnier+1)=woche THEN
+IF level=2 AND tur&(turnier+1)<420000& THEN arlb:
+turnier=turnier+1:bart=70:GOSUB showm:bart=0:GOTO strip
+END IF
+arlb:
+turnier=vw
+iw=0
+arl:
+FOR sw=0 TO 139:IF nn$(iw)=spi$(sw) THEN qw=sw:sw=139
+NEXT sw
+IF stpo&(iw)<14 AND woche=1 AND level<2 THEN wrang&(qw)=wrang&(qw)/14*stpo&(iw)
+namenom$=LEFT$(nn$(iw),13):IF MID$(namenom$,2,1)="." THEN namenom$=RIGHT$(namenom$,11)
+WHILE RIGHT$(namenom$,1)=" ":namenom$=LEFT$(namenom$,LEN(namenom$)-1):WEND
+IF woche=geburt&(iw) THEN GOSUB Geburtstag:
+FOR wings=0 TO 8
+IF wings=7 THEN
+ IF sac&(iw,wings)>100 THEN sac&(iw,wings)=100
+ IF woche/13=INT(woche/13) AND sac&(iw,wings)>0 THEN sac&(iw,wings)=sac&(iw,wings)-1
+ GOTO ifmitz
+END IF
+sac&(iw,wings)=sac&(iw,wings)+RND*8-4.67+(2005-jahr)/7.5
+ifmitz:
+NEXT wings
+aw=iw
+spe&(qw,0)=INT(sac&(aw,8)*.15+sac&(aw,0)*.07+sac&(aw,1)*.01+sac&(aw,2)*.2+sac&(aw,3)*.3+sac&(aw,4)*.22+sac&(aw,5)*.05+sac&(aw,6)*.21)
+spe&(qw,1)=INT(sac&(aw,8)*.15+sac&(aw,0)*.11+sac&(aw,1)*.15+sac&(aw,2)*.2+sac&(aw,3)*.12+sac&(aw,4)*.17+sac&(aw,5)*.15+sac&(aw,6)*.16)
+spe&(qw,2)=INT(sac&(aw,8)*.15+sac&(aw,0)*.27+sac&(aw,1)*.29+sac&(aw,2)*.05+sac&(aw,3)*.03+sac&(aw,4)*.06+sac&(aw,5)*.3+sac&(aw,6)*.08)
+aw=0
+FOR wings=1 TO 19
+gg&(wings-1,iw)=gg&(wings,iw)
+plt&(wings-1,iw)=plt&(wings,iw)
+spss&(wings-1,iw)=spss&(wings,iw)
+spsh&(wings-1,iw)=spsh&(wings,iw)
+spsr&(wings-1,iw)=spsr&(wings,iw)
+NEXT wings
+v&(iw)=v&(iw)+((2007-jahr)*RND-2.5):IF v&(iw)>100 THEN v&(iw)=100
+plt&(19,iw)=plt&(20,iw)
+spss&(19,iw)=spss&(20,iw)
+spsh&(19,iw)=spsh&(20,iw)
+spsr&(19,iw)=spsr&(20,iw)
+gg&(19,iw)=g&(iw)
+FOR aw=0 TO 139
+IF spi$(aw)=nn$(iw) THEN plt&(20,iw)=aw+1:aw=139
+NEXT aw
+spsr&(20,iw)=spe&(plt&(20,iw)-1,0) 
+spsh&(20,iw)=spe&(plt&(20,iw)-1,1)
+spss&(20,iw)=spe&(plt&(20,iw)-1,2)
+prg&(iw)=prg&(iw)+ein&(iw)
+werben(iw)=0
+IF werbda(iw)<>0 THEN g&(iw)=werbea&(iw)/(werbda(iw)*52)+g&(iw)
+IF werbdh(iw)<>0 THEN g&(iw)=werbeh&(iw)/(werbdh(iw)*52)+g&(iw)
+IF INT(werba(iw))=woche AND jahr=CINT((werba(iw)-INT(werba(iw)))*10000) THEN werba$(iw)="":werba(iw)=0:werbea&(iw)=0:werbda(iw)=0
+IF INT(werbh(iw))=woche AND jahr=CINT((werbh(iw)-INT(werbh(iw)))*10000) THEN werbh$(iw)="":werbh(iw)=0:werbeh&(iw)=0:werbdh(iw)=0
+FOR haw=0 TO 139:IF nn$(iw)=spi$(haw) THEN platz=haw:haw=139
+NEXT haw
+jar(iw)=0:IF geburt&(iw)<>woche THEN auswoui:
+auswou:
+FOR haw=0 TO 139:IF nn$(iw)=spi$(haw) THEN platz=haw:haw=139
+NEXT haw
+auswoui:
+CALL DrawIFF&(SP2&,Menu1&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+a&=16:b&=18
+GOSUB ObenName
+WHILE MOUSE(0)<>0:WEND
+CALL FadeIn&(SP2&,10,Menu1V&)
+kjetg:
+oldmenu=-1
+WHILE MOUSE(0)=0
+v=MOUSE(0)
+v=MOUSE(1)/2
+vv=MOUSE(2)
+newmenu=0
+IF v<116 AND vv<96 THEN newmenu=4
+IF v<140 AND vv>131 THEN newmenu=2
+IF v>182 AND vv>142 THEN newmenu=1
+IF v>228 AND vv<139 THEN newmenu=3
+IF v>116 AND v<226 AND vv<141 THEN newmenu=5
+IF newmenu<>oldmenu THEN
+ oldmenu=newmenu
+ LINE (0,247)-(640,272),0,bf
+ IF newmenu=1 THEN yv$="Disk-Optionen"
+ IF newmenu=2 THEN yv$="Finanzen"
+ IF newmenu=3 THEN yv$="Spieler/Turniere"
+ IF newmenu=4 THEN yv$="Runde beenden"
+ IF newmenu=5 THEN yv$="Statistiken"
+ x&=156-LEN(yv$)*4.5
+ IF newmenu>0 THEN CALL PrintCBF&(WP2&,x&,250,SADD(yv$+CHR$(0)),28,14,Courier&)
+END IF
+WEND
+WHILE MOUSE(0)=0:WEND
+IF oldmenu=1 THEN
+ CALL FadeOut&(SP2&,10&)
+ CALL DrawIFF&(SP2&,MenuDisk&,480,0)
+ a&=16:b&=18
+ GOSUB ObenName
+ WHILE MOUSE(0)<>0:WEND
+ CALL FadeIn&(SP2&,10,MenuDiskV&)
+ kw:
+ oldmenu=-1
+ WHILE MOUSE(0)=0
+ v=MOUSE(0)
+ v=MOUSE(1)/2
+ vv=MOUSE(2)
+ newmenu=0
+ IF v>96 AND vv>105 THEN newmenu=3
+ IF v>117 AND v<148 AND vv<64 THEN newmenu=4
+ IF v>206 AND vv<106 THEN newmenu=1
+ IF v<93 AND vv>94 AND vv<198 THEN newmenu=2
+ IF newmenu<>oldmenu THEN
+  oldmenu=newmenu
+  LINE (0,247)-(640,272),0,bf
+  IF newmenu=1 THEN yv$="Spiel laden"
+  IF newmenu=2 THEN yv$="Spiel sichern"
+  IF newmenu=3 THEN yv$="Spiel/File loeschen"
+  IF newmenu=4 THEN yv$="Zurueck zum Hauptmenue"
+  x&=156-LEN(yv$)*4.5
+  IF newmenu>0 THEN CALL PrintCBF&(WP2&,x&,250,SADD(yv$+CHR$(0)),26,5,Courier&)
+ END IF
+ WEND
+ IF oldmenu=0 THEN kw
+ IF oldmenu=4 THEN CALL FadeOut&(SP2&,10):GOTO auswoui
+ CALL FadeOut&(SP2&,10&)
+ klaus:
+ CALL DrawIFF&(SP2&,Diskette&,480,0)
+ WINDOW OUTPUT 5
+ CALL ForeScreen&(SP2&)
+ blub:
+ CALL PrintCBF&(WP2&,18,128,SADD("Save-Disk einlegen!"+CHR$(0)),30,9,gCourier&)
+ CALL FadeIn&(SP2&,10,DisketteV&)
+ REM CALL WaitDisk&(SADD("TennisManagerSave"+CHR$(0)))
+ CALL FadeOut&(SP2&,10&)
+ anz=0
+ DIM spiel$(85)
+ f$="/saves":a&=AllocMem&(256,65538&)
+ b&=Lock&(SADD(f$+CHR$(0)),-2):IF b&=0 THEN zisch
+ d=Examine&(b&,a&):IF d=0 THEN zisch
+ hen:
+ IF ExNext&(b&,a&)=0 THEN hende
+ d=0:f$="":f=PEEK(a&+8)
+ hfi:
+ IF f=0 OR i&>=50 THEN hfiende
+ f$=f$+CHR$(f):d=d+1:f=PEEK(a&+8+d):GOTO hfi:
+ hfiende:
+ spiel$(anz)=LEFT$(f$,LEN(f$)-1):anz=anz+1:GOTO hen
+ hende:
+ Unlock& b&:Freemem& a&,256
+ IF oldmenu=2 THEN rt$="1":CHAIN "Tennis4",1,ALL
+ IF oldmenu=1 THEN rt$="2":CHAIN "Tennis4",2,ALL
+ IF oldmenu=3 THEN rt$="3":CHAIN "Tennis4",3,ALL
+END IF
+IF oldmenu=2 THEN
+ CALL FadeOut&(SP2&,10&)
+ CALL DrawIFF&(SP2&,MenuGeld&,480,0)
+ a&=16:b&=18
+ GOSUB ObenName
+ WHILE MOUSE(0)<>0:WEND
+ CALL FadeIn&(SP2&,10,MenuGeldV&)
+ nwk:
+ oldmenu=-1
+ WHILE MOUSE(0)=0
+ v=MOUSE(0)
+ v=MOUSE(1)/2
+ vv=MOUSE(2)
+ newmenu=0
+ IF v<136 AND vv>124 THEN newmenu=2
+ IF v>192 AND v<221 AND vv>180 THEN newmenu=4
+ IF v<236 AND v>50 AND vv<104 THEN newmenu=1
+ IF v>189 AND vv>92 AND vv<162 AND werben(iw)=0 THEN IF werbh$(iw)="" OR werba$(iw)="" THEN newmenu=3
+ IF newmenu<>oldmenu THEN
+  oldmenu=newmenu
+  LINE (0,247)-(640,272),0,bf
+  IF newmenu=1 THEN yv$="Werbevertraege ansehen"
+  IF newmenu=2 THEN yv$="Finanzbericht"
+  IF newmenu=3 THEN yv$="Werbevertraege aushandeln"
+  IF newmenu=4 THEN yv$="Zurueck zum Hauptmenue"
+  x&=156-LEN(yv$)*4.5
+  IF newmenu>0 THEN CALL PrintCBF&(WP2&,x&,250,SADD(yv$+CHR$(0)),23,1,Courier&)
+ END IF
+ WEND
+ IF oldmenu=4 THEN CALL FadeOut&(SP2&,10):GOTO auswoui
+ IF oldmenu=1 THEN CALL FadeOut&(SP2&,10):GOSUB spons:GOTO auswou
+ IF oldmenu=2 THEN CALL FadeOut&(SP2&,10):GOTO money
+ IF oldmenu=3 THEN CALL FadeOut&(SP2&,10):GOTO sponsor
+ GOTO nwk
+ END IF
+IF oldmenu=3 THEN
+ CALL FadeOut&(SP2&,10&)
+ CALL DrawIFF&(SP2&,MenuSpieler&,480,0)
+ a&=16:b&=18
+ GOSUB ObenName
+ WHILE MOUSE(0)<>0:WEND
+ CALL FadeIn&(SP2&,10,MenuSpielerV&)
+ jes:
+ oldmenu=-1
+ WHILE MOUSE(0)=0
+ v=MOUSE(0)
+ v=MOUSE(1)/2
+ vv=MOUSE(2)
+ newmenu=0
+ IF v<131 AND vv<111 THEN newmenu=3
+ IF v>110 AND v<140 AND vv>188 THEN newmenu=6
+ IF v>161 AND v<250 AND vv<160 AND woc&(turnier+1)=woche THEN newmenu=5
+ IF v>156 AND vv>167 THEN newmenu=4
+ IF v<57 AND vv>117 THEN newmenu=1
+ IF v>57 AND v<118 AND vv>130 AND vv<163 AND v&(iw)=>0 AND g&(iw)=>15000 AND jar(iw)=0 THEN newmenu=2
+ IF newmenu<>oldmenu THEN
+  oldmenu=newmenu
+  LINE (81,253)-(640,272),0,bf
+  IF newmenu=1 THEN yv$="Die naechsten 10 Turniere"
+  IF newmenu=2 THEN yv$="Trainingslager"
+  IF newmenu=3 THEN yv$="Spielerstaerke"
+  IF newmenu=4 THEN yv$="aktuelle Weltrangliste"
+  IF newmenu=5 THEN yv$="Turnier in dieser Woche"
+  IF newmenu=6 THEN yv$="Zurueck zum Hauptmenue"
+  x&=196-LEN(yv$)*4.5
+  IF newmenu>0 THEN CALL PrintCBF&(WP2&,x&,253,SADD(yv$+CHR$(0)),26,5,Courier&)
+ END IF
+ WEND
+ IF oldmenu=6 THEN CALL FadeOut&(SP2&,10):GOTO auswoui
+ IF oldmenu=5 AND woc&(turnier+1)=woche THEN
+  CALL FadeOut&(SP2&,10)
+  vw=turnier
+  menustrip:
+  IF woc&(turnier+1)=woche THEN turnier=turnier+1:bart=70:GOSUB showm:bart=0:GOTO menustrip
+  turnier=vw
+  GOTO auswou
+ END IF
+ IF oldmenu=1 THEN
+  CALL FadeOut&(SP2&,10)
+  CALL DrawIFF&(SP2&,Stadion&,480,0)
+  a&=16:b&=18
+  GOSUB ObenName
+  FOR usw=1 TO 10:lew=0:IF turnier+usw>45 THEN lew=46
+  IF tura&(turnier+usw-lew)=4 THEN ferb&=29:col1&=28
+  IF tura&(turnier+usw-lew)=1 THEN ferb&=25:col1&=24
+  IF tura&(turnier+usw-lew)=2 THEN ferb&=31:col1&=30
+  IF tura&(turnier+usw-lew)=0 THEN ferb&=27:col1&=26
+  y&=30+usw*21
+  IF level=2 AND tur&(turnier+usw-lew)<420000& THEN dwqf4
+  yv$=tur$(turnier+usw-lew)
+  CALL PrintCBF&(WP2&,2,y&,SADD(yv$+CHR$(0)),ferb&,col1&,Zeit2&)
+  f$=STR$(tur&(turnier+usw-lew)):f$=RIGHT$(SPACE$((8-LEN(f$)))+f$,7)
+  yv$=f$+" $"
+  CALL PrintCB&(WP2&,130,y&,SADD(yv$+CHR$(0)),ferb&,col1&)
+  yv$=RIGHT$(STR$(woc&(turnier+usw-lew)),2)+". Woche"
+  CALL PrintCB&(WP2&,195,y&,SADD(yv$+CHR$(0)),ferb&,col1&)
+  IF tura&(turnier+usw-lew)=0 THEN yv$="Rasenplatz"
+  IF tura&(turnier+usw-lew)=1 THEN yv$=" Hartplatz"
+  IF tura&(turnier+usw-lew)=2 THEN yv$=" Sandplatz"
+  IF tura&(turnier+usw-lew)=4 THEN yv$=" Filzplatz"
+  CALL PrintCB&(WP2&,260,y&,SADD(yv$+CHR$(0)),ferb&,col1&)
+  dwqf4:
+  NEXT usw
+  CALL FadeIn&(SP2&,10,StadionV&)
+  GOSUB klick
+  CALL FadeOut&(SP2&,10)
+  GOTO auswou
+ END IF
+ IF oldmenu=2 AND v&(iw)=>0 AND g&(iw)=>15000 AND jar(iw)=0 THEN CALL FadeOut&(SP2&,10):GOSUB trainiern:GOTO auswou
+ IF oldmenu=3 THEN lks=1:CALL FadeOut&(SP2&,10&):GOTO schmidt
+ IF oldmenu=4 THEN CALL FadeOut&(SP2&,10&):mde=0:GOTO just
+ GOTO jes
+END IF
+IF oldmenu=4 THEN Gogo
+IF oldmenu=5 THEN CALL FadeOut&(SP2&,10):GOTO stats
+GOTO kjetg
+Gogo:
+CALL FadeOut&(SP2&,10)
+IF CINT(iw)<misp THEN iw=iw+1:GOTO arl:
+FOR aw=0 TO misp
+ein&(aw)=0
+rico&(aw)=0
+NEXT aw
+FOR aw=0 TO 139
+spil&(aw)=0:NEXT aw:leck=0
+9 IF woc&(turnier+1)<>woche THEN
+IF leck=0 THEN wende
+GOTO 2
+END IF
+IF level=2 AND tur&(turnier+1)<420000& THEN turnier=turnier+1:GOTO 9
+mde=1:turnier=turnier+1
+CALL DrawIFF&(SP2&,Pokal&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+leck=1:iw=0
+CALL PrintCBF&(WP2&,10,130,SADD("Moment, die Spieler entscheiden sich,"+CHR$(0)),11,4,Opal&)
+CALL PrintCB&(WP2&,0,142,SADD("ob sie beim naechsten Turnier mitspielen"+CHR$(0)),29,20)
+kan=0:b=0:a=0
+CALL FadeIn&(SP2&,10,PokalV&)
+tuna=tura&(turnier)
+IF tuna=4 THEN tuna=0
+FOR a=0 TO 139
+pols=0
+e&(a)=0:IF spil&(a)=0 AND RND/2+spe&(a,tuna)/50+tur&(turnier)/1000000&*((a+61)/60)>1.3 THEN
+FOR aw=0 TO misp
+IF spi$(a)=nn$(aw) AND turnier<>45 THEN aw=misp:pols=1
+NEXT aw
+spil&(a)=1
+IF turnier<>45 THEN wrang&(a)=wrang&(a)-wrang&(a)/wtur&(a):wtur&(a)=19
+IF pols<>1 THEN e&(a)=1:kan=kan+1:IF kan=16 OR kan=8 OR kan=4 OR kan=32 OR kan=64 OR kan=128 THEN b=a-1
+END IF
+IF a=7 AND turnier=45 THEN a=139
+pec:
+NEXT a
+CALL FadeOut&(SP2&,10)
+showm:
+WINDOW OUTPUT 2
+CALL ForeScreen&(SP&)
+COLOR 1,0
+CLS
+LINE (26,10+bart)-(604,46+bart),5,bf
+LINE (32,13+bart)-(598,43+bart),2,bf
+LINE (31,12+bart)-(26,10+bart),1
+LINE (599,44+bart)-(604,46+bart),1
+LINE (599,12+bart)-(604,10+bart),1
+LINE (31,44+bart)-(26,46+bart),1
+LINE (488,53+bart)-(604,85+bart),5,bf
+LINE (494,56+bart)-(598,82+bart),2,bf
+LINE (493,55+bart)-(488,53+bart),1
+LINE (599,83+bart)-(604,85+bart),1
+LINE (599,55+bart)-(604,53+bart),1
+LINE (493,83+bart)-(488,85+bart),1
+pols=0
+IF turnier=45 THEN pols=22
+LINE (26-pols,53+bart)-(208,85+bart),5,bf
+LINE (32-pols,56+bart)-(202,82+bart),2,bf
+LINE (31-pols,55+bart)-(26-pols,53+bart),1
+LINE (31-pols,83+bart)-(26-pols,85+bart),1
+LINE (203,55+bart)-(208,53+bart),1
+LINE (203,83+bart)-(208,85+bart),1
+LINE (228,53+bart)-(468,89+bart),5,bf
+LINE (234,56+bart)-(462,86+bart),2,bf
+LINE (233,55+bart)-(228,53+bart),1
+LINE (233,87+bart)-(228,89+bart),1
+LINE (463,55+bart)-(468,53+bart),1
+LINE (463,87+bart)-(468,89+bart),1
+y&=18+bart
+ter&=INT((550-LEN(tur$(turnier))*22)/2)+40
+CALL PrintCBF&(WP&,ter&,y&,SADD(tur$(turnier)+CHR$(0)),6&,5&,Times&)
+y&=61+bart
+CALL PrintCB&(WP&,502&,y&,SADD(MID$(STR$(jahr),2,4)+CHR$(0)),6&,5&)
+LINE (494,83+bart)-(598,84+bart),5
+ui&=253&:IF tura&(turnier)=0 THEN ui&=242&
+y&=62+bart
+IF tura&(turnier)=0 THEN p1&=4&:p2&=5&:yv$="Rasenplatz"
+IF tura&(turnier)=1 THEN p1&=7&:p2&=6&:yv$="Hartplatz"
+IF tura&(turnier)=2 THEN p1&=3&:p2&=0&:yv$="Sandplatz"
+IF tura&(turnier)=4 THEN p1&=6&:p2&=5&:yv$="Filzplatz"
+CALL PrintCB&(WP&,ui&,y&,SADD(yv$+CHR$(0)),p1&,p2&)
+ui=6
+y&=y&-1
+IF tur&(turnier)<100000& THEN ui=5
+IF tur&(turnier)<10000& THEN ui=4
+x&=40+(6-ui)*11-pols
+IF turnier=45 THEN ui=7
+yv$=MID$(STR$(tur&(turnier)),2,ui)+"$"
+CALL PrintCB&(WP&,x&,y&,SADD(yv$+CHR$(0)),3&,5&)
+LINE (33-pols,83+bart)-(200,84+bart),5
+pols=0:ui=0
+gs=2:IF tur&(turnier)>740000& THEN gs=3
+Font Opal&
+Art 0
+COLOR 3,0
+IF bart>0 THEN CALL FadeIn&(SP&,10&,Clips&+32&):GOSUB klick:CALL FadeOut&(SP&,10):RETURN
+LINE (217,103)-(479,139),5,bf
+LINE (223,106)-(473,136),2,bf
+LINE (222,105)-(217,103),1
+LINE (222,137)-(217,139),1
+LINE (474,105)-(479,103),1
+LINE (474,137)-(479,139),1
+LINE (138,213)-(254,245),5,bf
+LINE (144,216)-(248,242),2,bf
+LINE (378,213)-(493,245),5,bf
+LINE (384,216)-(487,242),2,bf
+CALL PrintCBF&(WP&,152&,221&,SADD(" Ja"+CHR$(0)),7&,6&,Times&)
+CALL PrintCB&(WP&,393&,221&,SADD("Nein"+CHR$(0)),7&,6&)
+LINE (138,243)-(254,243),5
+LINE (379,243)-(493,243),5
+LINE (143,215)-(138,213),1
+LINE (249,243)-(254,245),1
+LINE (249,215)-(254,213),1
+LINE (143,243)-(138,245),1
+LINE (383,215)-(378,213),1
+LINE (489,243)-(494,245),1
+LINE (489,215)-(494,213),1
+LINE (383,243)-(378,245),1
+hfn:
+CALL PrintCB&(WP&,231&,111&,SADD("    Spieler"+CHR$(0)),4&,6&)
+CALL FadeIn&(SP&,10&,Clips&+32&)
+ohj=0:ulmer=0:ulma=0:rico=INT(RND*2000)+1000
+FOR aw=0 TO misp
+ja(aw)=0
+IF turnier=45 THEN hdg
+IF jar(aw)=1 OR v&(aw)<=0 OR g&(aw)<rico THEN
+yv$=LEFT$(nn$(aw),13):IF MID$(yv$,2,1)="." THEN yv$=RIGHT$(yv$,LEN(yv$)-2)
+ulvef:
+IF RIGHT$(yv$,1)=" " THEN yv$=LEFT$(yv$,LEN(yv$)-1):GOTO ulvef
+IF jar(aw)=1 THEN yw$=yv$+" ist in dieser Woche auf Reisen!"
+IF v&(aw)<=0 THEN yw$=yv$+"s Gesundheitszustand ist zu schlecht!"
+IF g&(aw)<rico THEN yw$=yv$+" hat nicht genug Geld, um die Reise zu bezahlen!"
+x&=316&-LEN(yw$)*4.5
+CALL PrintCBF&(WP&,x&,186&,SADD(yw$+CHR$(0)),3&,2&,Courier&)
+GOSUB klick
+GOTO hdg
+END IF
+yv$=LEFT$(nn$(aw),13):IF MID$(yv$,2,1)="." THEN yv$=RIGHT$(yv$,LEN(yv$)-2)
+ulve:
+IF RIGHT$(yv$,1)=" " THEN yv$=LEFT$(yv$,LEN(yv$)-1):GOTO ulve
+x&=316&-LEN(yv$)*4.5
+CALL PrintCBF&(WP&,x&,186&,SADD(yv$+CHR$(0)),3&,2&,Courier&)
+klas:
+FOR a=0 TO 20:v=MOUSE(0):NEXT a:IF v<>0 THEN klas
+detz:
+v=MOUSE(0):IF v=0 THEN detz:
+v=MOUSE(3):vv=MOUSE(4)
+IF v>143 AND v<249 AND vv>215 AND vv<243 THEN jar(aw)=1:g&(aw)=g&(aw)-rico:rico&(aw)=rico:v&(aw)=v&(aw)-RND*8:ohj=1:ja(aw)=1:kan=kan+1:stpo&(aw)=stpo&(aw)+1:GOTO hdg:
+IF v>383 AND v<494 AND vv>215 AND vv<243 THEN hdg:
+GOTO detz:
+hdg:
+LINE (0,185)-(600,202),0,bf
+NEXT aw
+mspieler=4:zumba=1
+IF kan>7 THEN mspieler=mspieler+4:zumba=2
+IF kan>15 THEN mspieler=mspieler+8:zumba=4
+IF kan>31 THEN mspieler=mspieler+16:zumba=16
+IF kan>63 THEN mspieler=mspieler+32
+IF kan>127 THEN mspieler=mspieler+64
+kop=0
+IF mspieler<100 THEN kop=11
+IF mspieler<10 THEN kop=22
+x&=231+kop:kop=0
+CALL PrintCBF&(WP&,x&,111&,SADD(MID$(STR$(kan),2,3)+CHR$(0)),4&,6&,Times&)
+IF ohj=1 THEN detzq
+ulmer=1
+CALL PrintCBF&(WP&,248&,186&,SADD("Turnier ansehen ?"+CHR$(0)),3&,2&,Courier&)
+FOR kop=0 TO 20:v=MOUSE(0):NEXT kop
+detzo:
+v=MOUSE(0):IF v=0 THEN detzo:
+v=MOUSE(3):vv=MOUSE(4)
+IF v>143 AND v<249 AND vv>215 AND vv<243 THEN ulmer=0:ulma=1:GOTO detzq:
+IF v>383 AND v<494 AND vv>215 AND vv<243 THEN detzq:
+GOTO detzo:
+detzq:
+LINE (100,185)-(600,260),0,bf
+GOSUB klick
+CALL FadeOut&(SP&,10&)
+FOR sw=0 TO 126
+erg&(sw)=0
+NEXT sw
+FOR qn=0 TO 126                                       
+FOR qm=0 TO 1
+f&(qn,qm)=0
+NEXT qm,qn
+FOR qw=0 TO Spieler-1
+FOR aw=0 TO misp
+IF nn$(aw)=spi$(qw) THEN
+IF ja(aw)=1 THEN e&(qw)=1:wrang&(qw)=wrang&(qw)-wrang&(qw)/wtur&(qw):wtur&(qw)=19
+END IF
+NEXT aw,qw
+Font Opal&
+COLOR 1,0
+CLS
+random=INT(RND*32000)
+CHAIN "Tennis3",1,ALL
+trainiern: 
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+CLS
+CALL DrawIFF&(SP2&,Lager&,480&,0&)
+Font gCourier&
+IF g&(iw)>100000& THEN machet
+CALL PrintCB&(WP2&,177&,187&,SADD("zu teuer"+CHR$(0)),4&,9&)
+IF g&(iw)>70000& THEN machet
+CALL PrintCB&(WP2&,15&,187&,SADD("zu teuer"+CHR$(0)),4&,9&)
+IF g&(iw)>40000& THEN machet
+CALL PrintCB&(WP2&,177&,63&,SADD("zu teuer"+CHR$(0)),4&,9&)
+machet:
+CALL FadeIn&(SP2&,10&,LagerV&)
+hu:FOR v=0 TO 20:vv=MOUSE(0):NEXT v:IF vv<>0 THEN hu:
+rt$=""
+zug:v=MOUSE(0)
+IF v=0 THEN zug:
+vv=MOUSE(3)
+vvv=MOUSE(4)
+IF vv>277 AND vvv<25 THEN CALL FadeOut&(SP2&,10&):GOTO doitwe
+IF vv<159 AND vvv>30 AND vvv<149 THEN rt$="1":lo&=15000&
+IF vv<159 AND vvv>151 THEN rt$="3":lo&=70000&
+IF vv>161 AND vvv>30 AND vvv<149 THEN rt$="2":lo&=40000&
+IF vv>161 AND vvv>151 THEN rt$="4":lo&=100000&
+IF rt$="" THEN zug:
+IF lo&>g&(iw) THEN zug
+CALL FadeOut&(SP2&,10)
+fact=VAL(rt$)
+g&(iw)=g&(iw)-lo&
+aw=iw:qw=platz:v&(iw)=v&(iw)-RND*8
+spe&(qw,0)=INT(sac&(aw,8)*.15+sac&(aw,0)*.07+sac&(aw,1)*.01+sac&(aw,2)*.2+sac&(aw,3)*.3+sac&(aw,4)*.22+sac&(aw,5)*.05+sac&(aw,6)*.21)
+spe&(qw,1)=INT(sac&(aw,8)*.15+sac&(aw,0)*.11+sac&(aw,1)*.15+sac&(aw,2)*.2+sac&(aw,3)*.12+sac&(aw,4)*.17+sac&(aw,5)*.15+sac&(aw,6)*.16)
+spe&(qw,2)=INT(sac&(aw,8)*.15+sac&(aw,0)*.27+sac&(aw,1)*.29+sac&(aw,2)*.05+sac&(aw,3)*.03+sac&(aw,4)*.06+sac&(aw,5)*.3+sac&(aw,6)*.08)
+klewsa:
+schmidt:
+CALL ForeScreen&(SP&)
+WINDOW OUTPUT 2
+CLS
+Font Ort&
+LOCATE 23,110
+Font Courier&
+Art 2                  
+COLOR 1,2
+rg$=LEFT$(nn$(iw),LEN(nn$(iw))-5)
+ercqw:IF RIGHT$(rg$,1)=" " THEN rg$=LEFT$(rg$,LEN(rg$)-1):GOTO ercqw
+IF lks=1 THEN aw=iw:qw=platz:Font Ort&:LOCATE 23,270:Font Courier&:PRINT rg$
+IF lks=0 THEN
+PRINT " Trainingslager von "rg$" in ";
+IF fact=1 THEN PRINT "Waldstadt "
+IF fact=2 THEN PRINT "Tennis de Bahut "
+IF fact=3 THEN PRINT "Highland"+CHR$(180)+"s Hut "
+IF fact=4 THEN PRINT "Salle d"+CHR$(180)+"Europe "
+col=5
+FOR sk=0 TO 7
+IF sac&(aw,sk)>100 THEN sac&(aw,sk)=100
+NEXT sk
+END IF
+FOR sk=25 TO 217 STEP 32
+LINE (0,sk)-(631,sk+15),3,bf
+LINE (0,sk+16)-(631,sk+31),4,bf
+NEXT sk
+FOR sk=4 TO 20 STEP 2
+y&=24+(sk-4)*8
+IF sk=18 THEN sk=20:GOTO hit:
+IF sk=20 THEN sk=18
+hit:
+CALL PrintCBF&(WP&,150&,y&,SADD(sac$((sk-4)/2)+" :"+CHR$(0)),7&,6&,Courier&)
+IF sk=20 THEN sk=18:GOTO hita:
+IF sk=18 THEN sk=20
+hita:
+NEXT sk
+CALL PrintCB&(WP&,150&,168&,SADD("Gesundheit  . . . . . . :"+CHR$(0)),7&,6&)
+CALL PrintCB&(WP&,150&,184&,SADD("Rasenplatz  . . . . . . :"+CHR$(0)),7&,6&)
+CALL PrintCB&(WP&,150&,200&,SADD("Hartplatz . . . . . . . :"+CHR$(0)),7&,6&)
+CALL PrintCB&(WP&,150&,216&,SADD("Sandplatz . . . . . . . :"+CHR$(0)),7&,6&)
+CALL PrintCB&(WP&,150&,232&,SADD("Filzplatz . . . . . . . :"+CHR$(0)),7&,6&)
+FOR mal=1 TO 5
+FOR sk=25 TO 217 STEP 32
+LINE (400,sk)-(631,sk+15),3,bf
+LINE (400,sk+16)-(631,sk+31),4,bf
+NEXT sk
+FOR sk=4 TO 18 STEP 2
+IF sk/4=INT(sk/4) THEN isrli&=4
+IF sk/4<>INT(sk/4) THEN isrli&=3
+y&=25+(sk-4)*8
+IF sk=18 THEN sk=20
+yv$=""
+IF sac&(aw,(sk-4)/2)<100 THEN yv$=" "
+IF sac&(aw,(sk-4)/2)<10 THEN yv$="  "
+yv$=yv$+STR$(sac&(aw,(sk-4)/2))+"%"
+CALL PrintCB&(WP&,401&,y&,SADD(yv$+CHR$(0)),2&,7&)
+IF sk>18 THEN sk=18
+NEXT sk
+yv$=""
+IF sac&(aw,7)<100 THEN yv$=" "
+IF sac&(aw,7)<10 THEN yv$="  "
+yv$=yv$+STR$(sac&(aw,7))+"%"
+CALL PrintCB&(WP&,401&,153&,SADD(yv$+CHR$(0)),2&,7&)
+yv$=""
+IF v&(aw)<0 THEN yv$="verletzt"
+IF v&(aw)=>0 THEN
+IF v&(aw)<100 THEN yv$=" "
+IF v&(aw)<10 THEN yv$="  "
+yv$=yv$+STR$(v&(aw))+"%"
+END IF
+CALL PrintCB&(WP&,401&,169&,SADD(yv$+CHR$(0)),2&,7&)
+yv$=""
+IF spe&(qw,0)<100 THEN yv$=" "
+IF spe&(qw,0)<10 THEN yv$="  "
+yv$=yv$+STR$(spe&(qw,0))+"%"
+CALL PrintCB&(WP&,401&,185&,SADD(yv$+CHR$(0)),2&,7&)
+yv$=""
+IF spe&(qw,1)<100 THEN yv$=" "
+IF spe&(qw,1)<10 THEN yv$="  "
+yv$=yv$+STR$(spe&(qw,1))+"%"
+CALL PrintCB&(WP&,401&,201&,SADD(yv$+CHR$(0)),2&,7&)
+yv$=""
+IF spe&(qw,2)<100 THEN yv$=" "
+IF spe&(qw,2)<10 THEN yv$="  "
+yv$=yv$+STR$(spe&(qw,2))+"%"
+CALL PrintCB&(WP&,401&,217&,SADD(yv$+CHR$(0)),2&,7&)
+yv$=""
+IF spe&(qw,0)<100 THEN yv$=" "
+IF spe&(qw,0)<10 THEN yv$="  "
+yv$=yv$+STR$(spe&(qw,0))+"%"
+CALL PrintCB&(WP&,401&,233&,SADD(yv$+CHR$(0)),2&,7&)
+IF lks=1 THEN CALL FadeIn&(SP&,10&,Clips&+32&):lks=0:GOSUB klick:Font Opal&:CALL FadeOut&(SP&,10):COLOR 1,0:GOTO auswou:
+obbes:
+FOR ew=0 TO 20:v=MOUSE(0):NEXT ew:IF v<>0 THEN obbes:
+CALL FadeIn&(SP&,10&,Clips&+32&)
+devpac:
+v=MOUSE(0):IF v=0 THEN devpac:
+vv=MOUSE(4)
+IF vv<25 OR vv>153 THEN devpac:
+h=INT((vv-25)/16)
+IF h=7 THEN h=8
+sac&(aw,h)=sac&(aw,h)+INT(RND*fact*1.5+.1)+fact
+spe&(qw,0)=INT(sac&(aw,8)*.15+sac&(aw,0)*.07+sac&(aw,1)*.01+sac&(aw,2)*.2+sac&(aw,3)*.3+sac&(aw,4)*.22+sac&(aw,5)*.05+sac&(aw,6)*.21)
+spe&(qw,1)=INT(sac&(aw,8)*.15+sac&(aw,0)*.11+sac&(aw,1)*.15+sac&(aw,2)*.2+sac&(aw,3)*.12+sac&(aw,4)*.17+sac&(aw,5)*.15+sac&(aw,6)*.16)
+spe&(qw,2)=INT(sac&(aw,8)*.15+sac&(aw,0)*.27+sac&(aw,1)*.29+sac&(aw,2)*.05+sac&(aw,3)*.03+sac&(aw,4)*.06+sac&(aw,5)*.3+sac&(aw,6)*.08)
+IF spe&(qw,2)>100 THEN spe&(qw,2)=100
+CALL FadeOut&(SP&,10&)
+NEXT mal
+jar(iw)=1:aw=0:qw=0:COLOR 1,0
+Font Opal&
+doitwe:RETURN
+ObenName:
+x&=160-LEN(namenom$)*11
+CALL PrintCBF&(WP2&,x&,11,SADD(namenom$+CHR$(0)),a&,b&,Times&)
+RETURN
+SUB Art(num%) STATIC
+num%=CINT(num%)
+SHARED enable%
+SetSoftStyle WINDOW(8),num%,enable%
+END SUB
+SUB Font(bum&) STATIC
+SetFont WINDOW(8),bum&
+END SUB
+just:        
+CHAIN "Tennis8",1,ALL
+12 IF mde=1 THEN wende:
+mde=1:CLS:GOTO auswou
+klick:FOR helks=0 TO 20:v=MOUSE(0):NEXT helks:IF v<>0 THEN klick
+IF ulmer=1 THEN turm:
+gemd:
+RANDOMIZE TIMER
+IF MOUSE(0)=0 THEN gemd:
+turm:
+RETURN
+mone:
+CALL ForeScreen&(SP&)
+WINDOW OUTPUT 2
+COLOR 1,0
+CLS
+LINE (256,15)-(362,43),2,bf
+COLOR 3,3
+AREA (256,43)
+AREA (276,53)
+AREA (382,53)
+AREA (363,43)
+AREAFILL 0
+COLOR 6,6
+AREA (382,26)
+AREA (363,15)
+AREA (363,43)
+AREA (382,53)
+AREAFILL 0
+CALL PrintCBF&(WP&,266&,21&,SADD("Geld"+CHR$(0)),7&,5&,Times&)
+LINE (256,15)-(362,43),1,b
+logo=0
+FOR wing=0 TO 18
+IF gg&(wing,iw)>300000& THEN logo=1
+NEXT wing
+IF g&(iw)>300000& THEN logo=1
+LINE (80,80)-(560,230),4,bf
+monach=21
+yv$=""
+FOR wing=80 TO 560 STEP 24
+monach=monach-1
+LINE (wing,81)-(wing,233),1
+IF monach<10 THEN yv$=yv$+" "
+IF monach=9 THEN
+CALL PrintCBF&(WP&,72&,237&,SADD(yv$+CHR$(0)),3&,6&,Opal&)
+yv$=""
+END IF
+yv$=yv$+MID$(STR$(monach),2,2)+" "
+NEXT wing
+CALL PrintCB&(WP&,341&,237&,SADD(yv$+CHR$(0)),3&,6&)
+FOR wing=230 TO 80 STEP -10
+LINE (70,wing)-(560,wing),1
+y&=wing-3
+x&=9-logo*8
+kol=(230-wing)*(logo*28000+2000)
+yv$=""
+IF kol<1000000& AND logo=1 THEN yv$=yv$+" "
+yv$=yv$+RIGHT$("      "+STR$(kol),7)
+CALL PrintCB&(WP&,x&,y&,SADD(yv$+CHR$(0)),3&,6&)
+NEXT wing
+kol=0
+CALL PrintCB&(WP&,25&,61&,SADD("Geld"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,581&,220&,SADD("Vor x"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,577&,230&,SADD("Wochen"+CHR$(0)),5&,7&)
+LINE (560,230-CINT(g&(iw)/(logo*28000+2000)))-(536,230-CINT(gg&(19,iw)/(logo*28000+2000))),7
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,230-CINT(gg&(wing,iw)/(logo*28000+2000))),7  
+NEXT wing
+CALL FadeIn&(SP&,10&,Clips&+48&)
+GOSUB klick
+logo=0
+CALL FadeOut&(SP&,10&)
+COLOR 1,0
+CLS
+GOTO auswou:
+strong:
+CALL ForeScreen&(SP&)
+WINDOW OUTPUT 2
+COLOR 1,0
+CLS
+LINE (168,15)-(450,43),2,bf
+COLOR 3,3
+AREA (168,43)
+AREA (188,53)
+AREA (470,53)
+AREA (451,43)
+AREAFILL 0
+COLOR 6,6
+AREA (470,26)
+AREA (451,15)
+AREA (451,43)
+AREA (470,53)
+AREAFILL 0
+CALL PrintCBF&(WP&,178&,20&,SADD("Spielstaerke"+CHR$(0)),7&,5&,Times&)
+LINE (168,15)-(450,43),1,b
+LINE (80,80)-(560,230),5,bf
+monach=21
+yv$=""
+FOR wing=80 TO 560 STEP 24
+monach=monach-1
+LINE (wing,81)-(wing,233),1
+IF monach<10 THEN yv$=yv$+" "
+IF monach=9 THEN
+CALL PrintCBF&(WP&,72&,237&,SADD(yv$+CHR$(0)),3&,6&,Opal&)
+yv$=""
+END IF
+yv$=yv$+MID$(STR$(monach),2,2)+" "
+NEXT wing
+CALL PrintCB&(WP&,341&,237&,SADD(yv$+CHR$(0)),3&,6&)
+FOR wing=230 TO 80 STEP -15
+LINE (70,wing)-(560,wing),1
+y&=wing-3
+yv$=""
+kol=(230-wing)/1.5
+IF kol<100 THEN yv$=" "
+IF kol<10 THEN yv$="  "
+yv$=yv$+MID$(STR$(kol),2,3)+"%"
+CALL PrintCB&(WP&,33&,y&,SADD(yv$+CHR$(0)),3&,6&)
+NEXT wing
+kol=0
+CALL PrintCB&(WP&,587&,99&,SADD("auf"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,579&,111&,SADD("Sand-"+CHR$(0)),0&,3&)
+CALL PrintCB&(WP&,579&,121&,SADD("Hart-"+CHR$(0)),7&,5&)
+CALL PrintCB&(WP&,579&,131&,SADD("Filz-"+CHR$(0)),4&,6&)
+CALL PrintCB&(WP&,583&,139&,SADD("oder"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,576&,147&,SADD("Rasen-"+CHR$(0)),4&,6&)
+CALL PrintCB&(WP&,579&,162&,SADD("platz"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,13&,61&,SADD("Prozent"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,581&,220&,SADD("Vor x"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,577&,230&,SADD("Wochen"+CHR$(0)),5&,7&)
+LINE (560,230-CINT(spss&(20,iw)*1.5))-(536,230-CINT(spss&(19,iw)*1.5)),0
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,230-CINT(spss&(wing,iw)*1.5)),0
+NEXT wing
+LINE (560,230-CINT(spsh&(20,iw)*1.5))-(536,230-CINT(spsh&(19,iw)*1.5)),7
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,230-CINT(spsh&(wing,iw)*1.5)),7
+NEXT wing
+LINE (560,230-CINT(spsr&(20,iw)*1.5))-(536,230-CINT(spsr&(19,iw)*1.5)),4
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,230-CINT(spsr&(wing,iw)*1.5)),4
+NEXT wing
+CALL FadeIn&(SP&,10&,Clips&+48&)
+GOSUB klick
+CALL FadeOut&(SP&,10&)
+COLOR 1,0
+GOTO auswou
+placen:
+CALL ForeScreen&(SP&)
+WINDOW OUTPUT 2
+COLOR 1,0
+CLS
+LINE (91,15)-(527,43),2,bf
+COLOR 3,3
+AREA (91,43)
+AREA (111,53)
+AREA (547,53)
+AREA (528,43)
+AREAFILL 0
+COLOR 6,6
+AREA (547,26)
+AREA (528,15)
+AREA (528,43)
+AREA (547,53)
+AREAFILL 0
+CALL PrintCBF&(WP&,101&,19&,SADD("Weltranglistenplatz"+CHR$(0)),7&,5&,Times&)
+LINE (91,15)-(527,43),1,b
+LINE (80,81)-(560,220),4,bf
+monach=21
+yv$=""
+FOR wing=80 TO 560 STEP 24
+monach=monach-1
+LINE (wing,81)-(wing,233),1
+IF monach<10 THEN yv$=yv$+" "
+IF monach=9 THEN
+CALL PrintCBF&(WP&,72&,227&,SADD(yv$+CHR$(0)),3&,6&,Opal&)
+yv$=""
+END IF
+yv$=yv$+MID$(STR$(monach),2,2)+" "
+NEXT wing
+CALL PrintCB&(WP&,341&,227&,SADD(yv$+CHR$(0)),3&,6&)
+FOR wing=220 TO 80 STEP -10
+IF wing=80 THEN wing=81
+LINE (70,wing)-(560,wing),1
+IF wing=81 THEN wing=80
+y&=wing-2
+kol=wing-80
+yv$=""
+IF kol<100 THEN yv$=" "
+IF kol<10 THEN yv$="  "
+IF kol=0 THEN kol=1
+yv$=yv$+MID$(STR$(kol),2,3)
+CALL PrintCB&(WP&,41&,y&,SADD(yv$+CHR$(0)),3&,6&)
+NEXT wing
+kol=0
+CALL PrintCB&(WP&,21&,61&,SADD("Platz"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,581&,220&,SADD("Vor x"+CHR$(0)),5&,7&)
+CALL PrintCB&(WP&,577&,230&,SADD("Wochen"+CHR$(0)),5&,7&)
+LINE (560,80+plt&(20,iw))-(536,80+plt&(19,iw)),7
+FOR wing=18 TO 0 STEP -1
+LINE -(CINT(24*wing)+80,80+plt&(wing,iw)),7  
+NEXT wing
+CALL FadeIn&(SP&,10&,Clips&+48&)
+GOSUB klick
+CALL FadeOut&(SP&,10&)
+COLOR 1,0
+GOTO auswou
+17 h&=xOpen&(SADD("NIL:"+CHR$(0)),1005)
+a&=SADD("/commands/PhoyhTracker /music/Winner -o"+CHR$(0))
+CALL FadeIn&(SP2&,10,TurniersiegV&)
+Execute a&,0,h&
+CHAIN "Tennis3",17,ALL
+3 GOSUB sprungdeng
+vw=turnier
+strips:
+IF woc&(turnier+1)=woche THEN turnier=turnier+1:bart=70:GOSUB showm:bart=0:GOTO strips
+turnier=vw
+GOTO auswou
+fertig:
+SYSTEM
+Geburtstag:
+CALL DrawIFF&(SP2&,Happy&,480,0)
+CALL ForeScreen&(SP2&)
+WINDOW OUTPUT 5
+x&=160-LEN(namenom$)*11
+CALL PrintCBF&(WP2&,x&,105,SADD(namenom$+CHR$(0)),3,11,Times&)
+CALL PrintCBF&(WP2&,42,155,SADD("ist"+STR$(jahr-1975)+" Jahre alt geworden!"+CHR$(0)),11,3,Courier&)
+h&=xOpen&(SADD("NIL:"+CHR$(0)),1005)
+a&=SADD("/commands/PhoyhTracker /music/Geburtstag -o"+CHR$(0))
+CALL FadeIn&(SP2&,10,HappyV&)
+Execute a&,0,h&
+CALL FadeOut&(SP2&,10)
+RETURN

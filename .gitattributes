@@ -1,0 +1,6 @@
+asm-libs linguist-generated
+bmaps linguist-vendored
+commands linguist-vendored
+saves linguist-generated
+src/* linguist-language=BASIC
+src-tokenized/* linguist-generated

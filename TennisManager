@@ -1,0 +1,4 @@
+setprefs config/system-configuration
+cd src-tokenized
+; subfolder needed for relative pathes during assembly and runtime (/pics/...)
+Basic:amigabasic Tennis

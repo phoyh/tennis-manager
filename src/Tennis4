@@ -1,0 +1,196 @@
+RUN "Tennis"
+zisch:
+WINDOW OUTPUT 2
+CALL ForeScreen&(SP&)
+IF anz>1 THEN
+FOR gh=0 TO anz-2
+IF UCASE$(spiel$(gh))>UCASE$(spiel$(gh+1)) THEN SWAP spiel$(gh),spiel$(gh+1):gh=gh-2
+IF gh<-1 THEN gh=-1
+NEXT gh
+END IF
+rub=0
+hamb:IF rub<0 THEN rub=0
+IF spiel$(rub)="" AND rub>0 THEN rub=rub-1:GOTO hamb:
+CLS
+COLOR 1,0
+IF cr=1 THEN LOCATE 15,50:PRINT "Neuer Name:"
+CALL PrintCBF&(WP&,480,200,SADD("zurueck"+CHR$(0)),3,1,gCourier&)
+CALL PrintIF&(WP&,0,0,SADD(CHR$(0)),0,Opal&)
+LINE (6,6)-(281,241),3,b:COLOR 5,0
+FOR gh=0+rub TO 29+rub:LOCATE gh+2,2:PRINT spiel$(gh)
+NEXT gh
+WHILE MOUSE(0)<>0:WEND
+CALL FadeIn&(SP&,10&,Clips&)
+zub:IF MOUSE(0)=0 THEN zub:
+v=MOUSE(3)
+vv=MOUSE(4)
+IF v>480 AND vv>200 THEN CALL FadeOut&(SP&,10):ERASE spiel$:GOTO goinback
+IF v>392 AND v<472 AND vv>112 AND vv<120 AND cr=1 THEN
+LOCATE 17,50
+hanb:INPUT "Name:",nae$
+IF LEN(nae$)>30 THEN LOCATE 17,50:PRINT "                              ":GOTO hanb
+CALL FadeOut&(SP&,10)
+cr=0
+ERASE spiel$
+RETURN
+END IF
+IF v>7 AND v<280 THEN
+IF vv<7 THEN rub=rub-30:CALL FadeOut&(SP&,10&):GOTO hamb:
+IF vv>240 THEN rub=rub+30:CALL FadeOut&(SP&,10&):GOTO hamb:
+vvv=INT(vv/8)+rub-1
+IF spiel$(vvv)="" THEN zub:
+nae$=spiel$(vvv)
+CALL FadeOut&(SP&,10&)
+ERASE spiel$
+RETURN
+END IF
+GOTO zub:
+3 GOSUB zisch
+KILL "/saves/"+nae$+"p"
+goinback:
+CALL DrawIFF&(SP2&,Diskette&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+CALL PrintCBF&(WP2&,18,128,SADD("Main-Disk einlegen!"+CHR$(0)),30,9,gCourier&)
+CALL FadeIn&(SP2&,10,DisketteV&)
+REM CALL WaitDisk&(SADD("TennisManager"+CHR$(0)))
+CALL FadeOut&(SP2&,10&)
+CHAIN "Tennis2",3,ALL
+1 cr=1
+GOSUB zisch
+OPEN "/saves/"+nae$+"p" FOR OUTPUT AS #1
+PRINT #1,CHR$(misp);
+PRINT #1,turnier
+PRINT #1,CHR$(spieler);
+PRINT #1,CHR$(iw);
+PRINT #1,MKI$(rico);
+PRINT #1,jahr
+PRINT #1,CHR$(woche);
+PRINT #1,level
+FOR aw=0 TO misp
+PRINT #1,MKL$(stpo&(aw));
+PRINT #1,MKL$(geburt&(aw));
+PRINT #1,no$(aw)
+PRINT #1,MKL$(v&(aw));
+PRINT #1,CHR$(ja(aw));
+PRINT #1,CHR$(jar(aw));
+PRINT #1,CHR$(werben(aw));
+PRINT #1,na$(aw)
+PRINT #1,nn$(aw)
+PRINT #1,MKL$(pop&(aw));
+PRINT #1,werba(aw)
+PRINT #1,MKL$(werbea&(aw));
+PRINT #1,werba$(aw)
+PRINT #1,werbh$(aw)
+PRINT #1,MKL$(ein&(aw));
+PRINT #1,MKL$(g&(aw));
+PRINT #1,MKL$(prg&(aw));
+PRINT #1,MKL$(spss&(20,aw));
+PRINT #1,MKL$(spsh&(20,aw));
+PRINT #1,MKL$(spsr&(20,aw));
+PRINT #1,MKL$(plt&(20,aw));
+PRINT #1,werbdh(aw)
+PRINT #1,werbh(aw)
+PRINT #1,MKL$(werbeh&(aw));
+PRINT #1,werbda(aw)
+PRINT #1,MKL$(ge&(aw));
+FOR kaw=0 TO 8
+PRINT #1,MKL$(sac&(aw,kaw));
+NEXT kaw
+FOR kaw=0 TO 19
+PRINT #1,MKL$(spss&(kaw,aw));
+PRINT #1,MKL$(spsh&(kaw,aw));
+PRINT #1,MKL$(spsr&(kaw,aw));
+PRINT #1,MKL$(gg&(kaw,aw));
+PRINT #1,MKL$(plt&(kaw,aw));
+NEXT kaw
+NEXT aw
+FOR aw=0 TO 139
+PRINT #1,MKL$(e&(aw));
+PRINT #1,MKL$(wtur&(aw));
+PRINT #1,spi$(aw)
+PRINT #1,MKL$(wrang&(aw));
+FOR kaw=0 TO 2
+PRINT #1,MKL$(spe&(aw,kaw));
+NEXT kaw
+NEXT aw
+CLOSE 1
+CALL DrawIFF&(SP2&,Diskette&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+CALL PrintCBF&(WP2&,18,128,SADD("Main-Disk einlegen!"+CHR$(0)),30,9,gCourier&)
+CALL FadeIn&(SP2&,10,DisketteV&)
+REM CALL WaitDisk&(SADD("TennisManager"+CHR$(0)))
+CALL FadeOut&(SP2&,10&)
+CHAIN "Tennis2",3,ALL
+2 GOSUB zisch:
+OPEN "/saves/"+nae$+"p" FOR INPUT AS #1
+misp=ASC(INPUT$(1,1))
+ERASE stpo&,geburt&,no$,v&,werbh,werbda,ge&,sac&,pop&,werba,werbea&,werba$,werbh$,ein&,g&,gg&,prg&,spss&,spsh&,spsr&,plt&,werbdh,werbeh&
+DIM werbh(misp),werbda(misp),ge&(misp),spss&(20,misp),spsr&(20,misp),spsh&(20,misp)
+DIM werba(misp),werbea&(misp),werba$(misp),werbh$(misp),ein&(misp),g&(misp),prg&(misp)
+DIM stpo&(misp),geburt&(misp),no$(misp),v&(misp),plt&(20,misp),werbdh(misp),werbeh&(misp),sac&(misp,8),gg&(19,misp)
+INPUT #1,turnier
+spieler=ASC(INPUT$(1,1))
+iw=ASC(INPUT$(1,1))
+rico=CVI(INPUT$(2,1))
+INPUT #1,jahr
+woche=ASC(INPUT$(1,1))
+INPUT #1,level
+FOR aw=0 TO misp
+stpo&(aw)=CVL(INPUT$(4,1))
+geburt&(aw)=CVL(INPUT$(4,1))
+INPUT #1,no$(aw)
+v&(aw)=CVL(INPUT$(4,1))
+ja(aw)=ASC(INPUT$(1,1))
+jar(aw)=ASC(INPUT$(1,1))
+werben(aw)=ASC(INPUT$(1,1))
+INPUT #1,na$(aw)
+INPUT #1,nn$(aw)
+pop&(aw)=CVL(INPUT$(4,1))
+INPUT #1,werba(aw)
+werbea&(aw)=CVL(INPUT$(4,1))
+INPUT #1,werba$(aw)
+INPUT #1,werbh$(aw)
+ein&(aw)=CVL(INPUT$(4,1))
+g&(aw)=CVL(INPUT$(4,1))
+prg&(aw)=CVL(INPUT$(4,1))
+spss&(20,aw)=CVL(INPUT$(4,1))
+spsh&(20,aw)=CVL(INPUT$(4,1))
+spsr&(20,aw)=CVL(INPUT$(4,1))
+plt&(20,aw)=CVL(INPUT$(4,1))
+INPUT #1,werbdh(aw)
+INPUT #1,werbh(aw)
+werbeh&(aw)=CVL(INPUT$(4,1))
+INPUT #1,werbda(aw)
+ge&(aw)=CVL(INPUT$(4,1))
+FOR kaw=0 TO 8
+sac&(aw,kaw)=CVL(INPUT$(4,1))
+NEXT kaw
+FOR kaw=0 TO 19
+spss&(kaw,aw)=CVL(INPUT$(4,1))
+spsh&(kaw,aw)=CVL(INPUT$(4,1))
+spsr&(kaw,aw)=CVL(INPUT$(4,1))
+gg&(kaw,aw)=CVL(INPUT$(4,1))
+plt&(kaw,aw)=CVL(INPUT$(4,1))
+NEXT kaw
+NEXT aw
+FOR aw=0 TO 139
+e&(aw)=CVL(INPUT$(4,1))
+wtur&(aw)=CVL(INPUT$(4,1))
+INPUT #1,spi$(aw)
+wrang&(aw)=CVL(INPUT$(4,1))
+FOR kaw=0 TO 2
+spe&(aw,kaw)=CVL(INPUT$(4,1))
+NEXT kaw
+NEXT aw
+CLOSE 1
+CALL DrawIFF&(SP2&,Diskette&,480,0)
+WINDOW OUTPUT 5
+CALL ForeScreen&(SP2&)
+CALL PrintCBF&(WP2&,18,128,SADD("Main-Disk einlegen!"+CHR$(0)),30,9,gCourier&)
+CALL FadeIn&(SP2&,10,DisketteV&)
+REM CALL WaitDisk&(SADD("TennisManager"+CHR$(0)))
+CALL FadeOut&(SP2&,10&)
+CHAIN "Tennis2",3,ALL
+5 CHAIN "Tennis2",1,ALL
