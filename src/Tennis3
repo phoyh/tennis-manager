@@ -44,7 +44,7 @@ IF mspi$(p)<>"" THEN jbvr
 olde=olde+1
 mspi$(p)=spi$(sw):rang&(p)=sw+1:mspis(p)=spis(sw)*spe&(sw,tuna)/50
 FOR aw=0 TO misp
-IF mspi$(p)=nn$(aw) THEN mspis(p)=(spe&(sw,tuna)/50+(150-sw)/500)*level
+IF mspi$(p)=nn$(aw) THEN mspis(p)=(spe&(sw,tuna)/50+(150-sw)/500)*2
 NEXT aw
 IF olde=quali THEN sw=0
 schit:
@@ -157,7 +157,7 @@ IF spi$(sw)=nn$(aw) THEN number=aw:aw=misp:has=1
 NEXT aw
 rang&(a)=sw+1:IF turnier<>45 THEN wtur&(sw)=wtur&(sw)+1       
 mspi$(a)=MID$(spi$(sw),1,17)+"/"+a$+")":mspis(a)=spis(sw)*spe&(sw,tuna)/50
-IF has=1 THEN mspis(a)=(spe&(sw,tuna)/50+(150-sw)/500)*level/1.5:has=0:na$(number)=mspi$(a):ein&(number)=tur&(turnier)/mspieler:number=0
+IF has=1 THEN mspis(a)=(spe&(sw,tuna)/50+(150-sw)/500)*2/1.5:has=0:na$(number)=mspi$(a):ein&(number)=tur&(turnier)/mspieler:number=0
 molk=molk+1:IF molk=zumba THEN sqa=sw:sw=139  
 wasdenn:
 NEXT sw
@@ -167,14 +167,14 @@ baq:
 a=INT(RND*mspieler):IF mspi$(a)<>"" THEN baq:
 mspi$(a)=spi$(sw):mspis(a)=spis(sw)*spe&(sw,tuna)/50:rang&(a)=sw+1:wtur&(sw)=wtur&(sw)+1
 aw=0:FOR aw=0 TO misp
-IF spi$(sw)=nn$(aw) THEN mspis(a)=(spe&(sw,tuna)/50+(150-sw)/500)*level:ein&(number)=tur&(turnier)/mspieler
+IF spi$(sw)=nn$(aw) THEN mspis(a)=(spe&(sw,tuna)/50+(150-sw)/500)*2:ein&(number)=tur&(turnier)/mspieler
 NEXT aw
 molk=molk+1:IF molk=mspieler THEN sw=139
 wasdenna:
 NEXT sw
 FOR sw=0 TO 127
 aw=0:FOR aw=0 TO misp
-IF mspi$(sw)=na$(aw) THEN mspis(sw)=(spe&(rang&(sw)-1,tuna)/100+(150-rang&(sw)+1)/500)*level/1.5
+IF mspi$(sw)=na$(aw) THEN mspis(sw)=(spe&(rang&(sw)-1,tuna)/100+(150-rang&(sw)+1)/500)*2/1.5
 NEXT aw,sw
 spi=mspieler*2
 sb=0

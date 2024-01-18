@@ -29,20 +29,28 @@ The game language is *German* - but you only need to know some key words in orde
 
 The game is completely written in [AmigaBASIC](https://en.wikipedia.org/wiki/Amiga_Basic). Its source code (both [ASCII](https://en.wikipedia.org/wiki/ASCII) and [tokenized](https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization)) is also provided and can be run from the [IDE](https://en.wikipedia.org/wiki/Integrated_development_environment). The point of entry is `src-tokenized/Tennis`, but be sure to reside in the `src-tokenized` directory.
 
+# 1992 Version
+
+The first version is also included in `v1992`. It is restricted to AmigaBASIC and, thus, foregos any of later performance improvements and rich assets. Further points to note:
+* Calculating ranks takes very long, especially after the first tournament. This is not only due to AmigaBASIC but also caused by the [Bubble Sort](https://en.wikipedia.org/wiki/Bubble_sort) in `Tennis6`'s `dadadadd`.
+* Only parts could be recovered - the rest (`Tennis0`, `Tennis3` and parts of `Tennis2`) is lost on bad [2DD](https://en.wikipedia.org/wiki/List_of_floppy_disk_formats) blocks. Hence, this version cannot be run.
+
 # Trivia
 
 * *Assembly subroutines:* The game is significantly sped up by using dedicated [Assembly](https://en.wikipedia.org/wiki/Assembly_language) subroutines. Their sources are found [here](https://github.com/phoyh/misc-asm-68k-amiga-ocs).
 * *Split program:* AmigaBASIC has a limit on the program size. It can only be raised by some degree using `CLEAR`. Hence, the program is split into several parts:
 	* [`Tennis`](src/Tennis): Entry point including the `CLEAR`.
 	* [`Tennis0`](src/Tennis0): Simulation data and game setup.
-	* [`Tennis2`](src/Tennis2): Weekly managerial routine. This is the largest part.
+	* [`Tennis2`](src/Tennis2): Weekly managerial routine. This is the largest part and also the part the got most upgrades after the *1992* version.
 	* [`Tennis3`](src/Tennis3): Tournament competition, including match observation and the country flags.
 	* [`Tennis4`](src/Tennis4): Save & load routines.
 	* [`Tennis5`](src/Tennis5): National anthems - implemented natively in AmigaBASIC based on the `SOUND` statement.
 	* [`Tennis6`](src/Tennis6): Newspaper reports.
+	* [`Tennis7`](v1992/Tennis7) *(only the 1992 version)*: Highscore.
 	* [`Tennis8`](src/Tennis8): ATP ranking.
 * *Diskfont library:* The only [OS](https://en.wikipedia.org/wiki/Operating_system) routine for which relative paths do not work. Hence, it is put into the `src` folders.
 * *Anachronisms:* The [Soviet Union](https://en.wikipedia.org/wiki/Soviet_Union) appears as country although, by 1994, it was already dissolved.
+* *Inspiration:* There is a much more basic [game](https://www.c64games.de/phpseiten/spieledetail.php?filnummer=326) on the [C64](https://en.wikipedia.org/wiki/Commodore_64) from which I drew some inspiration.
 
 # Gallery
 

@@ -2,5 +2,6 @@ asm-libs linguist-generated
 bmaps linguist-vendored
 commands linguist-vendored
 saves linguist-generated
+v1992/* linguist-language=BASIC
 src/* linguist-language=BASIC
 src-tokenized/* linguist-generated
